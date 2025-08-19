@@ -1,10 +1,23 @@
+import java.util.Scanner;
+
 public class Gloqi {
 
+    final static String CHATBOT_NAME = "Gloqi";
+
+    private static void greetMessage() {
+        printInPrompt("Hello I am " + CHATBOT_NAME + "\nhow can i help you");
+    }
+
+    private static void endMessage() {
+        printInPrompt("Bye, see you next time!");
+    }
+
+    private static void printInPrompt(String msg) {
+        System.out.println(msg);
+    }
+
     public static void main(String[] args) {
-        final String CHATBOT_NAME = "Gloqi";
-        String greetMessage = "Hello I am " + CHATBOT_NAME + "\nhow can i help you";
-        String endMessage = "Bye, see you next time!";
-        System.out.println(greetMessage);
-        System.out.println(endMessage);
+        greetMessage();
+        endMessage();
     }
 }
