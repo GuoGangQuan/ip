@@ -14,6 +14,7 @@ public class Gloqi {
 
     private static void printInPrompt(String msg) {
         System.out.println(msg);
+        System.out.println("_".repeat(50));
     }
 
     public static void main(String[] args) {
