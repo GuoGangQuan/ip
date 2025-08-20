@@ -26,8 +26,14 @@ public class Gloqi {
         greetMessage();
         Scanner scanInput = new Scanner(System.in);
         String userInput = getInput(scanInput);
+        BankList bankList = new BankList();
         while (!userInput.equalsIgnoreCase("bye")) {
-            printInPrompt(userInput);
+            if (userInput.equalsIgnoreCase("list")) {
+                bankList.printList(Gloqi::printInPrompt);
+            } else {
+                printInPrompt(userInput);
+                bankList.addTask(userInput);
+            }
             userInput = getInput(scanInput);
         }
         endMessage();
