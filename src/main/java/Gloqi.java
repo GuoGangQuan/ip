@@ -25,10 +25,10 @@ public class Gloqi {
     public static void main(String[] args) {
         greetMessage();
         Scanner scanInput = new Scanner(System.in);
-        String cmdInput = getInput(scanInput);
-        while (!cmdInput.equalsIgnoreCase("bye")) {
-            printInPrompt(cmdInput);
-            cmdInput = getInput(scanInput);
+        String userInput = getInput(scanInput);
+        while (!userInput.equalsIgnoreCase("bye")) {
+            printInPrompt(userInput);
+            userInput = getInput(scanInput);
         }
         endMessage();
     }
