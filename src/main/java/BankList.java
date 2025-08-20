@@ -8,8 +8,9 @@ public class BankList {
         this.bankList = new ArrayList<>();
     }
 
-    public void addTask(String taskName) {
+    public void addTask(String taskName,Consumer<String> printInPrompt) {
         this.bankList.add(taskName);
+        printInPrompt.accept("added: "+taskName);
     }
 
     public void printList(Consumer<String> printInPrompt) {

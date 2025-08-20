@@ -31,8 +31,7 @@ public class Gloqi {
             if (userInput.equalsIgnoreCase("list")) {
                 bankList.printList(Gloqi::printInPrompt);
             } else {
-                printInPrompt(userInput);
-                bankList.addTask(userInput);
+                bankList.addTask(userInput, Gloqi::printInPrompt);
             }
             userInput = getInput(scanInput);
         }
