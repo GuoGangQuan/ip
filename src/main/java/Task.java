@@ -17,11 +17,8 @@ public class Task {
         this.isDone = isDone;
     }
 
-    public String getPrintableTask() {
+    @Override
+    public String toString() {
         return "[" + (this.isDone ? "x" : " ") + "] " + this.taskName;
-    }
-
-    public void printTask(Consumer<String> printInPrompt) {
-        printInPrompt.accept("added: " + this.taskName);
     }
 }

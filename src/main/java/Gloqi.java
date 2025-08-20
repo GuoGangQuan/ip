@@ -27,7 +27,10 @@ public class Gloqi {
         MARK,
         UNMARK,
         BYE,
-        ADD;
+        TODO,
+        DEADLINE,
+        EVENT,
+        INVALID
     }
 
 
@@ -50,10 +53,17 @@ public class Gloqi {
                 case UNMARK:
                     bankList.unmarkTask(commandParser.getIntArg(), Gloqi::printInPrompt);
                     break;
-                case ADD:
-                    inputTask = new Task(userInput);
+                case TODO:
+                    inputTask = new Todo(commandParser.getStringArg()[0]);
                     bankList.addTask(inputTask, Gloqi::printInPrompt);
                     break;
+                case DEADLINE:
+                    inputTask = new Deadline(commandParser.getStringArg());
+                    bankList.addTask(inputTask, Gloqi::printInPrompt);
+                    break;
+                case EVENT:
+                    inputTask = new Event(commandParser.getStringArg());
+                    bankList.addTask(inputTask, Gloqi::printInPrompt);
             }
             userInput = getInput(scanInput);
             commandParser = new CommandParser(userInput);
