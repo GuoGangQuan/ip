@@ -37,12 +37,15 @@ public class Gloqi {
     public static void main(String[] args) {
         greetMessage();
         Scanner scanInput = new Scanner(System.in);
-        String userInput = getInput(scanInput);
-        CommandParser commandParser = new CommandParser(userInput);
-        Command cmd = commandParser.getCmd();
+        String userInput;
+        CommandParser commandParser ;
+        Command cmd = Command.INVALID;
         BankList bankList = new BankList();
         Task inputTask;
         while (!cmd.equals(Command.BYE)) {
+            userInput = getInput(scanInput);
+            commandParser = new CommandParser(userInput);
+            cmd = commandParser.getCmd();
             switch (cmd) {
                 case LIST:
                     bankList.printList(Gloqi::printInPrompt);
@@ -65,9 +68,7 @@ public class Gloqi {
                     inputTask = new Event(commandParser.getStringArg());
                     bankList.addTask(inputTask, Gloqi::printInPrompt);
             }
-            userInput = getInput(scanInput);
-            commandParser = new CommandParser(userInput);
-            cmd = commandParser.getCmd();
+
         }
         endMessage();
     }

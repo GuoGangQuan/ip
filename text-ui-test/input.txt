@@ -1,0 +1,7 @@
+todo buy food
+deadline submit assignment 2 /by 10pm
+event lecture class /from 6pm /to 9pm
+mark 1
+unmark 1
+list
+bye
