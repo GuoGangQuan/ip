@@ -33,6 +33,10 @@ public class CommandParser {
                 this.cmd = Gloqi.Command.EVENT;
                 this.stringArg = getEventArg(userInput);
                 break;
+            case "delete":
+                this.cmd = Gloqi.Command.DELETE;
+                this.intArg = getMarkArg(userInput);
+                break;
             default:
                 throw new GloqiException("""
                         Invalid command, only following commands are supported:
@@ -44,15 +48,15 @@ public class CommandParser {
         String[] commands = userInput.split(" ", 2);
         int mark;
         if (commands.length != 2) {
-            throw new GloqiException("You need to tell me which task to mark/unmark, cannot be empty");
+            throw new GloqiException("You need to tell me which task to mark/unmark/delete, cannot be empty");
         }
         try {
             mark = Integer.parseInt(commands[1]) - 1;
             if (mark < 0) {
-                throw new GloqiException("your mark/unmark number cannot be negative");
+                throw new GloqiException("your mark/unmark/delete number cannot be negative");
             }
         } catch (NumberFormatException e) {
-            throw new GloqiException("you need to tell me the row number of the task you want to mark/unmark");
+            throw new GloqiException("you need to tell me the row number of the task you want to mark/unmark/delete");
         }
 
         return mark;

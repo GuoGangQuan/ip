@@ -30,6 +30,7 @@ public class Gloqi {
         TODO,
         DEADLINE,
         EVENT,
+        DELETE,
         INVALID
     }
 
@@ -68,6 +69,9 @@ public class Gloqi {
                     case EVENT:
                         inputTask = new Event(commandParser.getStringArg());
                         bankList.addTask(inputTask, Gloqi::printInPrompt);
+                        break;
+                    case DELETE:
+                        bankList.deleteTask(commandParser.getIntArg(), Gloqi::printInPrompt);
                 }
             } catch (GloqiException e) {
                 printInPrompt(e.getMessage());

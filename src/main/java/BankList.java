@@ -11,25 +11,35 @@ public class BankList {
     public void addTask(Task taskName, Consumer<String> printInPrompt) {
         this.bankList.add(taskName);
         printInPrompt.accept("Got it. I've added this task:\n" + taskName.toString() + "\nNow you have "
-                + bankList.size() + " tasks in the list.");
+                + bankList.size() + " tasks in the bank.");
     }
 
     public void markTask(int index, Consumer<String> printInPrompt) throws GloqiException {
         if (bankList.size() <= index) {
-            throw new GloqiException("your mark number is not in the task list, check again!");
+            throw new GloqiException("your mark number is not in the task bank, check again!");
         }
         this.bankList.get(index).markDone(true);
         printInPrompt.accept("Nice! I've marked this task as done:\n" + this.bankList.get(index)
                 .toString());
     }
 
-    public void unmarkTask(int index, Consumer<String> printInPrompt) throws GloqiException{
+    public void unmarkTask(int index, Consumer<String> printInPrompt) throws GloqiException {
         if (bankList.size() <= index) {
-            throw new GloqiException("your mark number is not in the task list, check again!");
+            throw new GloqiException("your mark number is not in the task bank, check again!");
         }
         this.bankList.get(index).markDone(false);
         printInPrompt.accept("OK, I've marked this task as not done yet:\n" + this.bankList.get(index)
                 .toString());
+    }
+
+    public void deleteTask(int index, Consumer<String> printInPrompt) throws GloqiException {
+        if (bankList.size() <= index || index < 0) {
+            throw new GloqiException("This number is not in the task bank, check again!");
+        }
+        String taskString = this.bankList.get(index).toString();
+        this.bankList.remove(index);
+        printInPrompt.accept("Following tasks have been deleted:\n" + taskString + "\nNow you have "
+                + bankList.size() + " tasks in the bank.");
     }
 
     public void printList(Consumer<String> printInPrompt) {
