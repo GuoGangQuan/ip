@@ -17,5 +17,8 @@ unmark 10
 delete 0
 delete 10
 delete
+deadline
+deadline submit assignment 6
+deadline submit assignment 6 /by
 blah
 bye
