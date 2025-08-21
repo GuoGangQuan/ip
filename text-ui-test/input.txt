@@ -4,4 +4,14 @@ event lecture class /from 6pm /to 9pm
 mark 1
 unmark 1
 list
+todo
+mark -1
+mark masdas
+mark
+mark 10
+unmark -1
+unmark masdas
+unmark
+unmark 10
+blah
 bye

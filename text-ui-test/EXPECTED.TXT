@@ -23,5 +23,26 @@ __________________________________________________
 2. [D][ ] submit assignment 2  (by:  10pm)
 3. [E][ ] lecture class  (from:  6pm  to:  9pm)
 __________________________________________________
+>>> The todo description cannot be empty, try again
+__________________________________________________
+>>> your mark/unmark number cannot be negative
+__________________________________________________
+>>> you need to tell me the row number of the task you want to mark/unmark
+__________________________________________________
+>>> You need to tell me which task to mark/unmark, cannot be empty
+__________________________________________________
+>>> your mark number is not in the task list, check again!
+__________________________________________________
+>>> your mark/unmark number cannot be negative
+__________________________________________________
+>>> you need to tell me the row number of the task you want to mark/unmark
+__________________________________________________
+>>> You need to tell me which task to mark/unmark, cannot be empty
+__________________________________________________
+>>> your mark number is not in the task list, check again!
+__________________________________________________
+>>> Invalid command, only following commands are supported:
+list,mark,unmark,bye,deadline,event,todo
+__________________________________________________
 >>> Bye, see you next time!
 __________________________________________________
