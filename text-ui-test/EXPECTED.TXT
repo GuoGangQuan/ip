@@ -27,7 +27,8 @@ __________________________________________________
 [T][ ] buy food
 Now you have 2 tasks in the bank.
 __________________________________________________
->>> The todo description cannot be empty, try again
+>>> Description for the todo is Missing!!!Please follow my todo format:
+todo <your task>
 __________________________________________________
 >>> your mark/unmark/delete number cannot be negative
 __________________________________________________
@@ -51,12 +52,14 @@ __________________________________________________
 __________________________________________________
 >>> You need to tell me which task to mark/unmark/delete, cannot be empty
 __________________________________________________
->>> You need to provide the description for the task, cannot be empty
+>>> Description for the task is Missing!!!Please follow my deadline format:
+deadline <your task> /by <date>
 __________________________________________________
 >>> Wrong!!! I cannot find '/by' keyword. Please follow my deadline format:
 deadline <your task> /by <date>
 __________________________________________________
->>> You need to provide the deadline after '/by', cannot be empty
+>>> Wrong!!! I cannot find '/by' keyword. Please follow my deadline format:
+deadline <your task> /by <date>
 __________________________________________________
 >>> Description for the task is Missing!!!Please follow my Event format:
 event <your task> /from <date> /to <date>
