@@ -70,9 +70,21 @@ public class CommandParser {
         return commands[1];
     }
 
-    private String[] getDeadlineArg(String userInput) {
+    private String[] getDeadlineArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
-        return commands[1].split("/by", 2);
+        String[] deadlineArgs;
+        if (commands.length != 2) {
+            throw new GloqiException("You need to provide the description for the task, cannot be empty");
+        }
+        deadlineArgs = commands[1].split("/by", 2);
+        if (deadlineArgs.length != 2) {
+            throw new GloqiException("""
+                    Wrong!!! I cannot find '/by' keyword. Please follow my deadline format:
+                    deadline <your task> /by <date>""");
+        } else if (deadlineArgs[1].isEmpty()) {
+            throw new GloqiException("You need to provide the deadline after '/by', cannot be empty");
+        }
+        return deadlineArgs;
     }
 
     private String[] getEventArg(String userInput) {
