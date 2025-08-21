@@ -22,19 +22,6 @@ public class Gloqi {
         return scanIn.nextLine();
     }
 
-    public enum Command {
-        LIST,
-        MARK,
-        UNMARK,
-        BYE,
-        TODO,
-        DEADLINE,
-        EVENT,
-        DELETE,
-        INVALID
-    }
-
-
     public static void main(String[] args) throws GloqiException {
         greetMessage();
         Scanner scanInput = new Scanner(System.in);

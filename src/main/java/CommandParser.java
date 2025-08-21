@@ -1,5 +1,5 @@
 public class CommandParser {
-    protected Gloqi.Command cmd;
+    protected Command cmd;
     protected int intArg;
     protected String[] stringArg;
 
@@ -8,33 +8,33 @@ public class CommandParser {
         String command = commands[0].toLowerCase();
         switch (command) {
             case "list":
-                this.cmd = Gloqi.Command.LIST;
+                this.cmd = Command.LIST;
                 break;
             case "mark":
-                this.cmd = Gloqi.Command.MARK;
+                this.cmd = Command.MARK;
                 this.intArg = getMarkArg(userInput);
                 break;
             case "unmark":
-                this.cmd = Gloqi.Command.UNMARK;
+                this.cmd = Command.UNMARK;
                 this.intArg = getMarkArg(userInput);
                 break;
             case "bye":
-                this.cmd = Gloqi.Command.BYE;
+                this.cmd = Command.BYE;
                 break;
             case "todo":
-                this.cmd = Gloqi.Command.TODO;
+                this.cmd = Command.TODO;
                 this.stringArg = new String[]{getTodoArg(userInput)};
                 break;
             case "deadline":
-                this.cmd = Gloqi.Command.DEADLINE;
+                this.cmd = Command.DEADLINE;
                 this.stringArg = getDeadlineArg(userInput);
                 break;
             case "event":
-                this.cmd = Gloqi.Command.EVENT;
+                this.cmd = Command.EVENT;
                 this.stringArg = getEventArg(userInput);
                 break;
             case "delete":
-                this.cmd = Gloqi.Command.DELETE;
+                this.cmd = Command.DELETE;
                 this.intArg = getMarkArg(userInput);
                 break;
             default:
@@ -84,7 +84,7 @@ public class CommandParser {
         return eventArgs;
     }
 
-    public Gloqi.Command getCmd() {
+    public Command getCmd() {
         return this.cmd;
     }
 
