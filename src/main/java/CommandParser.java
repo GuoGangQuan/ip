@@ -12,11 +12,11 @@ public class CommandParser {
                 break;
             case "mark":
                 this.cmd = Command.MARK;
-                this.intArg = getMarkArg(userInput);
+                this.intArg = getIntArg(userInput);
                 break;
             case "unmark":
                 this.cmd = Command.UNMARK;
-                this.intArg = getMarkArg(userInput);
+                this.intArg = getIntArg(userInput);
                 break;
             case "bye":
                 this.cmd = Command.BYE;
@@ -35,7 +35,7 @@ public class CommandParser {
                 break;
             case "delete":
                 this.cmd = Command.DELETE;
-                this.intArg = getMarkArg(userInput);
+                this.intArg = getIntArg(userInput);
                 break;
             default:
                 throw new GloqiException("""
@@ -44,7 +44,7 @@ public class CommandParser {
         }
     }
 
-    private Integer getMarkArg(String userInput) throws GloqiException {
+    private Integer getIntArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         int mark;
         if (commands.length != 2) {
@@ -65,7 +65,9 @@ public class CommandParser {
     private String getTodoArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         if (commands.length != 2) {
-            throw new GloqiException("The todo description cannot be empty, try again");
+            throw new GloqiException("""
+                    Description for the todo is Missing!!!Please follow my todo format:
+                    todo <your task>""");
         }
         return commands[1];
     }
@@ -74,7 +76,9 @@ public class CommandParser {
         String[] commands = userInput.split(" ", 2);
         String[] deadlineArgs;
         if (commands.length != 2) {
-            throw new GloqiException("You need to provide the description for the task, cannot be empty");
+            throw new GloqiException("""
+                    Description for the task is Missing!!!Please follow my deadline format:
+                    deadline <your task> /by <date>""");
         }
         deadlineArgs = commands[1].split("/by", 2);
         if (deadlineArgs.length != 2) {
@@ -82,7 +86,9 @@ public class CommandParser {
                     Wrong!!! I cannot find '/by' keyword. Please follow my deadline format:
                     deadline <your task> /by <date>""");
         } else if (deadlineArgs[1].isEmpty()) {
-            throw new GloqiException("You need to provide the deadline after '/by', cannot be empty");
+            throw new GloqiException("""
+                    Wrong!!! I cannot find '/by' keyword. Please follow my deadline format:
+                    deadline <your task> /by <date>""");
         }
         return deadlineArgs;
     }
