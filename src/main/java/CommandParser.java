@@ -87,12 +87,50 @@ public class CommandParser {
         return deadlineArgs;
     }
 
-    private String[] getEventArg(String userInput) {
+    private String[] getEventArg(String userInput) throws GloqiException{
         String[] commands = userInput.split(" ", 2);
+        if (commands.length != 2) {
+            throw new GloqiException("""
+                    Description for the task is Missing!!!Please follow my Event format:
+                    event <your task> /from <date> /to <date>""");
+        }
         String[] eventArgs = new String[3];
-        eventArgs[0] = commands[1].split("/from", 2)[0];// taskName
-        eventArgs[1] = commands[1].split("/from", 2)[1].split("/to", 2)[0];// startTime
-        eventArgs[2] = commands[1].split("/from", 2)[1].split("/to", 2)[1];// endTime
+        String[] splitArgs;
+        splitArgs = commands[1].split("/from", 2);// taskName
+        if (splitArgs.length != 2) {
+            throw new GloqiException("""
+                    Wrong!!! I cannot find '/from' keyword. Please follow my Event format:
+                    event <your task> /from <date> /to <date>""");
+        }
+        if (splitArgs[0].isEmpty()) {
+            throw new GloqiException("""
+                    Description for the task is Missing!!!Please follow my Event format:
+                    event <your task> /from <date> /to <date>""");
+        }
+        if (splitArgs[1].isEmpty()) {
+            throw new GloqiException("""
+                    Wrong!!! Date is Missing after '/from'. Please follow my Event format:
+                    event <your task> /from <date> /to <date>""");
+        }
+        eventArgs[0] = splitArgs[0];
+        splitArgs = splitArgs[1].trim().split("/to", 2);
+        if (splitArgs.length != 2) {
+            throw new GloqiException("""
+                    Wrong!!! I cannot find '/to' keyword. Please follow my Event format:
+                    event <your task> /from <date> /to <date>""");
+        }
+        if (splitArgs[0].isEmpty()) {
+            throw new GloqiException("""
+                    Wrong!!! Date is Missing after '/from'. Please follow my Event format:
+                    event <your task> /from <date> /to <date>""");
+        }
+        if (splitArgs[1].isEmpty()) {
+            throw new GloqiException("""
+                    Wrong!!! Date is Missing after '/to'. Please follow my Event format:
+                    event <your task> /from <date> /to <date>""");
+        }
+        eventArgs[1] = splitArgs[0];
+        eventArgs[2] = splitArgs[1];
         return eventArgs;
     }
 
