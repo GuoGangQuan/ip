@@ -10,7 +10,7 @@ __________________________________________________
 Now you have 2 tasks in the bank.
 __________________________________________________
 >>> Got it. I've added this task:
-[E][ ] lecture class  (from:  6pm  to:  9pm)
+[E][ ] lecture class  (from: 6pm  to:  9pm)
 Now you have 3 tasks in the bank.
 __________________________________________________
 >>> Nice! I've marked this task as done:
@@ -21,7 +21,7 @@ __________________________________________________
 __________________________________________________
 >>> 1. [T][ ] buy food
 2. [D][ ] submit assignment 2  (by:  10pm)
-3. [E][ ] lecture class  (from:  6pm  to:  9pm)
+3. [E][ ] lecture class  (from: 6pm  to:  9pm)
 __________________________________________________
 >>> Following tasks have been deleted:
 [T][ ] buy food
@@ -50,6 +50,31 @@ __________________________________________________
 >>> This number is not in the task bank, check again!
 __________________________________________________
 >>> You need to tell me which task to mark/unmark/delete, cannot be empty
+__________________________________________________
+>>> You need to provide the description for the task, cannot be empty
+__________________________________________________
+>>> Wrong!!! I cannot find '/by' keyword. Please follow my deadline format:
+deadline <your task> /by <date>
+__________________________________________________
+>>> You need to provide the deadline after '/by', cannot be empty
+__________________________________________________
+>>> Description for the task is Missing!!!Please follow my Event format:
+event <your task> /from <date> /to <date>
+__________________________________________________
+>>> Description for the task is Missing!!!Please follow my Event format:
+event <your task> /from <date> /to <date>
+__________________________________________________
+>>> Wrong!!! I cannot find '/from' keyword. Please follow my Event format:
+event <your task> /from <date> /to <date>
+__________________________________________________
+>>> Wrong!!! Date is Missing after '/from'. Please follow my Event format:
+event <your task> /from <date> /to <date>
+__________________________________________________
+>>> Wrong!!! Date is Missing after '/from'. Please follow my Event format:
+event <your task> /from <date> /to <date>
+__________________________________________________
+>>> Wrong!!! Date is Missing after '/to'. Please follow my Event format:
+event <your task> /from <date> /to <date>
 __________________________________________________
 >>> Invalid command, only following commands are supported:
 list,mark,unmark,bye,deadline,event,todo

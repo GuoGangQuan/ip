@@ -20,5 +20,11 @@ delete
 deadline
 deadline submit assignment 6
 deadline submit assignment 6 /by
+event
+event /from
+event tutorial 9
+event tutorial 9 /from
+event tutorial 9 /from /to
+event tutorial 9 /from 6pm /to
 blah
 bye
