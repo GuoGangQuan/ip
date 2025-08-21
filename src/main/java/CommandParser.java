@@ -3,7 +3,7 @@ public class CommandParser {
     protected int intArg;
     protected String[] stringArg;
 
-    public CommandParser(String userInput) {
+    public CommandParser(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         String command = commands[0].toLowerCase();
         switch (command) {
@@ -34,26 +34,44 @@ public class CommandParser {
                 this.stringArg = getEventArg(userInput);
                 break;
             default:
-                this.cmd = Gloqi.Command.INVALID;
+                throw new GloqiException("""
+                        Invalid command, only following commands are supported:
+                        list,mark,unmark,bye,deadline,event,todo""");
         }
     }
 
-    private static Integer getMarkArg(String userInput) {
+    private Integer getMarkArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
-        return Integer.parseInt(commands[1]) - 1;
+        int mark;
+        if (commands.length != 2) {
+            throw new GloqiException("You need to tell me which task to mark/unmark, cannot be empty");
+        }
+        try {
+            mark = Integer.parseInt(commands[1]) - 1;
+            if (mark < 0) {
+                throw new GloqiException("your mark/unmark number cannot be negative");
+            }
+        } catch (NumberFormatException e) {
+            throw new GloqiException("you need to tell me the row number of the task you want to mark/unmark");
+        }
+
+        return mark;
     }
 
-    private static String getTodoArg(String userInput) {
+    private String getTodoArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
+        if (commands.length != 2) {
+            throw new GloqiException("The todo description cannot be empty, try again");
+        }
         return commands[1];
     }
 
-    private static String[] getDeadlineArg(String userInput) {
+    private String[] getDeadlineArg(String userInput) {
         String[] commands = userInput.split(" ", 2);
         return commands[1].split("/by", 2);
     }
 
-    private static String[] getEventArg(String userInput) {
+    private String[] getEventArg(String userInput) {
         String[] commands = userInput.split(" ", 2);
         String[] eventArgs = new String[3];
         eventArgs[0] = commands[1].split("/from", 2)[0];// taskName

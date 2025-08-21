@@ -34,39 +34,43 @@ public class Gloqi {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws GloqiException {
         greetMessage();
         Scanner scanInput = new Scanner(System.in);
         String userInput;
-        CommandParser commandParser ;
+        CommandParser commandParser;
         Command cmd = Command.INVALID;
         BankList bankList = new BankList();
         Task inputTask;
         while (!cmd.equals(Command.BYE)) {
             userInput = getInput(scanInput);
-            commandParser = new CommandParser(userInput);
-            cmd = commandParser.getCmd();
-            switch (cmd) {
-                case LIST:
-                    bankList.printList(Gloqi::printInPrompt);
-                    break;
-                case MARK:
-                    bankList.markTask(commandParser.getIntArg(), Gloqi::printInPrompt);
-                    break;
-                case UNMARK:
-                    bankList.unmarkTask(commandParser.getIntArg(), Gloqi::printInPrompt);
-                    break;
-                case TODO:
-                    inputTask = new Todo(commandParser.getStringArg()[0]);
-                    bankList.addTask(inputTask, Gloqi::printInPrompt);
-                    break;
-                case DEADLINE:
-                    inputTask = new Deadline(commandParser.getStringArg());
-                    bankList.addTask(inputTask, Gloqi::printInPrompt);
-                    break;
-                case EVENT:
-                    inputTask = new Event(commandParser.getStringArg());
-                    bankList.addTask(inputTask, Gloqi::printInPrompt);
+            try {
+                commandParser = new CommandParser(userInput);
+                cmd = commandParser.getCmd();
+                switch (cmd) {
+                    case LIST:
+                        bankList.printList(Gloqi::printInPrompt);
+                        break;
+                    case MARK:
+                        bankList.markTask(commandParser.getIntArg(), Gloqi::printInPrompt);
+                        break;
+                    case UNMARK:
+                        bankList.unmarkTask(commandParser.getIntArg(), Gloqi::printInPrompt);
+                        break;
+                    case TODO:
+                        inputTask = new Todo(commandParser.getStringArg()[0]);
+                        bankList.addTask(inputTask, Gloqi::printInPrompt);
+                        break;
+                    case DEADLINE:
+                        inputTask = new Deadline(commandParser.getStringArg());
+                        bankList.addTask(inputTask, Gloqi::printInPrompt);
+                        break;
+                    case EVENT:
+                        inputTask = new Event(commandParser.getStringArg());
+                        bankList.addTask(inputTask, Gloqi::printInPrompt);
+                }
+            } catch (GloqiException e) {
+                printInPrompt(e.getMessage());
             }
 
         }

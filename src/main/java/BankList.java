@@ -14,13 +14,19 @@ public class BankList {
                 + bankList.size() + " tasks in the list.");
     }
 
-    public void markTask(int index, Consumer<String> printInPrompt) {
+    public void markTask(int index, Consumer<String> printInPrompt) throws GloqiException {
+        if (bankList.size() <= index) {
+            throw new GloqiException("your mark number is not in the task list, check again!");
+        }
         this.bankList.get(index).markDone(true);
         printInPrompt.accept("Nice! I've marked this task as done:\n" + this.bankList.get(index)
                 .toString());
     }
 
-    public void unmarkTask(int index, Consumer<String> printInPrompt) {
+    public void unmarkTask(int index, Consumer<String> printInPrompt) throws GloqiException{
+        if (bankList.size() <= index) {
+            throw new GloqiException("your mark number is not in the task list, check again!");
+        }
         this.bankList.get(index).markDone(false);
         printInPrompt.accept("OK, I've marked this task as not done yet:\n" + this.bankList.get(index)
                 .toString());
