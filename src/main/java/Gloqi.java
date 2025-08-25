@@ -57,7 +57,6 @@ public class Gloqi {
         try {
             for (String line : Files.readAllLines(appDataFile)) {
                 String[] splitLine = line.split("\\|", 2);
-                printInPrompt(splitLine[0] + "/" + splitLine[1]);
                 int index = Integer.parseInt(splitLine[0]);
                 if (splitLine[1].charAt(index) == '|') {
                     String taskName = splitLine[1].substring(0, index);
