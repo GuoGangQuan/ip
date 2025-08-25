@@ -4,8 +4,8 @@ public class Event extends Task {
 
     public Event(String[] detail) {
         super(detail[0]);
-        this.startTime = detail[1];
-        this.endTime = detail[2];
+        this.startTime = detail[1].trim();
+        this.endTime = detail[2].trim();
     }
 
     @Override
