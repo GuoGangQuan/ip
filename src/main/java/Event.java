@@ -1,20 +1,27 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task {
-    protected String startTime;
-    protected String endTime;
+    protected LocalDateTime startTime;
+    protected LocalDateTime endTime;
 
     public Event(String[] detail) {
         super(detail[0]);
-        this.startTime = detail[1].trim();
-        this.endTime = detail[2].trim();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+        this.startTime = LocalDateTime.parse(detail[1].trim(), formatter);
+        this.endTime = LocalDateTime.parse(detail[2].trim(), formatter);
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + startTime + " to: " + endTime + ")";
+        return "[E]" + super.toString() + " (from: " + this.startTime
+                .format(DateTimeFormatter.ofPattern("MMM dd yyyy h a")) + " to: " + this.endTime
+                .format(DateTimeFormatter.ofPattern("MMM dd yyyy h a")) + ")";
     }
 
     @Override
     public String saveFormat() {
-        return super.saveFormat()+"|E"+"|"+this.startTime+"|"+this.endTime;
+        return super.saveFormat() + "|E" + "|" + this.startTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"))
+                + "|" + this.endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
     }
 }
