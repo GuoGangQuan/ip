@@ -137,6 +137,9 @@ public class Gloqi {
                         bankList.deleteTask(commandParser.getIntArg(), Gloqi::printInPrompt);
                         writeDataFile(appDataFile, bankList);
                     }
+                    case SHOW -> {
+                        bankList.printList(Gloqi::printInPrompt,commandParser.getDateArg());
+                    }
                 }
             } catch (GloqiException e) {
                 printInPrompt(e.getMessage());

@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -23,5 +24,11 @@ public class Event extends Task {
     public String saveFormat() {
         return super.saveFormat() + "|E" + "|" + this.startTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"))
                 + "|" + this.endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+    }
+
+    @Override
+    public boolean compareDate(LocalDate date) {
+        return (date.isEqual(this.startTime.toLocalDate()) || date.isAfter(this.startTime.toLocalDate()))
+                && (date.isEqual(this.endTime.toLocalDate()) || date.isBefore(this.endTime.toLocalDate()));
     }
 }

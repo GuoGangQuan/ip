@@ -1,7 +1,9 @@
 import java.io.File;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.time.LocalDate;
 
 public class BankList {
     protected ArrayList<Task> bankList;
@@ -68,4 +70,27 @@ public class BankList {
         }
         printInPrompt.accept(printMsg.toString());
     }
+
+    public void printList(Consumer<String> printInPrompt, LocalDate date) {
+        StringBuilder printMsg = new StringBuilder();
+        printMsg.append("Task available on ").append(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")))
+                .append(":\n");
+        int initLength = printMsg.length();
+        if (!bankList.isEmpty()) {
+            for (int i = 0; i < this.bankList.size(); i++) {
+                if (bankList.get(i).compareDate(date)) {
+                    printMsg.append((i + 1)).append(". ").append(bankList.get(i).toString()).append("\n");
+                }
+            }
+        }
+        if (printMsg.length() == initLength) {
+            printMsg.append("No tasks found on date ");
+            printMsg.append(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")));
+        } else {
+            printMsg.deleteCharAt(printMsg.length() - 1);
+        }
+        printInPrompt.accept(printMsg.toString());
+    }
+
+
 }

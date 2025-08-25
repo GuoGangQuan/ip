@@ -1,7 +1,11 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 public class CommandParser {
     protected Command cmd;
     protected int intArg;
     protected String[] stringArg;
+    protected LocalDate dateArg;
 
     public CommandParser(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
@@ -33,9 +37,29 @@ public class CommandParser {
                 this.cmd = Command.DELETE;
                 this.intArg = getIntArg(userInput);
             }
+            case "show" -> {
+                this.cmd = Command.SHOW;
+                this.dateArg = getShowArg(userInput);
+            }
             default -> throw new GloqiException("""
                     Invalid command, only following commands are supported:
                     list,mark,unmark,bye,deadline,event,todo""");
+        }
+    }
+
+    private LocalDate getShowArg(String userInput) throws GloqiException {
+        String[] commands = userInput.split(" ", 2);
+        if (commands.length != 2) {
+            throw new GloqiException("""
+                    Date for the show is Missing!!!Please follow my show format:
+                    show <date:yyyy-MM-dd>""");
+        }
+        try {
+            return LocalDate.parse(commands[1]);
+        } catch (DateTimeParseException e) {
+            throw new GloqiException("""
+                    Date for the show is Invalid!!!Please follow my show format:
+                    show <date:yyyy-MM-dd>""");
         }
     }
 
@@ -88,7 +112,7 @@ public class CommandParser {
         return deadlineArgs;
     }
 
-    private String[] getEventArg(String userInput) throws GloqiException{
+    private String[] getEventArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         if (commands.length != 2) {
             throw new GloqiException("""
@@ -145,5 +169,9 @@ public class CommandParser {
 
     public String[] getStringArg() {
         return this.stringArg;
+    }
+
+    public LocalDate getDateArg() {
+        return this.dateArg;
     }
 }
