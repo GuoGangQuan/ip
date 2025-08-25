@@ -9,12 +9,16 @@ public class Task {
         this.isDone = false;
     }
 
-    public Task newTask(String taskName) {
-        return new Task(taskName);
-    }
-
     public void markDone(boolean isDone) {
         this.isDone = isDone;
+    }
+
+    public String saveFormat() {
+        return this.taskName.length()+"|"+this.taskName + "|" + (this.isDone ? "x" : " ");
+    }
+    public Task setMark(boolean isDone) {
+        this.isDone = isDone;
+        return this;
     }
 
     @Override

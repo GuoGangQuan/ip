@@ -1,4 +1,6 @@
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class BankList {
@@ -6,6 +8,18 @@ public class BankList {
 
     public BankList() {
         this.bankList = new ArrayList<>();
+    }
+
+    public List<String> SaveBank() {
+        List<String> lines = new ArrayList<>();
+        for (Task task : bankList) {
+            lines.add(task.saveFormat());
+        }
+        return lines;
+    }
+
+    public void restoreBank(Task task) {
+        this.bankList.add(task);
     }
 
     public void addTask(Task taskName, Consumer<String> printInPrompt) {
