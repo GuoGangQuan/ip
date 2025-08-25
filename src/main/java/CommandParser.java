@@ -7,40 +7,35 @@ public class CommandParser {
         String[] commands = userInput.split(" ", 2);
         String command = commands[0].toLowerCase();
         switch (command) {
-            case "list":
-                this.cmd = Command.LIST;
-                break;
-            case "mark":
+            case "list" -> this.cmd = Command.LIST;
+            case "mark" -> {
                 this.cmd = Command.MARK;
                 this.intArg = getIntArg(userInput);
-                break;
-            case "unmark":
+            }
+            case "unmark" -> {
                 this.cmd = Command.UNMARK;
                 this.intArg = getIntArg(userInput);
-                break;
-            case "bye":
-                this.cmd = Command.BYE;
-                break;
-            case "todo":
+            }
+            case "bye" -> this.cmd = Command.BYE;
+            case "todo" -> {
                 this.cmd = Command.TODO;
                 this.stringArg = new String[]{getTodoArg(userInput)};
-                break;
-            case "deadline":
+            }
+            case "deadline" -> {
                 this.cmd = Command.DEADLINE;
                 this.stringArg = getDeadlineArg(userInput);
-                break;
-            case "event":
+            }
+            case "event" -> {
                 this.cmd = Command.EVENT;
                 this.stringArg = getEventArg(userInput);
-                break;
-            case "delete":
+            }
+            case "delete" -> {
                 this.cmd = Command.DELETE;
                 this.intArg = getIntArg(userInput);
-                break;
-            default:
-                throw new GloqiException("""
-                        Invalid command, only following commands are supported:
-                        list,mark,unmark,bye,deadline,event,todo""");
+            }
+            default -> throw new GloqiException("""
+                    Invalid command, only following commands are supported:
+                    list,mark,unmark,bye,deadline,event,todo""");
         }
     }
 
