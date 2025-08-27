@@ -2,9 +2,11 @@ import java.util.Scanner;
 
 public class Ui {
     protected final String chatBotName;
+    private final Scanner scanInput;
 
     public Ui(String chatBotName) {
         this.chatBotName = chatBotName;
+        this.scanInput = new Scanner(System.in);
     }
 
     public void greetMessage() {
@@ -20,8 +22,8 @@ public class Ui {
         System.out.println("_".repeat(50));
     }
 
-    public static String getInput(Scanner scanIn) {
+    public String getInput() {
         System.out.print(">>> ");
-        return scanIn.nextLine();
+        return this.scanInput.nextLine();
     }
 }

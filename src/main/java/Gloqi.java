@@ -14,7 +14,6 @@ public class Gloqi {
 
     public void run(){
         ui.greetMessage();
-        Scanner scanInput = new Scanner(System.in);
         String userInput;
         Task inputTask;
         Command cmd = Command.INVALID;
@@ -25,7 +24,7 @@ public class Gloqi {
             Ui.printInPrompt(e.getMessage());
         }
         while (!cmd.equals(Command.BYE)) {
-            userInput = Ui.getInput(scanInput);
+            userInput = ui.getInput();
             try {
                 CommandParser commandParser = new CommandParser(userInput);
                 cmd = commandParser.getCmd();
