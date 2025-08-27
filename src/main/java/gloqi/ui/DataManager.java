@@ -61,18 +61,18 @@ public class DataManager {
                     switch (taskType) {
                         case "T" -> {
                             restoreTask = new Todo(taskName);
-                            restoreTask = restoreTask.setMark(("x".equals(isDone)));
+                            restoreTask = restoreTask.markDone(("x".equals(isDone)));
                             bankList.restoreBank(restoreTask);
                         }
                         case "D" -> {
                             restoreTask = new Deadline(new String[]{taskName, splitLine[1].split("\\|", 2)[1]});
-                            restoreTask = restoreTask.setMark(("x".equals(isDone)));
+                            restoreTask = restoreTask.markDone(("x".equals(isDone)));
                             bankList.restoreBank(restoreTask);
                         }
                         case "E" -> {
                             String[] part = splitLine[1].split("\\|", 3);
                             restoreTask = new Event(new String[]{taskName, part[1], part[2]});
-                            restoreTask = restoreTask.setMark(("x".equals(isDone)));
+                            restoreTask = restoreTask.markDone(("x".equals(isDone)));
                             bankList.restoreBank(restoreTask);
                         }
                     }
