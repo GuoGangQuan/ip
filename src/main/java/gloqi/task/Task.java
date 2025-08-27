@@ -11,17 +11,15 @@ public class Task {
         this.isDone = false;
     }
 
-    public void markDone(boolean isDone) {
+    public Task markDone(boolean isDone) {
         this.isDone = isDone;
+        return this;
     }
 
     public String saveFormat() {
         return this.taskName.length()+"|"+this.taskName + "|" + (this.isDone ? "x" : " ");
     }
-    public Task setMark(boolean isDone) {
-        this.isDone = isDone;
-        return this;
-    }
+
     public boolean compareDate(LocalDate date) {
         return false;
     }
