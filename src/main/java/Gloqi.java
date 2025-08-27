@@ -2,15 +2,21 @@ import java.util.Scanner;
 
 public class Gloqi {
 
-    final static String CHATBOT_NAME = "Gloqi";
+    private final static String CHATBOT_NAME = "Gloqi";
+    private final DataManager dataManager;
+    private BankList bankList;
+    private final Ui ui;
 
-    public static void main(String[] args) {
-        DataManager dataManager = new DataManager("data/data.txt");
-        Ui ui = new Ui(CHATBOT_NAME);
+    public Gloqi(String filePath) {
+        this.dataManager = new DataManager(filePath);
+        this.ui=new Ui(CHATBOT_NAME);
+    }
+
+    public void run(){
         ui.greetMessage();
         Scanner scanInput = new Scanner(System.in);
         String userInput;
-        CommandParser commandParser;
+        Task inputTask;
         Command cmd = Command.INVALID;
         BankList bankList = new BankList();
         try {
@@ -18,11 +24,10 @@ public class Gloqi {
         } catch (GloqiException e) {
             Ui.printInPrompt(e.getMessage());
         }
-        Task inputTask;
         while (!cmd.equals(Command.BYE)) {
             userInput = Ui.getInput(scanInput);
             try {
-                commandParser = new CommandParser(userInput);
+                CommandParser commandParser = new CommandParser(userInput);
                 cmd = commandParser.getCmd();
                 switch (cmd) {
                     case LIST -> bankList.printList();
@@ -61,5 +66,9 @@ public class Gloqi {
 
         }
         ui.endMessage();
+    }
+
+    public static void main(String[] args) {
+        new Gloqi("data/data.txt").run();
     }
 }
