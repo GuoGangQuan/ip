@@ -24,41 +24,41 @@ public class BankList {
         this.bankList.add(task);
     }
 
-    public void addTask(Task taskName, Consumer<String> printInPrompt) {
+    public void addTask(Task taskName) {
         this.bankList.add(taskName);
-        printInPrompt.accept("Got it. I've added this task:\n" + taskName.toString() + "\nNow you have "
+        Ui.printInPrompt("Got it. I've added this task:\n" + taskName.toString() + "\nNow you have "
                 + bankList.size() + " tasks in the bank.");
     }
 
-    public void markTask(int index, Consumer<String> printInPrompt) throws GloqiException {
+    public void markTask(int index) throws GloqiException {
         if (bankList.size() <= index) {
             throw new GloqiException("your mark number is not in the task bank, check again!");
         }
         this.bankList.get(index).markDone(true);
-        printInPrompt.accept("Nice! I've marked this task as done:\n" + this.bankList.get(index)
+        Ui.printInPrompt("Nice! I've marked this task as done:\n" + this.bankList.get(index)
                 .toString());
     }
 
-    public void unmarkTask(int index, Consumer<String> printInPrompt) throws GloqiException {
+    public void unmarkTask(int index) throws GloqiException {
         if (bankList.size() <= index) {
             throw new GloqiException("your mark number is not in the task bank, check again!");
         }
         this.bankList.get(index).markDone(false);
-        printInPrompt.accept("OK, I've marked this task as not done yet:\n" + this.bankList.get(index)
+        Ui.printInPrompt("OK, I've marked this task as not done yet:\n" + this.bankList.get(index)
                 .toString());
     }
 
-    public void deleteTask(int index, Consumer<String> printInPrompt) throws GloqiException {
+    public void deleteTask(int index) throws GloqiException {
         if (bankList.size() <= index || index < 0) {
             throw new GloqiException("This number is not in the task bank, check again!");
         }
         String taskString = this.bankList.get(index).toString();
         this.bankList.remove(index);
-        printInPrompt.accept("Following tasks have been deleted:\n" + taskString + "\nNow you have "
+        Ui.printInPrompt("Following tasks have been deleted:\n" + taskString + "\nNow you have "
                 + bankList.size() + " tasks in the bank.");
     }
 
-    public void printList(Consumer<String> printInPrompt) {
+    public void printList() {
         StringBuilder printMsg = new StringBuilder();
         if (!bankList.isEmpty()) {
             for (int i = 0; i < this.bankList.size(); i++) {
@@ -68,10 +68,10 @@ public class BankList {
         } else {
             printMsg.append("Task Bank is empty");
         }
-        printInPrompt.accept(printMsg.toString());
+        Ui.printInPrompt(printMsg.toString());
     }
 
-    public void printList(Consumer<String> printInPrompt, LocalDate date) {
+    public void printList(LocalDate date) {
         StringBuilder printMsg = new StringBuilder();
         printMsg.append("Task available on ").append(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")))
                 .append(":\n");
@@ -89,7 +89,7 @@ public class BankList {
         } else {
             printMsg.deleteCharAt(printMsg.length() - 1);
         }
-        printInPrompt.accept(printMsg.toString());
+        Ui.printInPrompt(printMsg.toString());
     }
 
 
