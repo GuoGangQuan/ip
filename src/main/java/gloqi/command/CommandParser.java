@@ -1,3 +1,7 @@
+package gloqi.command;
+
+import gloqi.ui.GloqiException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
