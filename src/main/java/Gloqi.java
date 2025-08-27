@@ -57,12 +57,11 @@ public class Gloqi {
         try {
             for (String line : Files.readAllLines(appDataFile)) {
                 String[] splitLine = line.split("\\|", 2);
-                printInPrompt(splitLine[0] + "/" + splitLine[1]);
                 int index = Integer.parseInt(splitLine[0]);
                 if (splitLine[1].charAt(index) == '|') {
                     String taskName = splitLine[1].substring(0, index);
                     splitLine = splitLine[1].substring(index + 1).split("\\|", 2);
-                    String taskType = splitLine[1].substring(0,1);
+                    String taskType = splitLine[1].substring(0, 1);
                     String isDone = splitLine[0];
                     Task restoreTask;
                     switch (taskType) {
@@ -110,35 +109,37 @@ public class Gloqi {
                 commandParser = new CommandParser(userInput);
                 cmd = commandParser.getCmd();
                 switch (cmd) {
-                    case LIST:
-                        bankList.printList(Gloqi::printInPrompt);
-                        break;
-                    case MARK:
+                    case LIST -> bankList.printList(Gloqi::printInPrompt);
+                    case MARK -> {
                         bankList.markTask(commandParser.getIntArg(), Gloqi::printInPrompt);
                         writeDataFile(appDataFile, bankList);
-                        break;
-                    case UNMARK:
+                    }
+                    case UNMARK -> {
                         bankList.unmarkTask(commandParser.getIntArg(), Gloqi::printInPrompt);
                         writeDataFile(appDataFile, bankList);
-                        break;
-                    case TODO:
+                    }
+                    case TODO -> {
                         inputTask = new Todo(commandParser.getStringArg()[0]);
                         bankList.addTask(inputTask, Gloqi::printInPrompt);
                         writeDataFile(appDataFile, bankList);
-                        break;
-                    case DEADLINE:
+                    }
+                    case DEADLINE -> {
                         inputTask = new Deadline(commandParser.getStringArg());
                         bankList.addTask(inputTask, Gloqi::printInPrompt);
                         writeDataFile(appDataFile, bankList);
-                        break;
-                    case EVENT:
+                    }
+                    case EVENT -> {
                         inputTask = new Event(commandParser.getStringArg());
                         bankList.addTask(inputTask, Gloqi::printInPrompt);
                         writeDataFile(appDataFile, bankList);
-                        break;
-                    case DELETE:
+                    }
+                    case DELETE -> {
                         bankList.deleteTask(commandParser.getIntArg(), Gloqi::printInPrompt);
                         writeDataFile(appDataFile, bankList);
+                    }
+                    case SHOW -> {
+                        bankList.printList(Gloqi::printInPrompt,commandParser.getDateArg());
+                    }
                 }
             } catch (GloqiException e) {
                 printInPrompt(e.getMessage());

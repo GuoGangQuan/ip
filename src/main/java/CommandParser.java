@@ -1,46 +1,65 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 public class CommandParser {
     protected Command cmd;
     protected int intArg;
     protected String[] stringArg;
+    protected LocalDate dateArg;
 
     public CommandParser(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         String command = commands[0].toLowerCase();
         switch (command) {
-            case "list":
-                this.cmd = Command.LIST;
-                break;
-            case "mark":
+            case "list" -> this.cmd = Command.LIST;
+            case "mark" -> {
                 this.cmd = Command.MARK;
                 this.intArg = getIntArg(userInput);
-                break;
-            case "unmark":
+            }
+            case "unmark" -> {
                 this.cmd = Command.UNMARK;
                 this.intArg = getIntArg(userInput);
-                break;
-            case "bye":
-                this.cmd = Command.BYE;
-                break;
-            case "todo":
+            }
+            case "bye" -> this.cmd = Command.BYE;
+            case "todo" -> {
                 this.cmd = Command.TODO;
                 this.stringArg = new String[]{getTodoArg(userInput)};
-                break;
-            case "deadline":
+            }
+            case "deadline" -> {
                 this.cmd = Command.DEADLINE;
                 this.stringArg = getDeadlineArg(userInput);
-                break;
-            case "event":
+            }
+            case "event" -> {
                 this.cmd = Command.EVENT;
                 this.stringArg = getEventArg(userInput);
-                break;
-            case "delete":
+            }
+            case "delete" -> {
                 this.cmd = Command.DELETE;
                 this.intArg = getIntArg(userInput);
-                break;
-            default:
-                throw new GloqiException("""
-                        Invalid command, only following commands are supported:
-                        list,mark,unmark,bye,deadline,event,todo""");
+            }
+            case "show" -> {
+                this.cmd = Command.SHOW;
+                this.dateArg = getShowArg(userInput);
+            }
+            default -> throw new GloqiException("""
+                    Invalid command, only following commands are supported:
+                    list,mark,unmark,bye,deadline,event,todo""");
+        }
+    }
+
+    private LocalDate getShowArg(String userInput) throws GloqiException {
+        String[] commands = userInput.split(" ", 2);
+        if (commands.length != 2) {
+            throw new GloqiException("""
+                    Date for the show is Missing!!!Please follow my show format:
+                    show <date:yyyy-MM-dd>""");
+        }
+        try {
+            return LocalDate.parse(commands[1]);
+        } catch (DateTimeParseException e) {
+            throw new GloqiException("""
+                    Date for the show is Invalid!!!Please follow my show format:
+                    show <date:yyyy-MM-dd>""");
         }
     }
 
@@ -93,7 +112,7 @@ public class CommandParser {
         return deadlineArgs;
     }
 
-    private String[] getEventArg(String userInput) throws GloqiException{
+    private String[] getEventArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         if (commands.length != 2) {
             throw new GloqiException("""
@@ -150,5 +169,9 @@ public class CommandParser {
 
     public String[] getStringArg() {
         return this.stringArg;
+    }
+
+    public LocalDate getDateArg() {
+        return this.dateArg;
     }
 }

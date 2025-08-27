@@ -1,4 +1,4 @@
-import java.util.function.Consumer;
+import java.time.LocalDate;
 
 public class Task {
     protected String taskName;
@@ -19,6 +19,9 @@ public class Task {
     public Task setMark(boolean isDone) {
         this.isDone = isDone;
         return this;
+    }
+    public boolean compareDate(LocalDate date) {
+        return false;
     }
 
     @Override
