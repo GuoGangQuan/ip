@@ -1,13 +1,19 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class DataManager {
     protected final Path appDataDir;
     protected final Path appDataFile;
 
-    public DataManager(Path appDataDir, Path appDataFile) {
-        this.appDataDir = appDataDir;
-        this.appDataFile = appDataFile;
+    public DataManager(String dataPath) {
+        Path path = Path.of(dataPath);
+        Path appDir = Path.of(".");
+        if (path.getParent() != null) {
+            appDir = appDir.resolve(path.getParent());
+        }
+        this.appDataDir = appDir;
+        this.appDataFile = appDir.resolve(path.getFileName());
         setupDataFile();
     }
 

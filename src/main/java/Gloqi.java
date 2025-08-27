@@ -8,9 +8,7 @@ public class Gloqi {
     final static String CHATBOT_NAME = "Gloqi";
 
     public static void main(String[] args) {
-        Path appDataDir = Paths.get(".", "data");
-        Path appDataFile = appDataDir.resolve("data.txt");
-        DataManager dataManager= new DataManager(appDataDir, appDataFile);
+        DataManager dataManager= new DataManager("data/data.txt");
         Ui ui = new Ui(CHATBOT_NAME);
         ui.greetMessage();
         Scanner scanInput = new Scanner(System.in);
