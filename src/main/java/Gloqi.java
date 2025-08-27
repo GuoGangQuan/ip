@@ -1,14 +1,11 @@
-import java.nio.file.Paths;
 import java.util.Scanner;
-
-import java.nio.file.Path;
 
 public class Gloqi {
 
     final static String CHATBOT_NAME = "Gloqi";
 
     public static void main(String[] args) {
-        DataManager dataManager= new DataManager("data/data.txt");
+        DataManager dataManager = new DataManager("data/data.txt");
         Ui ui = new Ui(CHATBOT_NAME);
         ui.greetMessage();
         Scanner scanInput = new Scanner(System.in);
