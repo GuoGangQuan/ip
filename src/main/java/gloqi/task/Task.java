@@ -1,3 +1,5 @@
+package gloqi.task;
+
 import java.time.LocalDate;
 
 public class Task {
