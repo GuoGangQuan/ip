@@ -1,8 +1,10 @@
-import java.io.File;
+package gloqi.ui;
+
+import gloqi.task.Task;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.time.LocalDate;
 
 public class BankList {

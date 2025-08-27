@@ -1,3 +1,5 @@
+package gloqi.command;
+
 public enum Command {
     LIST,
     MARK,
