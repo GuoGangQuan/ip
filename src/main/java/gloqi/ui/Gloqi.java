@@ -1,10 +1,16 @@
-import java.util.Scanner;
+package gloqi.ui;
+
+import gloqi.command.Command;
+import gloqi.command.CommandParser;
+import gloqi.task.Task;
+import gloqi.task.Deadline;
+import gloqi.task.Todo;
+import gloqi.task.Event;
 
 public class Gloqi {
 
-    private final static String CHATBOT_NAME = "Gloqi";
+    private final static String CHATBOT_NAME = "gloqi";
     private final DataManager dataManager;
-    private BankList bankList;
     private final Ui ui;
 
     public Gloqi(String filePath) {

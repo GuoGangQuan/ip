@@ -1,6 +1,12 @@
+package gloqi.ui;
+
+import gloqi.task.Deadline;
+import gloqi.task.Event;
+import gloqi.task.Task;
+import gloqi.task.Todo;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class DataManager {
     protected final Path appDataDir;
@@ -40,7 +46,7 @@ public class DataManager {
         }
     }
 
-    public BankList loadDataFile() throws GloqiException{
+    public BankList loadDataFile() throws GloqiException {
         BankList bankList = new BankList();
         try {
             for (String line : Files.readAllLines(this.appDataFile)) {
