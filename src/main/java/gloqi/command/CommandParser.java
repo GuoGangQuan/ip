@@ -110,9 +110,10 @@ public class CommandParser {
                     deadline <your task> /by <date>""");
         } else if (deadlineArgs[1].isEmpty()) {
             throw new GloqiException("""
-                    Wrong!!! I cannot find '/by' keyword. Please follow my deadline format:
+                    Wrong!!! no Date after '/by' keyword. Please follow my deadline format:
                     deadline <your task> /by <date>""");
         }
+        deadlineArgs = new  String[]{deadlineArgs[0].trim(), deadlineArgs[1].trim()};
         return deadlineArgs;
     }
 
@@ -141,7 +142,7 @@ public class CommandParser {
                     Wrong!!! Date is Missing after '/from'. Please follow my Event format:
                     event <your task> /from <date> /to <date>""");
         }
-        eventArgs[0] = splitArgs[0];
+        eventArgs[0] = splitArgs[0].trim();
         splitArgs = splitArgs[1].trim().split("/to", 2);
         if (splitArgs.length != 2) {
             throw new GloqiException("""
@@ -158,8 +159,8 @@ public class CommandParser {
                     Wrong!!! Date is Missing after '/to'. Please follow my Event format:
                     event <your task> /from <date> /to <date>""");
         }
-        eventArgs[1] = splitArgs[0];
-        eventArgs[2] = splitArgs[1];
+        eventArgs[1] = splitArgs[0].trim();
+        eventArgs[2] = splitArgs[1].trim();
         return eventArgs;
     }
 

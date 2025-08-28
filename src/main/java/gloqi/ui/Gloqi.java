@@ -9,16 +9,16 @@ import gloqi.task.Event;
 
 public class Gloqi {
 
-    private final static String CHATBOT_NAME = "gloqi";
+    private final static String CHATBOT_NAME = "Gloqi";
     private final DataManager dataManager;
     private final Ui ui;
 
     public Gloqi(String filePath) {
         this.dataManager = new DataManager(filePath);
-        this.ui=new Ui(CHATBOT_NAME);
+        this.ui = new Ui(CHATBOT_NAME);
     }
 
-    public void run(){
+    public void run() {
         ui.greetMessage();
         String userInput;
         Task inputTask;
