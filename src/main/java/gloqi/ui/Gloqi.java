@@ -1,5 +1,7 @@
 package gloqi.ui;
 
+import java.util.ArrayList;
+
 import gloqi.command.Command;
 import gloqi.command.CommandParser;
 import gloqi.task.Task;
@@ -10,11 +12,11 @@ import gloqi.task.Event;
 public class Gloqi {
 
     private final static String CHATBOT_NAME = "Gloqi";
-    private final DataManager dataManager;
     private final Ui ui;
+    private BankList bankList;
 
     public Gloqi(String filePath) {
-        this.dataManager = new DataManager(filePath);
+        this.bankList = new BankList(new DataManager(filePath));
         this.ui = new Ui(CHATBOT_NAME);
     }
 
@@ -23,9 +25,8 @@ public class Gloqi {
         String userInput;
         Task inputTask;
         Command cmd = Command.INVALID;
-        BankList bankList = new BankList();
         try {
-            bankList = dataManager.loadDataFile();
+            bankList = bankList.loadBankList();
         } catch (GloqiException e) {
             Ui.printInPrompt(e.getMessage());
         }
@@ -38,30 +39,24 @@ public class Gloqi {
                     case LIST -> bankList.printList();
                     case MARK -> {
                         bankList.markTask(commandParser.getIntArg());
-                        dataManager.writeDataFile(bankList);
                     }
                     case UNMARK -> {
                         bankList.unmarkTask(commandParser.getIntArg());
-                        dataManager.writeDataFile(bankList);
                     }
                     case TODO -> {
                         inputTask = new Todo(commandParser.getStringArg()[0]);
                         bankList.addTask(inputTask);
-                        dataManager.writeDataFile(bankList);
                     }
                     case DEADLINE -> {
                         inputTask = new Deadline(commandParser.getStringArg());
                         bankList.addTask(inputTask);
-                        dataManager.writeDataFile(bankList);
                     }
                     case EVENT -> {
                         inputTask = new Event(commandParser.getStringArg());
                         bankList.addTask(inputTask);
-                        dataManager.writeDataFile(bankList);
                     }
                     case DELETE -> {
                         bankList.deleteTask(commandParser.getIntArg());
-                        dataManager.writeDataFile(bankList);
                     }
                     case SHOW -> bankList.printList(commandParser.getDateArg());
                 }

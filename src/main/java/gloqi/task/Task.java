@@ -1,8 +1,9 @@
 package gloqi.task;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Task {
+public class Task implements Serializable {
     protected String taskName;
     protected boolean isDone;
 

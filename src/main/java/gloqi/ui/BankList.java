@@ -8,10 +8,12 @@ import java.util.List;
 import java.time.LocalDate;
 
 public class BankList {
-    protected ArrayList<Task> bankList;
+    private ArrayList<Task> bankList;
+    private final DataManager DATA_MANAGER;
 
-    public BankList() {
+    public BankList(DataManager d) {
         this.bankList = new ArrayList<>();
+        this.DATA_MANAGER = d;
     }
 
     public List<String> SaveBank() {
@@ -30,6 +32,7 @@ public class BankList {
         this.bankList.add(taskName);
         Ui.printInPrompt("Got it. I've added this task:\n" + taskName.toString() + "\nNow you have "
                 + bankList.size() + " tasks in the bank.");
+        saveBankList();
     }
 
     public void markTask(int index) throws GloqiException {
@@ -39,6 +42,7 @@ public class BankList {
         bankList.set(index, bankList.get(index).markDone(true));
         Ui.printInPrompt("Nice! I've marked this task as done:\n" + this.bankList.get(index)
                 .toString());
+        saveBankList();
     }
 
     public void unmarkTask(int index) throws GloqiException {
@@ -48,6 +52,7 @@ public class BankList {
         bankList.set(index, bankList.get(index).markDone(false));
         Ui.printInPrompt("OK, I've marked this task as not done yet:\n" + this.bankList.get(index)
                 .toString());
+        saveBankList();
     }
 
     public void deleteTask(int index) throws GloqiException {
@@ -58,6 +63,7 @@ public class BankList {
         this.bankList.remove(index);
         Ui.printInPrompt("Following tasks have been deleted:\n" + taskString + "\nNow you have "
                 + bankList.size() + " tasks in the bank.");
+        saveBankList();
     }
 
     public void printList() {
@@ -94,5 +100,13 @@ public class BankList {
         Ui.printInPrompt(printMsg.toString());
     }
 
+    private void saveBankList() {
+        this.DATA_MANAGER.writeDataFile(bankList);
+    }
 
+    public BankList loadBankList() throws GloqiException {
+        BankList bl = new BankList(this.DATA_MANAGER);
+        bl.bankList = this.DATA_MANAGER.loadDataFile();
+        return bl;
+    }
 }

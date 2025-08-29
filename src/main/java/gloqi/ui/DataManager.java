@@ -1,12 +1,14 @@
 package gloqi.ui;
 
-import gloqi.task.Deadline;
-import gloqi.task.Event;
 import gloqi.task.Task;
-import gloqi.task.Todo;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class DataManager {
     protected final Path appDataDir;
@@ -38,50 +40,33 @@ public class DataManager {
         }
     }
 
-    public void writeDataFile(BankList bankList) {
-        try {
-            Files.write(appDataFile, bankList.SaveBank());
+    public void writeDataFile(ArrayList<Task> bankList) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(this.appDataFile.toFile()))){
+            oos.writeObject(bankList);
         } catch (Exception e) {
             System.out.println("Error writing to file: " + e.getMessage());
         }
     }
 
-    public BankList loadDataFile() throws GloqiException {
-        BankList bankList = new BankList();
-        try {
-            for (String line : Files.readAllLines(this.appDataFile)) {
-                String[] splitLine = line.split("\\|", 2);
-                int index = Integer.parseInt(splitLine[0]);
-                if (splitLine[1].charAt(index) == '|') {
-                    String taskName = splitLine[1].substring(0, index);
-                    splitLine = splitLine[1].substring(index + 1).split("\\|", 2);
-                    String taskType = splitLine[1].substring(0, 1);
-                    String isDone = splitLine[0];
-                    Task restoreTask;
-                    switch (taskType) {
-                        case "T" -> {
-                            restoreTask = new Todo(taskName);
-                            restoreTask = restoreTask.markDone(("x".equals(isDone)));
-                            bankList.restoreBank(restoreTask);
-                        }
-                        case "D" -> {
-                            restoreTask = new Deadline(new String[]{taskName, splitLine[1].split("\\|", 2)[1]});
-                            restoreTask = restoreTask.markDone(("x".equals(isDone)));
-                            bankList.restoreBank(restoreTask);
-                        }
-                        case "E" -> {
-                            String[] part = splitLine[1].split("\\|", 3);
-                            restoreTask = new Event(new String[]{taskName, part[1], part[2]});
-                            restoreTask = restoreTask.markDone(("x".equals(isDone)));
-                            bankList.restoreBank(restoreTask);
-                        }
-                    }
+    public ArrayList<Task> loadDataFile() throws GloqiException {
+        ArrayList<Task> tasks = new ArrayList<>();
+        if (!this.appDataFile.toFile().exists() || this.appDataFile.toFile().length() == 0) {
+            return tasks;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(this.appDataFile.toFile()))) {
+            Object obj = ois.readObject();
+            if (obj instanceof ArrayList<?> rawList) {
+                if (!rawList.isEmpty() && !(rawList.get(0) instanceof Task)) {
+                    throw new GloqiException("File might be corrupted");
                 }
+                tasks = (ArrayList<Task>) rawList;
+            }else{
+                throw new GloqiException("File might be corrupted");
             }
         } catch (Exception e) {
             throw new GloqiException("Failed to load tasks (file might be corrupted): " + e.getMessage());
         }
-        return bankList;
+        return tasks;
 
     }
 }
