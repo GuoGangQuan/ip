@@ -1,9 +1,9 @@
 package gloqi.command;
 
-import gloqi.ui.GloqiException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
+import gloqi.ui.GloqiException;
 
 public class CommandParser {
     protected Command cmd;
@@ -15,39 +15,39 @@ public class CommandParser {
         String[] commands = userInput.split(" ", 2);
         String command = commands[0].toLowerCase();
         switch (command) {
-            case "list" -> this.cmd = Command.LIST;
-            case "mark" -> {
-                this.cmd = Command.MARK;
-                this.intArg = getIntArg(userInput);
-            }
-            case "unmark" -> {
-                this.cmd = Command.UNMARK;
-                this.intArg = getIntArg(userInput);
-            }
-            case "bye" -> this.cmd = Command.BYE;
-            case "todo" -> {
-                this.cmd = Command.TODO;
-                this.stringArg = new String[]{getTodoArg(userInput)};
-            }
-            case "deadline" -> {
-                this.cmd = Command.DEADLINE;
-                this.stringArg = getDeadlineArg(userInput);
-            }
-            case "event" -> {
-                this.cmd = Command.EVENT;
-                this.stringArg = getEventArg(userInput);
-            }
-            case "delete" -> {
-                this.cmd = Command.DELETE;
-                this.intArg = getIntArg(userInput);
-            }
-            case "show" -> {
-                this.cmd = Command.SHOW;
-                this.dateArg = getShowArg(userInput);
-            }
-            default -> throw new GloqiException("""
-                    Invalid command, only following commands are supported:
-                    list,mark,unmark,bye,deadline,event,todo""");
+        case "list" -> this.cmd = Command.LIST;
+        case "mark" -> {
+            this.cmd = Command.MARK;
+            this.intArg = getIntArg(userInput);
+        }
+        case "unmark" -> {
+            this.cmd = Command.UNMARK;
+            this.intArg = getIntArg(userInput);
+        }
+        case "bye" -> this.cmd = Command.BYE;
+        case "todo" -> {
+            this.cmd = Command.TODO;
+            this.stringArg = new String[]{getTodoArg(userInput)};
+        }
+        case "deadline" -> {
+            this.cmd = Command.DEADLINE;
+            this.stringArg = getDeadlineArg(userInput);
+        }
+        case "event" -> {
+            this.cmd = Command.EVENT;
+            this.stringArg = getEventArg(userInput);
+        }
+        case "delete" -> {
+            this.cmd = Command.DELETE;
+            this.intArg = getIntArg(userInput);
+        }
+        case "show" -> {
+            this.cmd = Command.SHOW;
+            this.dateArg = getShowArg(userInput);
+        }
+        default -> throw new GloqiException("""
+                Invalid command, only following commands are supported:
+                list,mark,unmark,bye,deadline,event,todo""");
         }
     }
 
@@ -113,7 +113,7 @@ public class CommandParser {
                     Wrong!!! no Date after '/by' keyword. Please follow my deadline format:
                     deadline <your task> /by <date>""");
         }
-        deadlineArgs = new  String[]{deadlineArgs[0].trim(), deadlineArgs[1].trim()};
+        deadlineArgs = new String[]{deadlineArgs[0].trim(), deadlineArgs[1].trim()};
         return deadlineArgs;
     }
 

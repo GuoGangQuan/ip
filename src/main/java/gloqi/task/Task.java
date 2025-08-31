@@ -18,7 +18,7 @@ public class Task implements Serializable {
     }
 
     public String saveFormat() {
-        return this.taskName.length()+"|"+this.taskName + "|" + (this.isDone ? "x" : " ");
+        return this.taskName.length() + "|" + this.taskName + "|" + (this.isDone ? "x" : " ");
     }
 
     public boolean compareDate(LocalDate date) {
