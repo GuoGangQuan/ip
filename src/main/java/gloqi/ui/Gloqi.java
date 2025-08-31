@@ -59,6 +59,9 @@ public class Gloqi {
                         bankList.deleteTask(commandParser.getIntArg());
                     }
                     case SHOW -> bankList.printList(commandParser.getDateArg());
+                    case FIND -> {
+                        bankList.findTask(commandParser.getStringArg()[0]);
+                    }
                 }
             } catch (GloqiException e) {
                 Ui.printInPrompt(e.getMessage());
