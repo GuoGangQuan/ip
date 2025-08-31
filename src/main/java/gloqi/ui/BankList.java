@@ -11,8 +11,8 @@ import gloqi.task.Task;
  * Provides methods to manage the tasks
  */
 public class BankList {
-    private ArrayList<Task> bankLists;
     private final DataManager dataManager;
+    private ArrayList<Task> bankLists;
 
     /**
      * Creates a BankList using the specified DataManager.
@@ -137,7 +137,7 @@ public class BankList {
         }
         if (printMsg.isEmpty()) {
             printMsg.append("No tasks found");
-        }else {
+        } else {
 
             printMsg.deleteCharAt(printMsg.length() - 1);
         }
@@ -148,6 +148,7 @@ public class BankList {
     private void saveBankList() {
         this.dataManager.writeDataFile(bankLists);
     }
+
     /**
      * Loads the bank list from the data file.
      *

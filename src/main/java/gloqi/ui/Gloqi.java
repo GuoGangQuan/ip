@@ -30,6 +30,15 @@ public class Gloqi {
     }
 
     /**
+     * The main entry point of the application.
+     *
+     * @param args command-line arguments (not used)
+     */
+    public static void main(String[] args) {
+        new Gloqi("data/data.txt").run();
+    }
+
+    /**
      * Runs the main loop of the chatbot.
      * Reads user input, parses commands, executes them, and continues
      * until the user issues the BYE command.
@@ -50,32 +59,32 @@ public class Gloqi {
                 CommandParser commandParser = new CommandParser(userInput);
                 cmd = commandParser.getCmd();
                 switch (cmd) {
-                    case LIST -> bankList.printList();
-                    case MARK -> {
-                        bankList.markTask(commandParser.getIntArg());
-                    }
-                    case UNMARK -> {
-                        bankList.unmarkTask(commandParser.getIntArg());
-                    }
-                    case TODO -> {
-                        inputTask = new Todo(commandParser.getStringArg()[0]);
-                        bankList.addTask(inputTask);
-                    }
-                    case DEADLINE -> {
-                        inputTask = new Deadline(commandParser.getStringArg());
-                        bankList.addTask(inputTask);
-                    }
-                    case EVENT -> {
-                        inputTask = new Event(commandParser.getStringArg());
-                        bankList.addTask(inputTask);
-                    }
-                    case DELETE -> {
-                        bankList.deleteTask(commandParser.getIntArg());
-                    }
-                    case SHOW -> bankList.printList(commandParser.getDateArg());
-                    case FIND -> {
-                        bankList.findTask(commandParser.getStringArg()[0]);
-                    }
+                case LIST -> bankList.printList();
+                case MARK -> {
+                    bankList.markTask(commandParser.getIntArg());
+                }
+                case UNMARK -> {
+                    bankList.unmarkTask(commandParser.getIntArg());
+                }
+                case TODO -> {
+                    inputTask = new Todo(commandParser.getStringArg()[0]);
+                    bankList.addTask(inputTask);
+                }
+                case DEADLINE -> {
+                    inputTask = new Deadline(commandParser.getStringArg());
+                    bankList.addTask(inputTask);
+                }
+                case EVENT -> {
+                    inputTask = new Event(commandParser.getStringArg());
+                    bankList.addTask(inputTask);
+                }
+                case DELETE -> {
+                    bankList.deleteTask(commandParser.getIntArg());
+                }
+                case SHOW -> bankList.printList(commandParser.getDateArg());
+                case FIND -> {
+                    bankList.findTask(commandParser.getStringArg()[0]);
+                }
                 }
             } catch (GloqiException e) {
                 Ui.printInPrompt(e.getMessage());
@@ -83,14 +92,5 @@ public class Gloqi {
 
         }
         ui.getEndMessage();
-    }
-
-    /**
-     * The main entry point of the application.
-     *
-     * @param args command-line arguments (not used)
-     */
-    public static void main(String[] args) {
-        new Gloqi("data/data.txt").run();
     }
 }

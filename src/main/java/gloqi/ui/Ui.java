@@ -21,6 +21,16 @@ public class Ui {
     }
 
     /**
+     * Prints message in predefine format
+     *
+     * @param msg message to display
+     */
+    public static void printInPrompt(String msg) {
+        System.out.println(msg);
+        System.out.println("_".repeat(50));
+    }
+
+    /**
      * Displays the greeting message at the start of the program.
      */
     public void getGreetMessage() {
@@ -32,16 +42,6 @@ public class Ui {
      */
     public void getEndMessage() {
         printInPrompt("Bye, see you next time!");
-    }
-
-    /**
-     * Prints message in predefine format
-     *
-     * @param msg message to display
-     */
-    public static void printInPrompt(String msg) {
-        System.out.println(msg);
-        System.out.println("_".repeat(50));
     }
 
     /**

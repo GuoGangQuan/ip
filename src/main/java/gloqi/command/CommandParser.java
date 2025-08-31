@@ -25,43 +25,43 @@ public class CommandParser {
         String[] commands = userInput.split(" ", 2);
         String command = commands[0].toLowerCase();
         switch (command) {
-            case "list" -> this.cmd = Command.LIST;
-            case "mark" -> {
-                this.cmd = Command.MARK;
-                this.intArg = getNumArg(userInput);
-            }
-            case "unmark" -> {
-                this.cmd = Command.UNMARK;
-                this.intArg = getNumArg(userInput);
-            }
-            case "bye" -> this.cmd = Command.BYE;
-            case "todo" -> {
-                this.cmd = Command.TODO;
-                this.stringArgs = new String[]{getTodoArg(userInput)};
-            }
-            case "deadline" -> {
-                this.cmd = Command.DEADLINE;
-                this.stringArgs = getDeadlineArg(userInput);
-            }
-            case "event" -> {
-                this.cmd = Command.EVENT;
-                this.stringArgs = getEventArg(userInput);
-            }
-            case "delete" -> {
-                this.cmd = Command.DELETE;
-                this.intArg = getNumArg(userInput);
-            }
-            case "show" -> {
-                this.cmd = Command.SHOW;
-                this.dateArg = getShowArg(userInput);
-            }
-            case "find" -> {
-                this.cmd = Command.FIND;
-                this.stringArgs = new String[]{getFindArg(userInput)};
-            }
-            default -> throw new GloqiException("""
-                    Invalid command, only following commands are supported:
-                    list,mark,unmark,bye,deadline,event,todo,show,delete,find""");
+        case "list" -> this.cmd = Command.LIST;
+        case "mark" -> {
+            this.cmd = Command.MARK;
+            this.intArg = getNumArg(userInput);
+        }
+        case "unmark" -> {
+            this.cmd = Command.UNMARK;
+            this.intArg = getNumArg(userInput);
+        }
+        case "bye" -> this.cmd = Command.BYE;
+        case "todo" -> {
+            this.cmd = Command.TODO;
+            this.stringArgs = new String[]{getTodoArg(userInput)};
+        }
+        case "deadline" -> {
+            this.cmd = Command.DEADLINE;
+            this.stringArgs = getDeadlineArg(userInput);
+        }
+        case "event" -> {
+            this.cmd = Command.EVENT;
+            this.stringArgs = getEventArg(userInput);
+        }
+        case "delete" -> {
+            this.cmd = Command.DELETE;
+            this.intArg = getNumArg(userInput);
+        }
+        case "show" -> {
+            this.cmd = Command.SHOW;
+            this.dateArg = getShowArg(userInput);
+        }
+        case "find" -> {
+            this.cmd = Command.FIND;
+            this.stringArgs = new String[]{getFindArg(userInput)};
+        }
+        default -> throw new GloqiException("""
+                Invalid command, only following commands are supported:
+                list,mark,unmark,bye,deadline,event,todo,show,delete,find""");
         }
     }
 
@@ -81,6 +81,7 @@ public class CommandParser {
         }
         return commands[1];
     }
+
     private LocalDate getShowArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         if (commands.length != 2) {
