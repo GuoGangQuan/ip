@@ -100,6 +100,22 @@ public class BankList {
         Ui.printInPrompt(printMsg.toString());
     }
 
+    public void findTask(String userInput) throws GloqiException {
+        StringBuilder printMsg = new StringBuilder();
+        for (int i = 0; i < this.bankList.size(); i++) {
+            if (bankList.get(i).containTaskName(userInput)) {
+                printMsg.append((i + 1)).append(". ").append(bankList.get(i).toString()).append("\n");
+            }
+        }
+        if (printMsg.isEmpty()) {
+            printMsg.append("No tasks found");
+        }else {
+
+            printMsg.deleteCharAt(printMsg.length() - 1);
+        }
+        Ui.printInPrompt(printMsg.toString());
+    }
+
     private void saveBankList() {
         this.DATA_MANAGER.writeDataFile(bankList);
     }

@@ -25,6 +25,10 @@ public class Task implements Serializable {
         return false;
     }
 
+    public boolean containTaskName(String s) {
+        return this.taskName.toLowerCase().contains(s.toLowerCase());
+    }
+
     @Override
     public String toString() {
         return "[" + (this.isDone ? "x" : " ") + "] " + this.taskName;

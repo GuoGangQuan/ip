@@ -45,12 +45,25 @@ public class CommandParser {
                 this.cmd = Command.SHOW;
                 this.dateArg = getShowArg(userInput);
             }
+            case "find" -> {
+                this.cmd = Command.FIND;
+                this.stringArg = new String[]{getFindArg(userInput)};
+            }
             default -> throw new GloqiException("""
                     Invalid command, only following commands are supported:
-                    list,mark,unmark,bye,deadline,event,todo""");
+                    list,mark,unmark,bye,deadline,event,todo,show,delete,find""");
         }
     }
 
+    private String getFindArg(String userInput) throws GloqiException {
+        String[] commands = userInput.split(" ", 2);
+        if (commands.length != 2) {
+            throw new GloqiException("""
+                    Search string is Missing!!!Please follow my find format:
+                    find <search string>""");
+        }
+        return commands[1];
+    }
     private LocalDate getShowArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         if (commands.length != 2) {
