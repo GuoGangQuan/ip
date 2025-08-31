@@ -1,9 +1,9 @@
 package gloqi.command;
 
-import gloqi.ui.GloqiException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
+import gloqi.ui.GloqiException;
 
 public class CommandParser {
     protected Command cmd;
@@ -126,7 +126,7 @@ public class CommandParser {
                     Wrong!!! no Date after '/by' keyword. Please follow my deadline format:
                     deadline <your task> /by <date>""");
         }
-        deadlineArgs = new  String[]{deadlineArgs[0].trim(), deadlineArgs[1].trim()};
+        deadlineArgs = new String[]{deadlineArgs[0].trim(), deadlineArgs[1].trim()};
         return deadlineArgs;
     }
 

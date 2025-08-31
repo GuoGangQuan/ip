@@ -1,15 +1,15 @@
 package gloqi.ui;
 
-import gloqi.task.Task;
-
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
+
+import gloqi.task.Task;
 
 public class BankList {
-    private ArrayList<Task> bankList;
     private final DataManager DATA_MANAGER;
+    private ArrayList<Task> bankList;
 
     public BankList(DataManager d) {
         this.bankList = new ArrayList<>();

@@ -1,7 +1,5 @@
 package gloqi.ui;
 
-import gloqi.task.Task;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -9,6 +7,8 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+
+import gloqi.task.Task;
 
 public class DataManager {
     protected final Path appDataDir;
@@ -41,7 +41,7 @@ public class DataManager {
     }
 
     public void writeDataFile(ArrayList<Task> bankList) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(this.appDataFile.toFile()))){
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(this.appDataFile.toFile()))) {
             oos.writeObject(bankList);
         } catch (Exception e) {
             System.out.println("Error writing to file: " + e.getMessage());
@@ -60,7 +60,7 @@ public class DataManager {
                     throw new GloqiException("File might be corrupted");
                 }
                 tasks = (ArrayList<Task>) rawList;
-            }else{
+            } else {
                 throw new GloqiException("File might be corrupted");
             }
         } catch (Exception e) {

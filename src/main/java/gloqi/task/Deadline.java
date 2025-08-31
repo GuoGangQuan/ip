@@ -1,7 +1,7 @@
 package gloqi.task;
 
-import java.time.LocalDateTime;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -15,7 +15,7 @@ public class Deadline extends Task {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
         try {
             this.by = LocalDateTime.parse(detail[1].trim(), formatter);
-        }catch(DateTimeParseException e){
+        } catch (DateTimeParseException e) {
             throw new GloqiException("your date time format is Wrong, Please follow this format: yyyy-MM-dd HHmm");
         }
     }

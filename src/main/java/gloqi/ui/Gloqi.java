@@ -1,13 +1,11 @@
 package gloqi.ui;
 
-import java.util.ArrayList;
-
 import gloqi.command.Command;
 import gloqi.command.CommandParser;
-import gloqi.task.Task;
 import gloqi.task.Deadline;
-import gloqi.task.Todo;
 import gloqi.task.Event;
+import gloqi.task.Task;
+import gloqi.task.Todo;
 
 public class Gloqi {
 
@@ -18,6 +16,10 @@ public class Gloqi {
     public Gloqi(String filePath) {
         this.bankList = new BankList(new DataManager(filePath));
         this.ui = new Ui(CHATBOT_NAME);
+    }
+
+    public static void main(String[] args) {
+        new Gloqi("data/data.txt").run();
     }
 
     public void run() {
@@ -69,9 +71,5 @@ public class Gloqi {
 
         }
         ui.endMessage();
-    }
-
-    public static void main(String[] args) {
-        new Gloqi("data/data.txt").run();
     }
 }
