@@ -128,6 +128,14 @@ public class BankList {
         Ui.printInPrompt(printMsg.toString());
     }
 
+    /**
+     * Searches for tasks in the bank whose names contain the given keyword or phrase.
+     * Prints all matching tasks to the user prompt. If no tasks are found, a message
+     * indicating so is displayed.
+     *
+     * @param userInput the keyword or phrase to search for in task names
+     * @throws GloqiException not thrown in current implementation but declared for consistency
+     */
     public void findTask(String userInput) throws GloqiException {
         StringBuilder printMsg = new StringBuilder();
         for (int i = 0; i < this.bankLists.size(); i++) {

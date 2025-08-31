@@ -66,11 +66,11 @@ public class CommandParser {
     }
 
     /**
-     * Extracts and validates the date argument for the "show" command.
+     * Extracts and validates the search string for the "find" command.
      *
-     * @param userInput raw input string
-     * @return the LocalDate specified by the user
-     * @throws GloqiException if the date is missing or invalid
+     * @param userInput the raw input string from the user
+     * @return the search string to look for in task names
+     * @throws GloqiException if the search string is missing or the input is invalid
      */
     private String getFindArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
@@ -82,6 +82,13 @@ public class CommandParser {
         return commands[1];
     }
 
+    /**
+     * Extracts and validates the date argument for the "show" command.
+     *
+     * @param userInput raw input string
+     * @return the LocalDate specified by the user
+     * @throws GloqiException if the date is missing or invalid
+     */
     private LocalDate getShowArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         if (commands.length != 2) {
