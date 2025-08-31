@@ -1,76 +1,99 @@
 package gloqi.ui;
 
-import gloqi.task.Task;
-
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
-import java.time.LocalDate;
 
+import gloqi.task.Task;
+
+/**
+ * Manages a list of tasks for the Gloqi chatbot.
+ * Provides methods to manage the tasks
+ */
 public class BankList {
-    private ArrayList<Task> bankList;
-    private final DataManager DATA_MANAGER;
+    private ArrayList<Task> bankLists;
+    private final DataManager dataManager;
 
-    public BankList(DataManager d) {
-        this.bankList = new ArrayList<>();
-        this.DATA_MANAGER = d;
+    /**
+     * Creates a BankList using the specified DataManager.
+     *
+     * @param dataManager DataManager for storing tasks
+     */
+    public BankList(DataManager dataManager) {
+        this.bankLists = new ArrayList<>();
+        this.dataManager = dataManager;
     }
 
-    public List<String> SaveBank() {
-        List<String> lines = new ArrayList<>();
-        for (Task task : bankList) {
-            lines.add(task.saveFormat());
-        }
-        return lines;
-    }
-
-    public void restoreBank(Task task) {
-        this.bankList.add(task);
-    }
-
+    /**
+     * Adds a task to the bank then prints a confirmation message and save the change to data file.
+     *
+     * @param taskName task to add
+     */
     public void addTask(Task taskName) {
-        this.bankList.add(taskName);
-        Ui.printInPrompt("Got it. I've added this task:\n" + taskName.toString() + "\nNow you have "
-                + bankList.size() + " tasks in the bank.");
+        this.bankLists.add(taskName);
+        Ui.printInPrompt("1Got it. I've added this task:\n" + taskName.toString() + "\nNow you have "
+                + bankLists.size() + " tasks in the bank.");
         saveBankList();
     }
 
+    /**
+     * Marks the task at the specified index as done.
+     *
+     * @param index index of the task to mark
+     * @throws GloqiException if the index is invalid
+     */
     public void markTask(int index) throws GloqiException {
-        if (bankList.size() <= index) {
+        if (bankLists.size() <= index) {
             throw new GloqiException("your mark number is not in the task bank, check again!");
         }
-        bankList.set(index, bankList.get(index).markDone(true));
-        Ui.printInPrompt("Nice! I've marked this task as done:\n" + this.bankList.get(index)
+        bankLists.set(index, bankLists.get(index).hasDone(true));
+        Ui.printInPrompt("Nice! I've marked this task as done:\n" + this.bankLists.get(index)
                 .toString());
         saveBankList();
     }
 
+    /**
+     * Marks the task at the specified index as not done.
+     *
+     * @param index index of the task to unmark
+     * @throws GloqiException if the index is invalid
+     */
     public void unmarkTask(int index) throws GloqiException {
-        if (bankList.size() <= index) {
+        if (bankLists.size() <= index) {
             throw new GloqiException("your mark number is not in the task bank, check again!");
         }
-        bankList.set(index, bankList.get(index).markDone(false));
-        Ui.printInPrompt("OK, I've marked this task as not done yet:\n" + this.bankList.get(index)
+        bankLists.set(index, bankLists.get(index).hasDone(false));
+        Ui.printInPrompt("OK, I've marked this task as not done yet:\n" + this.bankLists.get(index)
                 .toString());
         saveBankList();
     }
 
+    /**
+     * Deletes the task at the specified index from the bank.
+     *
+     * @param index index of the task to delete
+     * @throws GloqiException if the index is invalid
+     */
     public void deleteTask(int index) throws GloqiException {
-        if (bankList.size() <= index || index < 0) {
+        if (bankLists.size() <= index || index < 0) {
             throw new GloqiException("This number is not in the task bank, check again!");
         }
-        String taskString = this.bankList.get(index).toString();
-        this.bankList.remove(index);
+        String taskString = this.bankLists.get(index).toString();
+        this.bankLists.remove(index);
         Ui.printInPrompt("Following tasks have been deleted:\n" + taskString + "\nNow you have "
-                + bankList.size() + " tasks in the bank.");
+                + bankLists.size() + " tasks in the bank.");
         saveBankList();
     }
 
+    /**
+     * Prints all tasks in the bank.
+     * If the bank is empty, prints a message indicating empty bank.
+     */
     public void printList() {
         StringBuilder printMsg = new StringBuilder();
-        if (!bankList.isEmpty()) {
-            for (int i = 0; i < this.bankList.size(); i++) {
-                printMsg.append((i + 1)).append(". ").append(bankList.get(i).toString()).append("\n");
+        if (!bankLists.isEmpty()) {
+            for (int i = 0; i < this.bankLists.size(); i++) {
+                printMsg.append((i + 1)).append(". ").append(bankLists.get(i).toString()).append("\n");
             }
             printMsg.deleteCharAt(printMsg.length() - 1);
         } else {
@@ -79,15 +102,20 @@ public class BankList {
         Ui.printInPrompt(printMsg.toString());
     }
 
+    /**
+     * Prints tasks that are available on the specified date.
+     *
+     * @param date the date to filter tasks by
+     */
     public void printList(LocalDate date) {
         StringBuilder printMsg = new StringBuilder();
         printMsg.append("Task available on ").append(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")))
                 .append(":\n");
         int initLength = printMsg.length();
-        if (!bankList.isEmpty()) {
-            for (int i = 0; i < this.bankList.size(); i++) {
-                if (bankList.get(i).compareDate(date)) {
-                    printMsg.append((i + 1)).append(". ").append(bankList.get(i).toString()).append("\n");
+        if (!bankLists.isEmpty()) {
+            for (int i = 0; i < this.bankLists.size(); i++) {
+                if (bankLists.get(i).compareDate(date)) {
+                    printMsg.append((i + 1)).append(". ").append(bankLists.get(i).toString()).append("\n");
                 }
             }
         }
@@ -100,13 +128,19 @@ public class BankList {
         Ui.printInPrompt(printMsg.toString());
     }
 
-    private void saveBankList() {
-        this.DATA_MANAGER.writeDataFile(bankList);
-    }
 
+    private void saveBankList() {
+        this.dataManager.writeDataFile(bankLists);
+    }
+    /**
+     * Loads the bank list from the data file.
+     *
+     * @return a BankList containing tasks loaded from the file
+     * @throws GloqiException if the file is corrupted or cannot be read
+     */
     public BankList loadBankList() throws GloqiException {
-        BankList bl = new BankList(this.DATA_MANAGER);
-        bl.bankList = this.DATA_MANAGER.loadDataFile();
+        BankList bl = new BankList(this.dataManager);
+        bl.bankLists = this.dataManager.loadDataFile();
         return bl;
     }
 }

@@ -1,56 +1,73 @@
 package gloqi.command;
 
-import gloqi.ui.GloqiException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+import gloqi.ui.GloqiException;
+
+/**
+ * Parses user input strings into commands and arguments for the Gloqi chatbot.
+ * Determines the command type and extracts integer, string, or date arguments as needed.
+ */
 public class CommandParser {
     protected Command cmd;
     protected int intArg;
-    protected String[] stringArg;
+    protected String[] stringArgs;
     protected LocalDate dateArg;
 
+    /**
+     * Creates a CommandParser by parsing the user input.
+     *
+     * @param userInput raw input string from the user
+     * @throws GloqiException if the input is invalid or incorrectly formatted
+     */
     public CommandParser(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         String command = commands[0].toLowerCase();
         switch (command) {
-            case "list" -> this.cmd = Command.LIST;
-            case "mark" -> {
-                this.cmd = Command.MARK;
-                this.intArg = getIntArg(userInput);
-            }
-            case "unmark" -> {
-                this.cmd = Command.UNMARK;
-                this.intArg = getIntArg(userInput);
-            }
-            case "bye" -> this.cmd = Command.BYE;
-            case "todo" -> {
-                this.cmd = Command.TODO;
-                this.stringArg = new String[]{getTodoArg(userInput)};
-            }
-            case "deadline" -> {
-                this.cmd = Command.DEADLINE;
-                this.stringArg = getDeadlineArg(userInput);
-            }
-            case "event" -> {
-                this.cmd = Command.EVENT;
-                this.stringArg = getEventArg(userInput);
-            }
-            case "delete" -> {
-                this.cmd = Command.DELETE;
-                this.intArg = getIntArg(userInput);
-            }
-            case "show" -> {
-                this.cmd = Command.SHOW;
-                this.dateArg = getShowArg(userInput);
-            }
-            default -> throw new GloqiException("""
-                    Invalid command, only following commands are supported:
-                    list,mark,unmark,bye,deadline,event,todo""");
+        case "list" -> this.cmd = Command.LIST;
+        case "mark" -> {
+            this.cmd = Command.MARK;
+            this.intArg = getNumArg(userInput);
+        }
+        case "unmark" -> {
+            this.cmd = Command.UNMARK;
+            this.intArg = getNumArg(userInput);
+        }
+        case "bye" -> this.cmd = Command.BYE;
+        case "todo" -> {
+            this.cmd = Command.TODO;
+            this.stringArgs = new String[]{getTodoArg(userInput)};
+        }
+        case "deadline" -> {
+            this.cmd = Command.DEADLINE;
+            this.stringArgs = getDeadlineArg(userInput);
+        }
+        case "event" -> {
+            this.cmd = Command.EVENT;
+            this.stringArgs = getEventArg(userInput);
+        }
+        case "delete" -> {
+            this.cmd = Command.DELETE;
+            this.intArg = getNumArg(userInput);
+        }
+        case "show" -> {
+            this.cmd = Command.SHOW;
+            this.dateArg = getShowArg(userInput);
+        }
+        default -> throw new GloqiException("""
+                Invalid command, only following commands are supported:
+                list,mark,unmark,bye,deadline,event,todo""");
         }
     }
 
+    /**
+     * Extracts and validates the date argument for the "show" command.
+     *
+     * @param userInput raw input string
+     * @return the LocalDate specified by the user
+     * @throws GloqiException if the date is missing or invalid
+     */
     private LocalDate getShowArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         if (commands.length != 2) {
@@ -67,7 +84,14 @@ public class CommandParser {
         }
     }
 
-    private Integer getIntArg(String userInput) throws GloqiException {
+    /**
+     * Extracts and validates a numeric argument from commands like mark, unmark, delete.
+     *
+     * @param userInput raw input string
+     * @return zero-based integer index of the task
+     * @throws GloqiException if the argument is missing or not a valid number
+     */
+    private Integer getNumArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         int mark;
         if (commands.length != 2) {
@@ -85,6 +109,13 @@ public class CommandParser {
         return mark;
     }
 
+    /**
+     * Extracts and validates the description for a Todo task.
+     *
+     * @param userInput raw input string
+     * @return the task description
+     * @throws GloqiException if the description is missing
+     */
     private String getTodoArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         if (commands.length != 2) {
@@ -95,6 +126,13 @@ public class CommandParser {
         return commands[1];
     }
 
+    /**
+     * Extracts and validates the description and date for a Deadline task.
+     *
+     * @param userInput raw input string
+     * @return array with task name at index 0 and deadline string at index 1
+     * @throws GloqiException if the description or "/by" date is missing or invalid
+     */
     private String[] getDeadlineArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         String[] deadlineArgs;
@@ -113,10 +151,17 @@ public class CommandParser {
                     Wrong!!! no Date after '/by' keyword. Please follow my deadline format:
                     deadline <your task> /by <date>""");
         }
-        deadlineArgs = new  String[]{deadlineArgs[0].trim(), deadlineArgs[1].trim()};
+        deadlineArgs = new String[]{deadlineArgs[0].trim(), deadlineArgs[1].trim()};
         return deadlineArgs;
     }
 
+    /**
+     * Extracts and validates the description, start date, and end date for an Event task.
+     *
+     * @param userInput raw input string
+     * @return array with task name at index 0, start date at index 1, and end date at index 2
+     * @throws GloqiException if description or date keywords (/from, /to) are missing or invalid
+     */
     private String[] getEventArg(String userInput) throws GloqiException {
         String[] commands = userInput.split(" ", 2);
         if (commands.length != 2) {
@@ -125,8 +170,7 @@ public class CommandParser {
                     event <your task> /from <date> /to <date>""");
         }
         String[] eventArgs = new String[3];
-        String[] splitArgs;
-        splitArgs = commands[1].split("/from", 2);// taskName
+        String[] splitArgs = commands[1].split("/from", 2);// taskName
         if (splitArgs.length != 2) {
             throw new GloqiException("""
                     Wrong!!! I cannot find '/from' keyword. Please follow my Event format:
@@ -173,7 +217,7 @@ public class CommandParser {
     }
 
     public String[] getStringArg() {
-        return this.stringArg;
+        return this.stringArgs;
     }
 
     public LocalDate getDateArg() {
