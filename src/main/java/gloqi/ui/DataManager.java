@@ -10,10 +10,20 @@ import java.util.ArrayList;
 
 import gloqi.task.Task;
 
+/**
+ * Manages reading and writing task data to a file.
+ * Ensures the storage directory and file exist and handles serialization of tasks.
+ */
 public class DataManager {
-    protected final Path appDataDir;
-    protected final Path appDataFile;
+    private final Path appDataDir;
+    private final Path appDataFile;
 
+    /**
+     * Creates a DataManager for a specified data file path.
+     * Ensures the directory and file exist.
+     *
+     * @param dataPath path to the data file
+     */
     public DataManager(String dataPath) {
         Path path = Path.of(dataPath);
         Path appDir = Path.of(".");
@@ -40,6 +50,11 @@ public class DataManager {
         }
     }
 
+    /**
+     * Writes the given list of tasks to the data file.
+     *
+     * @param bankList list of tasks to save
+     */
     public void writeDataFile(ArrayList<Task> bankList) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(this.appDataFile.toFile()))) {
             oos.writeObject(bankList);
@@ -48,6 +63,13 @@ public class DataManager {
         }
     }
 
+    /**
+     * Loads the list of tasks from the data file.
+     * Validates each object in the file to ensure it is a Task.
+     *
+     * @return list of tasks loaded from the file, or empty list if file is empty
+     * @throws GloqiException if the file is corrupted or cannot be read
+     */
     public ArrayList<Task> loadDataFile() throws GloqiException {
         ArrayList<Task> tasks = new ArrayList<>();
         if (!this.appDataFile.toFile().exists() || this.appDataFile.toFile().length() == 0) {
@@ -56,10 +78,12 @@ public class DataManager {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(this.appDataFile.toFile()))) {
             Object obj = ois.readObject();
             if (obj instanceof ArrayList<?> rawList) {
-                if (!rawList.isEmpty() && !(rawList.get(0) instanceof Task)) {
-                    throw new GloqiException("File might be corrupted");
+                for (Object o : rawList) {
+                    if (!(o instanceof Task task)) {
+                        throw new GloqiException("File might be corrupted");
+                    }
+                    tasks.add(task);
                 }
-                tasks = (ArrayList<Task>) rawList;
             } else {
                 throw new GloqiException("File might be corrupted");
             }

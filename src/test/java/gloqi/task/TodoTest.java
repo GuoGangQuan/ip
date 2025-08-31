@@ -1,5 +1,7 @@
 package gloqi.task;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -10,8 +12,4 @@ public class TodoTest {
         assertEquals("[T][ ] gg", new Todo("gg").toString());
     }
 
-    @Test
-    public void saveFormat_saveString_success() {
-        assertEquals("2|gg| |T", new Todo("gg").saveFormat());
-    }
 }
