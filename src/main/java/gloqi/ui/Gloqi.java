@@ -15,7 +15,7 @@ import gloqi.task.Todo;
  */
 public class Gloqi {
 
-    private final static String CHATBOT_NAME = "Gloqi";
+    private static final String CHATBOT_NAME = "Gloqi";
     private final Ui ui;
     private BankList bankList;
 
@@ -60,12 +60,8 @@ public class Gloqi {
                 cmd = commandParser.getCmd();
                 switch (cmd) {
                 case LIST -> bankList.printList();
-                case MARK -> {
-                    bankList.markTask(commandParser.getIntArg());
-                }
-                case UNMARK -> {
-                    bankList.unmarkTask(commandParser.getIntArg());
-                }
+                case MARK -> bankList.markTask(commandParser.getIntArg());
+                case UNMARK -> bankList.unmarkTask(commandParser.getIntArg());
                 case TODO -> {
                     inputTask = new Todo(commandParser.getStringArg()[0]);
                     bankList.addTask(inputTask);
@@ -78,13 +74,12 @@ public class Gloqi {
                     inputTask = new Event(commandParser.getStringArg());
                     bankList.addTask(inputTask);
                 }
-                case DELETE -> {
-                    bankList.deleteTask(commandParser.getIntArg());
-                }
+                case DELETE -> bankList.deleteTask(commandParser.getIntArg());
                 case SHOW -> bankList.printList(commandParser.getDateArg());
-                case FIND -> {
-                    bankList.findTask(commandParser.getStringArg()[0]);
-                }
+                case FIND -> bankList.findTask(commandParser.getStringArg()[0]);
+                default -> throw new GloqiException("""
+                        Invalid command, only following commands are supported:
+                        list,mark,unmark,bye,deadline,event,todo,show,delete,find""");
                 }
             } catch (GloqiException e) {
                 Ui.printInPrompt(e.getMessage());
