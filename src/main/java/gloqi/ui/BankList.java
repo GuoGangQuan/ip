@@ -29,11 +29,11 @@ public class BankList {
      *
      * @param taskName task to add
      */
-    public void addTask(Task taskName) {
+    public String addTask(Task taskName) {
         this.bankLists.add(taskName);
-        Ui.printInPrompt("1Got it. I've added this task:\n" + taskName.toString() + "\nNow you have "
-                + bankLists.size() + " tasks in the bank.");
         saveBankList();
+        return "1Got it. I've added this task:\n" + taskName.toString() + "\nNow you have "
+                + bankLists.size() + " tasks in the bank.";
     }
 
     /**
@@ -42,14 +42,13 @@ public class BankList {
      * @param index index of the task to mark
      * @throws GloqiException if the index is invalid
      */
-    public void markTask(int index) throws GloqiException {
+    public String markTask(int index) throws GloqiException {
         if (bankLists.size() <= index) {
             throw new GloqiException("your mark number is not in the task bank, check again!");
         }
-        bankLists.set(index, bankLists.get(index).hasDone(true));
-        Ui.printInPrompt("Nice! I've marked this task as done:\n" + this.bankLists.get(index)
-                .toString());
+        bankLists.set(index, bankLists.get(index).setDone(true));
         saveBankList();
+        return "Nice! I've marked this task as done:\n" + this.bankLists.get(index).toString();
     }
 
     /**
@@ -58,14 +57,13 @@ public class BankList {
      * @param index index of the task to unmark
      * @throws GloqiException if the index is invalid
      */
-    public void unmarkTask(int index) throws GloqiException {
+    public String unmarkTask(int index) throws GloqiException {
         if (bankLists.size() <= index) {
             throw new GloqiException("your mark number is not in the task bank, check again!");
         }
-        bankLists.set(index, bankLists.get(index).hasDone(false));
-        Ui.printInPrompt("OK, I've marked this task as not done yet:\n" + this.bankLists.get(index)
-                .toString());
+        bankLists.set(index, bankLists.get(index).setDone(false));
         saveBankList();
+        return "OK, I've marked this task as not done yet:\n" + this.bankLists.get(index).toString();
     }
 
     /**
@@ -74,22 +72,22 @@ public class BankList {
      * @param index index of the task to delete
      * @throws GloqiException if the index is invalid
      */
-    public void deleteTask(int index) throws GloqiException {
+    public String deleteTask(int index) throws GloqiException {
         if (bankLists.size() <= index || index < 0) {
             throw new GloqiException("This number is not in the task bank, check again!");
         }
         String taskString = this.bankLists.get(index).toString();
         this.bankLists.remove(index);
-        Ui.printInPrompt("Following tasks have been deleted:\n" + taskString + "\nNow you have "
-                + bankLists.size() + " tasks in the bank.");
         saveBankList();
+        return "Following tasks have been deleted:\n" + taskString + "\nNow you have "
+                + bankLists.size() + " tasks in the bank.";
     }
 
     /**
      * Prints all tasks in the bank.
      * If the bank is empty, prints a message indicating empty bank.
      */
-    public void printList() {
+    public String printList() {
         StringBuilder printMsg = new StringBuilder();
         if (!bankLists.isEmpty()) {
             for (int i = 0; i < this.bankLists.size(); i++) {
@@ -99,7 +97,7 @@ public class BankList {
         } else {
             printMsg.append("Task Bank is empty");
         }
-        Ui.printInPrompt(printMsg.toString());
+        return printMsg.toString();
     }
 
     /**
@@ -107,7 +105,7 @@ public class BankList {
      *
      * @param date the date to filter tasks by
      */
-    public void printList(LocalDate date) {
+    public String printList(LocalDate date) {
         StringBuilder printMsg = new StringBuilder();
         printMsg.append("Task available on ").append(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")))
                 .append(":\n");
@@ -125,7 +123,7 @@ public class BankList {
         } else {
             printMsg.deleteCharAt(printMsg.length() - 1);
         }
-        Ui.printInPrompt(printMsg.toString());
+        return printMsg.toString();
     }
 
     /**
@@ -136,10 +134,10 @@ public class BankList {
      * @param userInput the keyword or phrase to search for in task names
      * @throws GloqiException not thrown in current implementation but declared for consistency
      */
-    public void findTask(String userInput) throws GloqiException {
+    public String findTask(String userInput) throws GloqiException {
         StringBuilder printMsg = new StringBuilder();
         for (int i = 0; i < this.bankLists.size(); i++) {
-            if (bankLists.get(i).containTaskName(userInput)) {
+            if (bankLists.get(i).checkContainTaskName(userInput)) {
                 printMsg.append((i + 1)).append(". ").append(bankLists.get(i).toString()).append("\n");
             }
         }
@@ -149,7 +147,7 @@ public class BankList {
 
             printMsg.deleteCharAt(printMsg.length() - 1);
         }
-        Ui.printInPrompt(printMsg.toString());
+        return printMsg.toString();
     }
 
 

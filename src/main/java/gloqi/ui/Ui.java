@@ -25,23 +25,26 @@ public class Ui {
      *
      * @param msg message to display
      */
-    public static void printInPrompt(String msg) {
+    public static String printInPrompt(String msg) {
         System.out.println(msg);
         System.out.println("_".repeat(50));
+        return msg;
     }
 
     /**
-     * Displays the greeting message at the start of the program.
+     * the greeting message at the start of the program.
+     *
+     * @return greeting message
      */
-    public void getGreetMessage() {
-        printInPrompt("Hello I am " + this.chatBotName + "\nhow can i help you");
+    public String getGreetMessage() {
+        return "Hello I am " + this.chatBotName + "\nhow can i help you";
     }
 
     /**
      * Displays the ending message at the end of the program.
      */
-    public void getEndMessage() {
-        printInPrompt("Bye, see you next time!");
+    public String getEndMessage() {
+        return "Bye, see you next time!";
     }
 
     /**

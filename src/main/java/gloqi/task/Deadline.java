@@ -26,7 +26,7 @@ public class Deadline extends Task {
         try {
             this.by = LocalDateTime.parse(detail[1].trim(), formatter);
         } catch (DateTimeParseException e) {
-            throw new GloqiException("your date time format is Wrong, Please follow this format: yyyy-MM-dd HHmm");
+            throw new GloqiException("Invalid date-time format, Please follow this format: yyyy-MM-dd HHmm");
         }
     }
 
@@ -37,7 +37,7 @@ public class Deadline extends Task {
     }
 
     @Override
-    public Deadline hasDone(boolean isDone) {
+    public Deadline setDone(boolean isDone) {
         return new Deadline(this.taskName, this.by, isDone);
     }
 

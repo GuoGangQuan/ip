@@ -32,7 +32,7 @@ public class Event extends Task {
     }
 
     @Override
-    public Event hasDone(boolean isDone) {
+    public Event setDone(boolean isDone) {
         return new Event(this.taskName, this.startTime, this.endTime, isDone);
     }
 
