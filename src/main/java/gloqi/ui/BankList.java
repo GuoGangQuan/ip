@@ -137,7 +137,7 @@ public class BankList {
     public String findTask(String userInput) throws GloqiException {
         StringBuilder printMsg = new StringBuilder();
         for (int i = 0; i < this.bankLists.size(); i++) {
-            if (bankLists.get(i).containTaskName(userInput)) {
+            if (bankLists.get(i).checkContainTaskName(userInput)) {
                 printMsg.append((i + 1)).append(". ").append(bankLists.get(i).toString()).append("\n");
             }
         }

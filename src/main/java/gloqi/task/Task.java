@@ -49,7 +49,7 @@ public class Task implements Serializable {
         return false;
     }
 
-    public boolean containTaskName(String s) {
+    public boolean checkContainTaskName(String s) {
         return this.taskName.toLowerCase().contains(s.toLowerCase());
     }
 
