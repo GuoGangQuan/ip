@@ -59,9 +59,7 @@ public class CommandParser {
             this.cmd = Command.FIND;
             this.stringArgs = new String[]{getFindArg(userInput)};
         }
-        default -> throw new GloqiException("""
-                Invalid command, only following commands are supported:
-                list,mark,unmark,bye,deadline,event,todo,show,delete,find""");
+        default -> this.cmd = Command.INVALID;
         }
     }
 
