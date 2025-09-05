@@ -46,7 +46,7 @@ public class BankList {
         if (bankLists.size() <= index) {
             throw new GloqiException("your mark number is not in the task bank, check again!");
         }
-        bankLists.set(index, bankLists.get(index).hasDone(true));
+        bankLists.set(index, bankLists.get(index).setDone(true));
         saveBankList();
         return "Nice! I've marked this task as done:\n" + this.bankLists.get(index).toString();
     }
@@ -61,7 +61,7 @@ public class BankList {
         if (bankLists.size() <= index) {
             throw new GloqiException("your mark number is not in the task bank, check again!");
         }
-        bankLists.set(index, bankLists.get(index).hasDone(false));
+        bankLists.set(index, bankLists.get(index).setDone(false));
         saveBankList();
         return "OK, I've marked this task as not done yet:\n" + this.bankLists.get(index).toString();
     }

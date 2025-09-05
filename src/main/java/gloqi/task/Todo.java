@@ -25,7 +25,7 @@ public class Todo extends Task {
     }
 
     @Override
-    public Todo hasDone(boolean isDone) {
+    public Todo setDone(boolean isDone) {
         return new Todo(this.taskName, isDone);
     }
 

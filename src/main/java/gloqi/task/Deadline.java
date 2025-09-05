@@ -37,7 +37,7 @@ public class Deadline extends Task {
     }
 
     @Override
-    public Deadline hasDone(boolean isDone) {
+    public Deadline setDone(boolean isDone) {
         return new Deadline(this.taskName, this.by, isDone);
     }
 

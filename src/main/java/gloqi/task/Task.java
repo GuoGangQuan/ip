@@ -34,7 +34,7 @@ public class Task implements Serializable {
      * @param isDone completion status
      * @return new Task with updated status
      */
-    public Task hasDone(boolean isDone) {
+    public Task setDone(boolean isDone) {
         return new Task(this.taskName, isDone);
     }
 
