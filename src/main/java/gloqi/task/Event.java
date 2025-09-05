@@ -3,6 +3,9 @@ package gloqi.task;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+import gloqi.ui.GloqiException;
 
 /**
  * Represents a task that occurs over a period of time.
@@ -17,11 +20,19 @@ public class Event extends Task {
      *
      * @param detail array containing task name at index 0, start time at index 1, and end time at index 2
      */
-    public Event(String[] detail) {
+    public Event(String[] detail) throws GloqiException {
         super(detail[0]);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-        this.startTime = LocalDateTime.parse(detail[1].trim(), formatter);
-        this.endTime = LocalDateTime.parse(detail[2].trim(), formatter);
+        try {
+            this.startTime = LocalDateTime.parse(detail[1].trim(), formatter);
+        } catch (DateTimeParseException e) {
+            throw new GloqiException("Invalid date-time format in 'from', Please follow this format: yyyy-MM-dd HHmm");
+        }
+        try {
+            this.endTime = LocalDateTime.parse(detail[2].trim(), formatter);
+        } catch (DateTimeParseException e) {
+            throw new GloqiException("Invalid date-time format in 'to', Please follow this format: yyyy-MM-dd HHmm");
+        }
     }
 
     private Event(String taskName, LocalDateTime start, LocalDateTime end, boolean isDone) {
