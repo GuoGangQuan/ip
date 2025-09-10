@@ -189,7 +189,7 @@ public class CommandParser {
                     event <your task> /from <date> /to <date>""");
         }
         String[] eventArgs = new String[3];
-        String[] splitArgs = commands[1].split("/from", 2);// taskName
+        String[] splitArgs = commands[1].split("/from", 2);
         if (splitArgs.length != 2) {
             throw new GloqiException("""
                     Wrong!!! I cannot find '/from' keyword. Please follow my Event format:
