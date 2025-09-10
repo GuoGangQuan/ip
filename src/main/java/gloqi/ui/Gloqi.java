@@ -48,8 +48,8 @@ public class Gloqi {
      */
     public String run(String userInput) {
         Task inputTask;
-        String response = "";
-        Command cmd = Command.INVALID;
+        String response;
+        Command cmd;
         try {
             bankList = bankList.loadBankList();
         } catch (GloqiException e) {
@@ -58,6 +58,7 @@ public class Gloqi {
         try {
             CommandParser commandParser = new CommandParser(userInput);
             cmd = commandParser.getCmd();
+            assert cmd != null : "cmd should not be null";
             switch (cmd) {
             case LIST -> response = bankList.printList();
             case MARK -> response = bankList.markTask(commandParser.getIntArg());
