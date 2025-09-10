@@ -19,15 +19,6 @@ public class Gloqi {
     private final Ui ui;
     private BankList bankList;
 
-    /**
-     * Creates a new Gloqi chatbot with a data file for storing tasks.
-     *
-     * @param filePath path to the task data file
-     */
-    public Gloqi(String filePath) {
-        this.bankList = new BankList(new DataManager(filePath));
-        this.ui = new Ui(CHATBOT_NAME);
-    }
 
     /**
      * Creates a new Gloqi chatbot with default data file path:data/data.txt for storing tasks.
