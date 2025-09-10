@@ -44,7 +44,7 @@ public class Gloqi {
         try {
             bankList = bankList.loadBankList();
         } catch (GloqiException e) {
-            Ui.printInPrompt(e.getMessage());
+            return e.getMessage();
         }
         try {
             CommandParser commandParser = new CommandParser(userInput);
@@ -75,7 +75,7 @@ public class Gloqi {
                     list, mark, unmark, bye, deadline, event, todo, show, delete, find""");
             }
         } catch (GloqiException e) {
-            response = e.getMessage();
+            return e.getMessage();
         }
         assert response != null : "response should not be null";
         return response;

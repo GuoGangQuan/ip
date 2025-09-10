@@ -17,17 +17,6 @@ public class Ui {
     }
 
     /**
-     * Prints message in predefine format
-     *
-     * @param msg message to display
-     */
-    public static String printInPrompt(String msg) {
-        System.out.println(msg);
-        System.out.println("_".repeat(50));
-        return msg;
-    }
-
-    /**
      * the greeting message at the start of the program.
      *
      * @return greeting message
@@ -44,4 +33,3 @@ public class Ui {
     }
 
 }
-
