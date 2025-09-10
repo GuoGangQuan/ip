@@ -1,14 +1,11 @@
 package gloqi.ui;
 
-import java.util.Scanner;
-
 /**
  * Handles user interaction for the Gloqi chatbot.
  * Provides methods to display messages and read user input.
  */
 public class Ui {
     private final String chatBotName;
-    private final Scanner scanInput;
 
     /**
      * Creates a new Ui instance with the specified chatbot name.
@@ -17,7 +14,6 @@ public class Ui {
      */
     public Ui(String chatBotName) {
         this.chatBotName = chatBotName;
-        this.scanInput = new Scanner(System.in);
     }
 
     /**
@@ -47,13 +43,5 @@ public class Ui {
         return "Bye, see you next time!";
     }
 
-    /**
-     * Prompts the user with ">>>" and reads a line of input from the console.
-     *
-     * @return the input string entered by the user
-     */
-    public String getInput() {
-        System.out.print(">>> ");
-        return this.scanInput.nextLine();
-    }
 }
+
