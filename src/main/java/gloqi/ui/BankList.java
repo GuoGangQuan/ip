@@ -97,6 +97,7 @@ public class BankList {
         } else {
             printMsg.append("Task Bank is empty");
         }
+        assert !printMsg.isEmpty() : "List message should not be empty";
         return printMsg.toString();
     }
 
@@ -123,6 +124,7 @@ public class BankList {
         } else {
             printMsg.deleteCharAt(printMsg.length() - 1);
         }
+        assert !printMsg.isEmpty() : "List base on date message should not be empty";
         return printMsg.toString();
     }
 
@@ -147,6 +149,7 @@ public class BankList {
 
             printMsg.deleteCharAt(printMsg.length() - 1);
         }
+        assert !printMsg.isEmpty() : "List base on taskName message should not be empty";
         return printMsg.toString();
     }
 
@@ -162,8 +165,10 @@ public class BankList {
      * @throws GloqiException if the file is corrupted or cannot be read
      */
     public BankList loadBankList() throws GloqiException {
+        assert this.dataManager != null : "dataManager should not be null during loading";
         BankList bl = new BankList(this.dataManager);
         bl.bankLists = this.dataManager.loadDataFile();
+        assert bl.bankLists != null : "bankLists should not be null during loading";
         return bl;
     }
 }
