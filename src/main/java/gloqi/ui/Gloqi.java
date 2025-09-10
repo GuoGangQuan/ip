@@ -77,7 +77,7 @@ public class Gloqi {
         } catch (GloqiException e) {
             response = e.getMessage();
         }
-
+        assert response != null : "response should not be null";
         return response;
     }
 
