@@ -20,21 +20,16 @@ public class Gloqi {
     private BankList bankList;
 
     /**
-     * Creates a new Gloqi chatbot with a data file for storing tasks.
-     *
-     * @param filePath path to the task data file
-     */
-    public Gloqi(String filePath) {
-        this.bankList = new BankList(new DataManager(filePath));
-        this.ui = new Ui(CHATBOT_NAME);
-    }
-
-    /**
      * Creates a new Gloqi chatbot with default data file path:data/data.txt for storing tasks.
      */
-    public Gloqi() {
-        this.bankList = new BankList(new DataManager("data/data.txt"));
-        this.ui = new Ui(CHATBOT_NAME);
+    public Gloqi() throws GloqiException {
+        try {
+            this.bankList = new BankList(new DataManager("data/data.txt"));
+            bankList = bankList.loadBankList();
+            this.ui = new Ui(CHATBOT_NAME);
+        } catch (GloqiException e) {
+            throw new RuntimeException("Failed to initialize Gloqi", e);
+        }
     }
 
 
@@ -47,49 +42,85 @@ public class Gloqi {
      * @return response String from the chatbot
      */
     public String run(String userInput) {
-        Task inputTask;
-        String response = "";
-        Command cmd = Command.INVALID;
-        try {
-            bankList = bankList.loadBankList();
-        } catch (GloqiException e) {
-            Ui.printInPrompt(e.getMessage());
-        }
         try {
             CommandParser commandParser = new CommandParser(userInput);
-            cmd = commandParser.getCmd();
-            switch (cmd) {
-            case LIST -> response = bankList.printList();
-            case MARK -> response = bankList.markTask(commandParser.getIntArg());
-            case UNMARK -> response = bankList.unmarkTask(commandParser.getIntArg());
-            case TODO -> {
-                inputTask = new Todo(commandParser.getStringArg()[0]);
-                response = bankList.addTask(inputTask);
-            }
-            case DEADLINE -> {
-                inputTask = new Deadline(commandParser.getStringArg());
-                response = bankList.addTask(inputTask);
-            }
-            case EVENT -> {
-                inputTask = new Event(commandParser.getStringArg());
-                response = bankList.addTask(inputTask);
-            }
-            case DELETE -> response = bankList.deleteTask(commandParser.getIntArg());
-            case SHOW -> response = bankList.printList(commandParser.getDateArg());
-            case FIND -> response = bankList.findTask(commandParser.getStringArg()[0]);
-            case BYE -> response = ui.getEndMessage();
-            default -> throw new GloqiException("""
-                    Invalid command, only following commands are supported:
-                    list, mark, unmark, bye, deadline, event, todo, show, delete, find""");
-            }
+            Command cmd = commandParser.getCmd();
+            return executeCommand(cmd, commandParser);
         } catch (GloqiException e) {
-            response = e.getMessage();
+            return e.getMessage();
         }
-
-        return response;
     }
 
     public String getGreeting() {
         return ui.getGreetMessage();
+    }
+
+    /**
+     * Executes the given command with its parsed arguments.
+     *
+     * @param cmd           the command to execute
+     * @param commandParser the parser holding the command arguments
+     * @return the response message after executing the command
+     * @throws GloqiException if the command is invalid or arguments are incorrect
+     */
+    private String executeCommand(Command cmd, CommandParser commandParser) throws GloqiException {
+        return switch (cmd) {
+        case LIST -> handleList();
+        case MARK -> handleMark(commandParser);
+        case UNMARK -> handleUnmark(commandParser);
+        case TODO -> handleTodo(commandParser);
+        case DEADLINE -> handleDeadline(commandParser);
+        case EVENT -> handleEvent(commandParser);
+        case DELETE -> handleDelete(commandParser);
+        case SHOW -> handleShow(commandParser);
+        case FIND -> handleFind(commandParser);
+        case BYE -> ui.getEndMessage();
+        default -> throw invalidCommand();
+        };
+    }
+
+    private String handleList() {
+        return bankList.printList();
+    }
+
+    private String handleMark(CommandParser parser) throws GloqiException {
+        return bankList.markTask(parser.getIntArg());
+    }
+
+    private String handleUnmark(CommandParser parser) throws GloqiException {
+        return bankList.unmarkTask(parser.getIntArg());
+    }
+
+    private String handleTodo(CommandParser parser) {
+        Task task = new Todo(parser.getStringArg()[0]);
+        return bankList.addTask(task);
+    }
+
+    private String handleDeadline(CommandParser parser) throws GloqiException {
+        Task task = new Deadline(parser.getStringArg());
+        return bankList.addTask(task);
+    }
+
+    private String handleEvent(CommandParser parser) throws GloqiException {
+        Task task = new Event(parser.getStringArg());
+        return bankList.addTask(task);
+    }
+
+    private String handleDelete(CommandParser parser) throws GloqiException {
+        return bankList.deleteTask(parser.getIntArg());
+    }
+
+    private String handleShow(CommandParser parser) {
+        return bankList.printList(parser.getDateArg());
+    }
+
+    private String handleFind(CommandParser parser) throws GloqiException {
+        return bankList.findTask(parser.getStringArg()[0]);
+    }
+
+    private GloqiException invalidCommand() {
+        return new GloqiException("""
+                Invalid command, only following commands are supported:
+                list, mark, unmark, bye, deadline, event, todo, show, delete, find""");
     }
 }

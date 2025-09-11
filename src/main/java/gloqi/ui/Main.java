@@ -13,11 +13,10 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Gloqi gloqi = new Gloqi();
-
     @Override
     public void start(Stage stage) {
         try {
+            Gloqi gloqi = new Gloqi();
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
@@ -25,7 +24,7 @@ public class Main extends Application {
             // inject the Duke instance
             fxmlLoader.<MainWindow>getController().setGloqi(gloqi);
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | GloqiException e) {
             e.printStackTrace();
         }
     }
