@@ -19,15 +19,6 @@ public class Gloqi {
     private final Ui ui;
     private BankList bankList;
 
-    /**
-     * Creates a new Gloqi chatbot with a data file for storing tasks.
-     *
-     * @param filePath path to the task data file
-     */
-    public Gloqi(String filePath) {
-        this.bankList = new BankList(new DataManager(filePath));
-        this.ui = new Ui(CHATBOT_NAME);
-    }
 
     /**
      * Creates a new Gloqi chatbot with default data file path:data/data.txt for storing tasks.
@@ -48,16 +39,17 @@ public class Gloqi {
      */
     public String run(String userInput) {
         Task inputTask;
-        String response = "";
-        Command cmd = Command.INVALID;
+        String response;
+        Command cmd;
         try {
             bankList = bankList.loadBankList();
         } catch (GloqiException e) {
-            Ui.printInPrompt(e.getMessage());
+            return e.getMessage();
         }
         try {
             CommandParser commandParser = new CommandParser(userInput);
             cmd = commandParser.getCmd();
+            assert cmd != null : "cmd should not be null";
             switch (cmd) {
             case LIST -> response = bankList.printList();
             case MARK -> response = bankList.markTask(commandParser.getIntArg());
@@ -83,9 +75,9 @@ public class Gloqi {
                     list, mark, unmark, bye, deadline, event, todo, show, delete, find""");
             }
         } catch (GloqiException e) {
-            response = e.getMessage();
+            return e.getMessage();
         }
-
+        assert response != null : "response should not be null";
         return response;
     }
 
