@@ -1,7 +1,6 @@
 package gloqi.ui;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import gloqi.task.Task;
@@ -32,8 +31,13 @@ public class BankList {
     public String addTask(Task taskName) {
         this.bankLists.add(taskName);
         saveBankList();
-        return "1Got it. I've added this task:\n" + taskName.toString() + "\nNow you have "
-                + bankLists.size() + " tasks in the bank.";
+        return Ui.formatAddMsg(taskName, bankLists.size());
+    }
+
+    private void validateIndex(int index) throws GloqiException {
+        if (index < 0 || index >= bankLists.size()) {
+            throw new GloqiException("Task index is out of range: " + index);
+        }
     }
 
     /**
@@ -43,12 +47,10 @@ public class BankList {
      * @throws GloqiException if the index is invalid
      */
     public String markTask(int index) throws GloqiException {
-        if (bankLists.size() <= index) {
-            throw new GloqiException("your mark number is not in the task bank, check again!");
-        }
+        validateIndex(index);
         bankLists.set(index, bankLists.get(index).setDone(true));
         saveBankList();
-        return "Nice! I've marked this task as done:\n" + this.bankLists.get(index).toString();
+        return Ui.formatMarkedMsg(this.bankLists.get(index));
     }
 
     /**
@@ -58,12 +60,10 @@ public class BankList {
      * @throws GloqiException if the index is invalid
      */
     public String unmarkTask(int index) throws GloqiException {
-        if (bankLists.size() <= index) {
-            throw new GloqiException("your mark number is not in the task bank, check again!");
-        }
+        validateIndex(index);
         bankLists.set(index, bankLists.get(index).setDone(false));
         saveBankList();
-        return "OK, I've marked this task as not done yet:\n" + this.bankLists.get(index).toString();
+        return Ui.formatUnmarkedMsg(this.bankLists.get(index));
     }
 
     /**
@@ -73,14 +73,11 @@ public class BankList {
      * @throws GloqiException if the index is invalid
      */
     public String deleteTask(int index) throws GloqiException {
-        if (bankLists.size() <= index || index < 0) {
-            throw new GloqiException("This number is not in the task bank, check again!");
-        }
-        String taskString = this.bankLists.get(index).toString();
+        validateIndex(index);
+        String response = Ui.formatDeletedMsg(this.bankLists.get(index), this.bankLists.size());
         this.bankLists.remove(index);
         saveBankList();
-        return "Following tasks have been deleted:\n" + taskString + "\nNow you have "
-                + bankLists.size() + " tasks in the bank.";
+        return response;
     }
 
     /**
@@ -88,16 +85,7 @@ public class BankList {
      * If the bank is empty, prints a message indicating empty bank.
      */
     public String printList() {
-        StringBuilder printMsg = new StringBuilder();
-        if (!bankLists.isEmpty()) {
-            for (int i = 0; i < this.bankLists.size(); i++) {
-                printMsg.append((i + 1)).append(". ").append(bankLists.get(i).toString()).append("\n");
-            }
-            printMsg.deleteCharAt(printMsg.length() - 1);
-        } else {
-            printMsg.append("Task Bank is empty");
-        }
-        return printMsg.toString();
+        return Ui.formatNumList(this.bankLists);
     }
 
     /**
@@ -106,24 +94,18 @@ public class BankList {
      * @param date the date to filter tasks by
      */
     public String printList(LocalDate date) {
-        StringBuilder printMsg = new StringBuilder();
-        printMsg.append("Task available on ").append(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")))
-                .append(":\n");
-        int initLength = printMsg.length();
-        if (!bankLists.isEmpty()) {
-            for (int i = 0; i < this.bankLists.size(); i++) {
-                if (bankLists.get(i).compareDate(date)) {
-                    printMsg.append((i + 1)).append(". ").append(bankLists.get(i).toString()).append("\n");
-                }
+        ArrayList<Task> filtered = getTasksOnDate(date);
+        return Ui.formatShowList(filtered, date);
+    }
+
+    private ArrayList<Task> getTasksOnDate(LocalDate date) {
+        ArrayList<Task> result = new ArrayList<>();
+        for (Task task : this.bankLists) {
+            if (task.compareDate(date)) {
+                result.add(task);
             }
         }
-        if (printMsg.length() == initLength) {
-            printMsg.append("No tasks found on date ");
-            printMsg.append(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")));
-        } else {
-            printMsg.deleteCharAt(printMsg.length() - 1);
-        }
-        return printMsg.toString();
+        return result;
     }
 
     /**
@@ -135,19 +117,18 @@ public class BankList {
      * @throws GloqiException not thrown in current implementation but declared for consistency
      */
     public String findTask(String userInput) throws GloqiException {
-        StringBuilder printMsg = new StringBuilder();
-        for (int i = 0; i < this.bankLists.size(); i++) {
-            if (bankLists.get(i).checkContainTaskName(userInput)) {
-                printMsg.append((i + 1)).append(". ").append(bankLists.get(i).toString()).append("\n");
+        ArrayList<Task> matches = getTasksOnName(userInput);
+        return Ui.formatNumList(matches);
+    }
+
+    private ArrayList<Task> getTasksOnName(String userInput) {
+        ArrayList<Task> matches = new ArrayList<>();
+        for (Task task : bankLists) {
+            if (task.checkContainTaskName(userInput)) {
+                matches.add(task);
             }
         }
-        if (printMsg.isEmpty()) {
-            printMsg.append("No tasks found");
-        } else {
-
-            printMsg.deleteCharAt(printMsg.length() - 1);
-        }
-        return printMsg.toString();
+        return matches;
     }
 
 
