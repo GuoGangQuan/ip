@@ -22,12 +22,7 @@ public class Deadline extends Task {
      */
     public Deadline(String[] detail) throws GloqiException {
         super(detail[0]);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-        try {
-            this.by = LocalDateTime.parse(detail[1].trim(), formatter);
-        } catch (DateTimeParseException e) {
-            throw new GloqiException("Invalid date-time format, Please follow this format: yyyy-MM-dd HHmm");
-        }
+        this.by = parseDateTime(detail[1].trim());
     }
 
     private Deadline(String taskName, LocalDateTime by, boolean isDone) {
@@ -53,5 +48,15 @@ public class Deadline extends Task {
     @Override
     public boolean compareDate(LocalDate date) {
         return date.isEqual(this.by.toLocalDate());
+    }
+
+
+    private LocalDateTime parseDateTime(String dateTimeStr) throws GloqiException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+        try {
+            return LocalDateTime.parse(dateTimeStr, formatter);
+        } catch (DateTimeParseException e) {
+            throw new GloqiException("Invalid date-time format, Please follow this format: yyyy-MM-dd HHmm");
+        }
     }
 }
