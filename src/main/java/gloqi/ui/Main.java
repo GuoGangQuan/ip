@@ -13,8 +13,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Gloqi gloqi = new Gloqi();
-
+    private final Gloqi gloqi = new Gloqi();
     @Override
     public void start(Stage stage) {
         try {

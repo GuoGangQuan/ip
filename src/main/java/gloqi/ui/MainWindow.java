@@ -37,7 +37,8 @@ public class MainWindow extends AnchorPane {
     /** Injects the Gloqi instance */
     public void setGloqi(Gloqi d) {
         this.gloqi = d;
-        dialogContainer.getChildren().add(
+        dialogContainer.getChildren().addAll(
+                DialogBox.getDukeDialog(gloqi.initialize(), gloqiImage),
                 DialogBox.getDukeDialog(gloqi.getGreeting(), gloqiImage)
         );
     }

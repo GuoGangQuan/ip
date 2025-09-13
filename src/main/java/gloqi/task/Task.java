@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * Stores a task name and its completion status.
  * Can be extended by specific task types like Todo, Deadline, or Event.
  */
-public class Task implements Serializable {
+public abstract class Task implements Serializable {
     protected String taskName;
     protected boolean isDone;
 
@@ -34,9 +34,7 @@ public class Task implements Serializable {
      * @param isDone completion status
      * @return new Task with updated status
      */
-    public Task setDone(boolean isDone) {
-        return new Task(this.taskName, isDone);
-    }
+    public abstract Task setDone(boolean isDone);
 
     /**
      * Compares the task with a given date.
@@ -49,6 +47,12 @@ public class Task implements Serializable {
         return false;
     }
 
+    /**
+     * Checks if the task name contains the given string, ignoring case.
+     *
+     * @param s the string to search for within the task name
+     * @return {@code true} if the task name contains the string, {@code false} otherwise
+     */
     public boolean checkContainTaskName(String s) {
         return this.taskName.toLowerCase().contains(s.toLowerCase());
     }

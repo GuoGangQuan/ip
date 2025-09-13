@@ -22,17 +22,8 @@ public class Event extends Task {
      */
     public Event(String[] detail) throws GloqiException {
         super(detail[0]);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-        try {
-            this.startTime = LocalDateTime.parse(detail[1].trim(), formatter);
-        } catch (DateTimeParseException e) {
-            throw new GloqiException("Invalid date-time format in 'from', Please follow this format: yyyy-MM-dd HHmm");
-        }
-        try {
-            this.endTime = LocalDateTime.parse(detail[2].trim(), formatter);
-        } catch (DateTimeParseException e) {
-            throw new GloqiException("Invalid date-time format in 'to', Please follow this format: yyyy-MM-dd HHmm");
-        }
+        this.startTime = parseDateTime(detail[1].trim(), "from");
+        this.endTime = parseDateTime(detail[2].trim(), "to");
     }
 
     private Event(String taskName, LocalDateTime start, LocalDateTime end, boolean isDone) {
@@ -56,11 +47,21 @@ public class Event extends Task {
 
     /**
      * @inheritDoc Checks if the event occurs on the specified date.
-     * Returns true if the date is within the start and end dates (inclusive).
+     * @Returns true if the date is within the start and end dates (inclusive)
      */
     @Override
     public boolean compareDate(LocalDate date) {
         return (date.isEqual(this.startTime.toLocalDate()) || date.isAfter(this.startTime.toLocalDate()))
                 && (date.isEqual(this.endTime.toLocalDate()) || date.isBefore(this.endTime.toLocalDate()));
+    }
+
+    private LocalDateTime parseDateTime(String dateTimeStr, String label) throws GloqiException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+        try {
+            return LocalDateTime.parse(dateTimeStr, formatter);
+        } catch (DateTimeParseException e) {
+            throw new GloqiException("Invalid date-time format in '" + label
+                    + "', Please follow this format: yyyy-MM-dd HHmm");
+        }
     }
 }
