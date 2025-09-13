@@ -74,10 +74,10 @@ public class BankList {
      */
     public String deleteTask(int index) throws GloqiException {
         validateIndex(index);
-        String response = Ui.formatDeletedMsg(this.bankLists.get(index), this.bankLists.size());
+        Task task = this.bankLists.get(index);
         this.bankLists.remove(index);
         saveBankList();
-        return response;
+        return Ui.formatDeletedMsg(task, this.bankLists.size());
     }
 
     /**
