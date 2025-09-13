@@ -10,10 +10,15 @@ import gloqi.ui.GloqiException;
  * Determines the command type and extracts integer, string, or date arguments as needed.
  */
 public class CommandParser {
-    protected Command cmd;
-    protected int intArg;
-    protected String[] stringArgs;
-    protected LocalDate dateArg;
+    private static final String DEADLINE_USAGE = "deadline <task description> /by <date>";
+    private static final String COMMAND_SEPARATOR = " ";
+    private static final String DEADLINE_KEYWORDS = "/by";
+    private static final String[] EVENT_KEYWORDS = new String[]{"/from", "/to"};
+    private static final String EVENT_USAGE = "event <task description> /from <date> /to <date>";
+    private final Command cmd;
+    private int intArg;
+    private String[] stringArgs;
+    private LocalDate dateArg;
 
     /**
      * Creates a CommandParser by parsing the user input.
@@ -22,8 +27,7 @@ public class CommandParser {
      * @throws GloqiException if the input is invalid or incorrectly formatted
      */
     public CommandParser(String userInput) throws GloqiException {
-        String[] commands = userInput.split(" ", 2);
-        String command = commands[0].toLowerCase();
+        String command = extractFirstArg(userInput);
         switch (command) {
         case "list" -> this.cmd = Command.LIST;
         case "mark" -> {
@@ -71,12 +75,8 @@ public class CommandParser {
      * @throws GloqiException if the search string is missing or the input is invalid
      */
     private String getFindArg(String userInput) throws GloqiException {
-        String[] commands = userInput.split(" ", 2);
-        if (commands.length != 2) {
-            throw new GloqiException("""
-                    Search string is Missing!!!Please follow my find format:
-                    find <search string>""");
-        }
+        String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
+        checkNextArgs(commands, "find <search string>");
         return commands[1];
     }
 
@@ -88,20 +88,11 @@ public class CommandParser {
      * @throws GloqiException if the date is missing or invalid
      */
     private LocalDate getShowArg(String userInput) throws GloqiException {
-        String[] commands = userInput.split(" ", 2);
-        if (commands.length != 2) {
-            throw new GloqiException("""
-                    Date for the show is Missing!!!Please follow my show format:
-                    show <date:yyyy-MM-dd>""");
-        }
-        try {
-            return LocalDate.parse(commands[1]);
-        } catch (DateTimeParseException e) {
-            throw new GloqiException("""
-                    Date for the show is Invalid!!!Please follow my show format:
-                    show <date:yyyy-MM-dd>""");
-        }
+        String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
+        checkNextArgs(commands, "show <date:yyyy-MM-dd>");
+        return parseDate(commands[1]);
     }
+
 
     /**
      * Extracts and validates a numeric argument from commands like mark, unmark, delete.
@@ -111,21 +102,9 @@ public class CommandParser {
      * @throws GloqiException if the argument is missing or not a valid number
      */
     private Integer getNumArg(String userInput) throws GloqiException {
-        String[] commands = userInput.split(" ", 2);
-        int mark;
-        if (commands.length != 2) {
-            throw new GloqiException("You need to tell me which task to mark/unmark/delete, cannot be empty");
-        }
-        try {
-            mark = Integer.parseInt(commands[1]) - 1;
-            if (mark < 0) {
-                throw new GloqiException("your mark/unmark/delete number cannot be negative");
-            }
-        } catch (NumberFormatException e) {
-            throw new GloqiException("you need to tell me the row number of the task you want to mark/unmark/delete");
-        }
-
-        return mark;
+        String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
+        checkNextArgs(commands, "mark/unmark/delete <Task Number>");
+        return parseIndex(commands[1]);
     }
 
     /**
@@ -136,12 +115,8 @@ public class CommandParser {
      * @throws GloqiException if the description is missing
      */
     private String getTodoArg(String userInput) throws GloqiException {
-        String[] commands = userInput.split(" ", 2);
-        if (commands.length != 2) {
-            throw new GloqiException("""
-                    Description for the todo is Missing!!!Please follow my todo format:
-                    todo <your task>""");
-        }
+        String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
+        checkNextArgs(commands, "todo <your task>");
         return commands[1];
     }
 
@@ -153,25 +128,13 @@ public class CommandParser {
      * @throws GloqiException if the description or "/by" date is missing or invalid
      */
     private String[] getDeadlineArg(String userInput) throws GloqiException {
-        String[] commands = userInput.split(" ", 2);
-        String[] deadlineArgs;
-        if (commands.length != 2) {
-            throw new GloqiException("""
-                    Description for the task is Missing!!!Please follow my deadline format:
-                    deadline <your task> /by <date>""");
-        }
-        deadlineArgs = commands[1].split("/by", 2);
-        if (deadlineArgs.length != 2) {
-            throw new GloqiException("""
-                    Wrong!!! I cannot find '/by' keyword. Please follow my deadline format:
-                    deadline <your task> /by <date>""");
-        } else if (deadlineArgs[1].isEmpty()) {
-            throw new GloqiException("""
-                    Wrong!!! no Date after '/by' keyword. Please follow my deadline format:
-                    deadline <your task> /by <date>""");
-        }
-        deadlineArgs = new String[]{deadlineArgs[0].trim(), deadlineArgs[1].trim()};
-        return deadlineArgs;
+        String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
+        checkNextArgs(commands, DEADLINE_USAGE);
+        String[] deadlineArgs = extractNextArg(commands[1], DEADLINE_KEYWORDS);
+        checkNextArgs(deadlineArgs, DEADLINE_USAGE);
+        checkEmptyArgs(deadlineArgs[1], DEADLINE_USAGE, "/by Date");
+        checkEmptyArgs(deadlineArgs[0], DEADLINE_USAGE, "task description");
+        return new String[]{deadlineArgs[0].trim(), deadlineArgs[1].trim()};
     }
 
     /**
@@ -182,49 +145,19 @@ public class CommandParser {
      * @throws GloqiException if description or date keywords (/from, /to) are missing or invalid
      */
     private String[] getEventArg(String userInput) throws GloqiException {
-        String[] commands = userInput.split(" ", 2);
-        if (commands.length != 2) {
-            throw new GloqiException("""
-                    Description for the task is Missing!!!Please follow my Event format:
-                    event <your task> /from <date> /to <date>""");
-        }
-        String[] eventArgs = new String[3];
-        String[] splitArgs = commands[1].split("/from", 2);
-        if (splitArgs.length != 2) {
-            throw new GloqiException("""
-                    Wrong!!! I cannot find '/from' keyword. Please follow my Event format:
-                    event <your task> /from <date> /to <date>""");
-        }
-        if (splitArgs[0].isEmpty()) {
-            throw new GloqiException("""
-                    Description for the task is Missing!!!Please follow my Event format:
-                    event <your task> /from <date> /to <date>""");
-        }
-        if (splitArgs[1].isEmpty()) {
-            throw new GloqiException("""
-                    Wrong!!! Date is Missing after '/from'. Please follow my Event format:
-                    event <your task> /from <date> /to <date>""");
-        }
-        eventArgs[0] = splitArgs[0].trim();
-        splitArgs = splitArgs[1].trim().split("/to", 2);
-        if (splitArgs.length != 2) {
-            throw new GloqiException("""
-                    Wrong!!! I cannot find '/to' keyword. Please follow my Event format:
-                    event <your task> /from <date> /to <date>""");
-        }
-        if (splitArgs[0].isEmpty()) {
-            throw new GloqiException("""
-                    Wrong!!! Date is Missing after '/from'. Please follow my Event format:
-                    event <your task> /from <date> /to <date>""");
-        }
-        if (splitArgs[1].isEmpty()) {
-            throw new GloqiException("""
-                    Wrong!!! Date is Missing after '/to'. Please follow my Event format:
-                    event <your task> /from <date> /to <date>""");
-        }
-        eventArgs[1] = splitArgs[0].trim();
-        eventArgs[2] = splitArgs[1].trim();
-        return eventArgs;
+        String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
+        checkNextArgs(commands, EVENT_USAGE);
+        //check on /from keyword
+        String[] eventFromArgs = extractNextArg(commands[1], EVENT_KEYWORDS[0]);
+        checkNextArgs(eventFromArgs, EVENT_USAGE);
+        checkEmptyArgs(eventFromArgs[0], EVENT_USAGE, "task description");
+        //check on /to keyword
+        String[] eventToArgs = extractNextArg(eventFromArgs[1], EVENT_KEYWORDS[1]);
+        checkNextArgs(commands, EVENT_USAGE);
+        checkEmptyArgs(eventToArgs[0], EVENT_USAGE, "/from Date");
+        checkEmptyArgs(eventToArgs[1], EVENT_USAGE, "/to Date");
+
+        return new String[]{eventFromArgs[0], eventToArgs[0].trim(), eventToArgs[1].trim()};
     }
 
     public Command getCmd() {
@@ -242,4 +175,49 @@ public class CommandParser {
     public LocalDate getDateArg() {
         return this.dateArg;
     }
+
+
+    private String extractFirstArg(String userInput) {
+        return userInput.split(" ", 2)[0].toLowerCase();
+    }
+
+    private String[] extractNextArg(String userInput, String separator) {
+        return userInput.split(separator, 2);
+    }
+
+    private void checkNextArgs(String[] commands, String usage) throws GloqiException {
+        if (commands.length != 2) {
+            throw new GloqiException("Missing argument!!! Please follow following format:\n" + usage);
+        }
+    }
+
+    private void checkEmptyArgs(String arg, String usage, String missingArg) throws GloqiException {
+        if (arg.trim().isEmpty()) {
+            throw new GloqiException("Missing argument '" + missingArg + "'!!! Please follow following format:\n"
+                    + usage);
+        }
+    }
+
+    private LocalDate parseDate(String input) throws GloqiException {
+        try {
+            return LocalDate.parse(input);
+        } catch (DateTimeParseException e) {
+            throw new GloqiException("""
+                    Date for the show is Invalid!!!Please follow my show format:
+                    show <date:yyyy-MM-dd>""");
+        }
+    }
+
+    private int parseIndex(String userInput) throws GloqiException {
+        try {
+            int index = Integer.parseInt(userInput) - 1;
+            if (index < 0) {
+                throw new GloqiException("your mark/unmark/delete number cannot be negative");
+            }
+            return index;
+        } catch (NumberFormatException e) {
+            throw new GloqiException("you need to tell me the row number of the task you want to mark/unmark/delete");
+        }
+    }
+
 }
