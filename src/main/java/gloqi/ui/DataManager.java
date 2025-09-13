@@ -15,8 +15,8 @@ import gloqi.task.Task;
  * Ensures the storage directory and file exist and handles serialization of tasks.
  */
 public class DataManager {
-    private final Path appDataDir;
-    private final Path appDataFile;
+    private Path appDataDir;
+    private Path appDataFile;
 
     /**
      * Creates a DataManager for a specified data file path.
@@ -25,6 +25,11 @@ public class DataManager {
      * @param dataPath path to the data file
      */
     public DataManager(String dataPath) {
+        resolveAppDataPaths(dataPath);
+        setupDataFile();
+    }
+
+    private void resolveAppDataPaths(String dataPath) {
         Path path = Path.of(dataPath);
         Path appDir = Path.of(".");
         if (path.getParent() != null) {
@@ -32,21 +37,30 @@ public class DataManager {
         }
         this.appDataDir = appDir;
         this.appDataFile = appDir.resolve(path.getFileName());
-        setupDataFile();
     }
 
     private void setupDataFile() {
+        createDirectoryIfMissing();
+        createFileIfMissing();
+    }
+    private void createDirectoryIfMissing() {
         try {
             if (!Files.exists(appDataDir)) {
                 Files.createDirectories(appDataDir);
                 System.out.println("Storage directory created: " + appDataDir);
             }
+        } catch (Exception e) {
+            System.out.println("Error creating directory: " + e.getMessage());
+        }
+    }
+    private void createFileIfMissing() {
+        try {
             if (!Files.exists(appDataFile)) {
                 Files.createFile(appDataFile);
                 System.out.println("Storage file created: " + appDataFile);
             }
         } catch (Exception e) {
-            System.out.println("Error during setup: " + e.getMessage());
+            System.out.println("Error creating file: " + e.getMessage());
         }
     }
 
@@ -71,26 +85,42 @@ public class DataManager {
      * @throws GloqiException if the file is corrupted or cannot be read
      */
     public ArrayList<Task> loadDataFile() throws GloqiException {
-        ArrayList<Task> tasks = new ArrayList<>();
-        if (!this.appDataFile.toFile().exists() || this.appDataFile.toFile().length() == 0) {
-            return tasks;
+        if (isFileEmpty()) {
+            return new ArrayList<>();
         }
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(this.appDataFile.toFile()))) {
-            Object obj = ois.readObject();
-            if (obj instanceof ArrayList<?> rawList) {
-                for (Object o : rawList) {
-                    if (!(o instanceof Task task)) {
-                        throw new GloqiException("File might be corrupted");
-                    }
-                    tasks.add(task);
-                }
-            } else {
-                throw new GloqiException("File might be corrupted");
-            }
+        Object obj = readSerializedObject();
+        return validateAndConvert(obj);
+    }
+
+    private boolean isFileEmpty() {
+        return !this.appDataFile.toFile().exists() || this.appDataFile.toFile().length() == 0;
+    }
+
+    private Object readSerializedObject() throws GloqiException {
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(new FileInputStream(this.appDataFile.toFile()))) {
+            return ois.readObject();
         } catch (Exception e) {
-            throw new GloqiException("Failed to load tasks (file might be corrupted): " + e.getMessage());
+            throw new GloqiException("Failed to read from file: " + e.getMessage());
+        }
+    }
+
+    private ArrayList<Task> validateAndConvert(Object obj) throws GloqiException {
+        if (!(obj instanceof ArrayList<?> rawList)) {
+            throw new GloqiException("File might be corrupted");
+        }
+
+        ArrayList<Task> tasks = new ArrayList<>();
+        for (Object o : rawList) {
+            tasks.add(validateTask(o));
         }
         return tasks;
+    }
 
+    private Task validateTask(Object o) throws GloqiException {
+        if (!(o instanceof Task task)) {
+            throw new GloqiException("File might be corrupted");
+        }
+        return task;
     }
 }
