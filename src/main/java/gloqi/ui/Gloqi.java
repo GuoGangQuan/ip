@@ -58,7 +58,9 @@ public class Gloqi {
         try {
             CommandParser commandParser = new CommandParser(userInput);
             Command cmd = commandParser.getCmd();
-            return executeCommand(cmd, commandParser);
+            String response = executeCommand(cmd, commandParser);
+            assert response != null : "response should not be null";
+            return response;
         } catch (GloqiException e) {
             return e.getMessage();
         }
@@ -77,6 +79,7 @@ public class Gloqi {
      * @throws GloqiException if the command is invalid or arguments are incorrect
      */
     private String executeCommand(Command cmd, CommandParser commandParser) throws GloqiException {
+        assert cmd != null : "cmd should not be null";
         return switch (cmd) {
         case LIST -> handleList();
         case MARK -> handleMark(commandParser);

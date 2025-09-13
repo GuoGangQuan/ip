@@ -85,7 +85,9 @@ public class BankList {
      * If the bank is empty, prints a message indicating empty bank.
      */
     public String printList() {
-        return Ui.formatNumList(this.bankLists);
+        String response = Ui.formatNumList(this.bankLists);
+        assert !response.isEmpty() : "List message should not be empty";
+        return response;
     }
 
     /**
@@ -95,7 +97,9 @@ public class BankList {
      */
     public String printList(LocalDate date) {
         ArrayList<Task> filtered = getTasksOnDate(date);
-        return Ui.formatShowList(filtered, date);
+        String response = Ui.formatShowList(filtered, date);
+        assert !response.isEmpty() : "List base on date message should not be empty";
+        return response;
     }
 
     private ArrayList<Task> getTasksOnDate(LocalDate date) {
@@ -118,7 +122,9 @@ public class BankList {
      */
     public String findTask(String userInput) throws GloqiException {
         ArrayList<Task> matches = getTasksOnName(userInput);
-        return Ui.formatNumList(matches);
+        String response = Ui.formatNumList(matches);
+        assert !response.isEmpty() : "List base on taskName message should not be empty";
+        return response;
     }
 
     private ArrayList<Task> getTasksOnName(String userInput) {
@@ -143,8 +149,10 @@ public class BankList {
      * @throws GloqiException if the file is corrupted or cannot be read
      */
     public BankList loadBankList() throws GloqiException {
+        assert this.dataManager != null : "dataManager should not be null during loading";
         BankList bl = new BankList(this.dataManager);
         bl.bankLists = this.dataManager.loadDataFile();
+        assert bl.bankLists != null : "bankLists should not be null during loading";
         return bl;
     }
 }
