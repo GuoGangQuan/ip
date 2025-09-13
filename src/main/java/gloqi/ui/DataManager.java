@@ -101,7 +101,7 @@ public class DataManager {
                      new ObjectInputStream(new FileInputStream(this.appDataFile.toFile()))) {
             return ois.readObject();
         } catch (Exception e) {
-            throw new GloqiException("Failed to read from file: " + e.getMessage());
+            throw new GloqiException("Failed to read from file!\nStart up with a fresh file!");
         }
     }
 

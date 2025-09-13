@@ -22,14 +22,27 @@ public class Gloqi {
     /**
      * Creates a new Gloqi chatbot with default data file path:data/data.txt for storing tasks.
      */
-    public Gloqi() throws GloqiException {
+    public Gloqi() {
+        this.bankList = new BankList(new DataManager("data/data.txt"));
+        this.ui = new Ui(CHATBOT_NAME);
+    }
+
+    /**
+     * Initializes the task bank by loading tasks from persistent storage.
+     * <p>
+     * If the data file is corrupted or cannot be read, an error message is returned
+     * from the thrown {@link GloqiException}. Otherwise, confirms that tasks were
+     * loaded successfully.
+     *
+     * @return a success message if tasks are loaded, or an error message if loading fails
+     */
+    public String initialize() {
         try {
-            this.bankList = new BankList(new DataManager("data/data.txt"));
             bankList = bankList.loadBankList();
-            this.ui = new Ui(CHATBOT_NAME);
         } catch (GloqiException e) {
-            throw new RuntimeException("Failed to initialize Gloqi", e);
+            return e.getMessage();
         }
+        return "Tasks are loaded successfully!";
     }
 
 
