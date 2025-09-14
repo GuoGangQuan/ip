@@ -16,7 +16,7 @@ public class CommandParser {
     private static final String[] EVENT_KEYWORDS = new String[]{"/from", "/to"};
     private static final String EVENT_USAGE = "event <task description> /from <date> /to <date>";
     private final Command cmd;
-    private int intArg;
+    private int[] intArg;
     private String[] stringArgs;
     private LocalDate dateArg;
 
@@ -32,11 +32,11 @@ public class CommandParser {
         case "list" -> this.cmd = Command.LIST;
         case "mark" -> {
             this.cmd = Command.MARK;
-            this.intArg = getNumArg(userInput);
+            this.intArg = new int[]{getNumArg(userInput)};
         }
         case "unmark" -> {
             this.cmd = Command.UNMARK;
-            this.intArg = getNumArg(userInput);
+            this.intArg = new int[]{getNumArg(userInput)};
         }
         case "bye" -> this.cmd = Command.BYE;
         case "todo" -> {
@@ -53,7 +53,7 @@ public class CommandParser {
         }
         case "delete" -> {
             this.cmd = Command.DELETE;
-            this.intArg = getNumArg(userInput);
+            this.intArg = getDeleteNumArg(userInput);
         }
         case "show" -> {
             this.cmd = Command.SHOW;
@@ -101,10 +101,16 @@ public class CommandParser {
      * @return zero-based integer index of the task
      * @throws GloqiException if the argument is missing or not a valid number
      */
-    private Integer getNumArg(String userInput) throws GloqiException {
+    private int getNumArg(String userInput) throws GloqiException {
         String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
-        checkNextArgs(commands, "mark/unmark/delete <Task Number>");
+        checkNextArgs(commands, "mark/unmark <Task Number>");
         return parseIndex(commands[1]);
+    }
+
+    private int[] getDeleteNumArg(String userInput) throws GloqiException {
+        String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
+        checkNextArgs(commands, "delete <Task Number>,<Task Number>");
+        return parseMultipleIndex(commands[1]);
     }
 
     /**
@@ -164,7 +170,7 @@ public class CommandParser {
         return this.cmd;
     }
 
-    public int getIntArg() {
+    public int[] getIntArg() {
         return this.intArg;
     }
 
@@ -216,8 +222,17 @@ public class CommandParser {
             }
             return index;
         } catch (NumberFormatException e) {
-            throw new GloqiException("you need to tell me the row number of the task you want to mark/unmark/delete");
+            throw new GloqiException("Invalid index!!!Please provide a number.\n");
         }
+    }
+
+    private int[] parseMultipleIndex(String userInput) throws GloqiException {
+        String[] args = userInput.trim().split(",");
+        int[] result = new int[args.length];
+        for (int i = 0; i < args.length; i++) {
+            result[i] = parseIndex(args[i]);
+        }
+        return result;
     }
 
 }

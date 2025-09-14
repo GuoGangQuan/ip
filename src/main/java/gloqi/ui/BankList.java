@@ -2,6 +2,7 @@ package gloqi.ui;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import gloqi.task.Task;
 
@@ -36,7 +37,7 @@ public class BankList {
 
     private void validateIndex(int index) throws GloqiException {
         if (index < 0 || index >= bankLists.size()) {
-            throw new GloqiException("Task index is out of range: " + index);
+            throw new GloqiException("Task index " + (index + 1) + " is out of range: ");
         }
     }
 
@@ -68,16 +69,37 @@ public class BankList {
 
     /**
      * Deletes the task at the specified index from the bank.
+     * can delete multiple task at on go also
      *
-     * @param index index of the task to delete
+     * @param index indexes of the task to delete
      * @throws GloqiException if the index is invalid
      */
-    public String deleteTask(int index) throws GloqiException {
-        validateIndex(index);
-        Task task = this.bankLists.get(index);
-        this.bankLists.remove(index);
+    public String deleteTask(int[] index) throws GloqiException {
+        sortIndicesAsc(index);
+        validateIndices(index);
+        ArrayList<Task> deletedTasks = removeTasks(index);
         saveBankList();
-        return Ui.formatDeletedMsg(task, this.bankLists.size());
+        return Ui.formatDeletedMsg(deletedTasks, this.bankLists.size());
+    }
+
+    private void sortIndicesAsc(int[] index) {
+        Arrays.sort(index);
+    }
+
+    private void validateIndices(int[] index) throws GloqiException {
+        for (int i : index) {
+            validateIndex(i);
+        }
+    }
+
+    private ArrayList<Task> removeTasks(int[] index) {
+        ArrayList<Task> tasks = new ArrayList<>();
+        for (int i = index.length - 1; i >= 0; i--) {
+            int j = index[i];
+            tasks.add(this.bankLists.get(j));
+            this.bankLists.remove(j);
+        }
+        return tasks;
     }
 
     /**
@@ -118,9 +140,8 @@ public class BankList {
      * indicating so is displayed.
      *
      * @param userInput the keyword or phrase to search for in task names
-     * @throws GloqiException not thrown in current implementation but declared for consistency
      */
-    public String findTask(String userInput) throws GloqiException {
+    public String findTask(String userInput) {
         ArrayList<Task> matches = getTasksOnName(userInput);
         String response = Ui.formatNumList(matches);
         assert !response.isEmpty() : "List base on taskName message should not be empty";
