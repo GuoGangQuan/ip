@@ -100,11 +100,11 @@ public class Gloqi {
     }
 
     private String handleMark(CommandParser parser) throws GloqiException {
-        return bankList.markTask(parser.getIntArg());
+        return bankList.markTask(parser.getIntArg()[0]);
     }
 
     private String handleUnmark(CommandParser parser) throws GloqiException {
-        return bankList.unmarkTask(parser.getIntArg());
+        return bankList.unmarkTask(parser.getIntArg()[0]);
     }
 
     private String handleTodo(CommandParser parser) {

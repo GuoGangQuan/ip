@@ -117,7 +117,13 @@ public class Ui {
      * @param remaining the number of tasks remaining in the bank
      * @return a formatted string confirming the deletion of the task
      */
-    public static String formatDeletedMsg(Task task, int remaining) {
-        return "Following tasks have been deleted:\n" + task + "\nNow you have " + remaining + " tasks in the bank.";
+    public static String formatDeletedMsg(ArrayList<Task> task, int remaining) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Tasks have been deleted:\n");
+        for (Task value : task) {
+            sb.append(value.toString()).append("\n");
+        }
+        sb.append("\nNow you have ").append(remaining).append(" tasks in the bank.");
+        return sb.toString();
     }
 }
