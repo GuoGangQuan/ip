@@ -17,9 +17,9 @@ public class DeadlineTest {
 
     @Test
     public void deadlineConstructor_invalidDate_success() {
-        GloqiException exception = assertThrows(GloqiException.class,
-                () -> new Deadline(new String[]{"test", "2019-23-02 1800"}));
-        assertEquals("your date time format is Wrong, Please follow this format: yyyy-MM-dd HHmm",
+        GloqiException exception = assertThrows(GloqiException.class, () -> new Deadline(
+                new String[]{"test", "2019-23-02 1800"}));
+        assertEquals("Invalid date-time format, Please follow this format: yyyy-MM-dd HHmm",
                 exception.getMessage());
 
     }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 public class TaskTest {
     @Test
     public void markDone_stringDisplay_success() {
-        assertEquals("[x] gg", new Todo("gg").setDone(true).toString());
+        assertEquals("[T][x] gg", new Todo("gg").setDone(true).toString());
     }
 
     @Test

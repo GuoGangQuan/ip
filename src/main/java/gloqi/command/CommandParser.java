@@ -159,11 +159,11 @@ public class CommandParser {
         checkEmptyArgs(eventFromArgs[0], EVENT_USAGE, "task description");
         //check on /to keyword
         String[] eventToArgs = extractNextArg(eventFromArgs[1], EVENT_KEYWORDS[1]);
-        checkNextArgs(commands, EVENT_USAGE);
+        checkNextArgs(eventToArgs, EVENT_USAGE);
         checkEmptyArgs(eventToArgs[0], EVENT_USAGE, "/from Date");
         checkEmptyArgs(eventToArgs[1], EVENT_USAGE, "/to Date");
 
-        return new String[]{eventFromArgs[0], eventToArgs[0].trim(), eventToArgs[1].trim()};
+        return new String[]{eventFromArgs[0].trim(), eventToArgs[0].trim(), eventToArgs[1].trim()};
     }
 
     public Command getCmd() {
