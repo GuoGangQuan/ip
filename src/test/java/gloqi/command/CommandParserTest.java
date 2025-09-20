@@ -3,7 +3,6 @@ package gloqi.command;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 
@@ -13,12 +12,39 @@ import gloqi.ui.GloqiException;
 
 public class CommandParserTest {
     @Test
-    public void commandParser_invalidCommand_success() {
-        try {
-            assertEquals(Command.INVALID, new CommandParser("any any any").getCmd());
-        } catch (GloqiException e) {
-            fail("Unexpected exception: " + e.getMessage());
-        }
+    public void commandParser_invalidCommand_success() throws GloqiException {
+        assertEquals(Command.INVALID, new CommandParser("any any any").getCmd());
+    }
+
+    @Test
+    public void commandParser_listCommand_success() throws GloqiException {
+        assertEquals(Command.LIST, new CommandParser("list").getCmd());
+    }
+
+    @Test
+    public void commandParser_unmarkCommand_success() throws GloqiException {
+        CommandParser parser = new CommandParser("unmark 1");
+        assertEquals(Command.UNMARK, parser.getCmd());
+        assertArrayEquals(new int[]{0}, parser.getIntArg());
+    }
+
+    @Test
+    public void commandParser_byeCommand_success() throws GloqiException {
+        assertEquals(Command.BYE, new CommandParser("bye").getCmd());
+    }
+
+    @Test
+    public void commandParser_deleteCommand_success() throws GloqiException {
+        CommandParser parser = new CommandParser("delete 1,2");
+        assertEquals(Command.DELETE, parser.getCmd());
+        assertArrayEquals(new int[]{0, 1}, parser.getIntArg());
+    }
+
+    @Test
+    public void commandParser_findCommand_success() throws GloqiException {
+        CommandParser parser = new CommandParser("find star");
+        assertEquals(Command.FIND, parser.getCmd());
+        assertArrayEquals(new String[]{"star"}, parser.getStringArg());
     }
 
     @Test
@@ -32,7 +58,7 @@ public class CommandParserTest {
                 "Show"));
         assertEquals("""
                 Missing argument!!! Please follow following format:
-                show <date:yyyy-MM-dd>""", exception.getMessage());
+                show <date>""", exception.getMessage());
     }
 
     @Test
@@ -41,7 +67,7 @@ public class CommandParserTest {
                 "Show 2019/5/5"));
         assertEquals("""
                 Date for the show is Invalid!!!Please follow my show format:
-                show <date:yyyy-MM-dd>""", exception.getMessage());
+                show <yyyy-MM-dd>""", exception.getMessage());
     }
 
     @Test
