@@ -25,7 +25,7 @@ public class BankListTest {
     }
 
     @Test
-    public void markTask_outOfRangeInput_success() throws GloqiException {
+    public void markTask_outOfRangeInput_exceptionThrow() throws GloqiException {
         BankList bankList = new BankList(new DataManager("data/data.txt"));
         bankList.addTask(new Todo("read book"));
         GloqiException exception = assertThrows(GloqiException.class, () -> bankList.markTask(9));
@@ -33,7 +33,7 @@ public class BankListTest {
     }
 
     @Test
-    public void markTask_negativeInput_success() throws GloqiException {
+    public void markTask_negativeInput_exceptionThrow() throws GloqiException {
         BankList bankList = new BankList(new DataManager("data/data.txt"));
         bankList.addTask(new Todo("read book"));
         GloqiException exception = assertThrows(GloqiException.class, () -> bankList.markTask(-2));

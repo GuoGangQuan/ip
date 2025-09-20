@@ -24,7 +24,7 @@ public class DataManager {
      *
      * @param dataPath path to the data file eg."data/gloqi.txt"
      */
-    public DataManager(String dataPath) {
+    public DataManager(String dataPath) throws GloqiException {
         resolveAppDataPaths(dataPath);
         setupDataFile();
     }
@@ -40,30 +40,28 @@ public class DataManager {
         this.appDataFile = appDir.resolve(path.getFileName());
     }
 
-    private void setupDataFile() {
+    private void setupDataFile() throws GloqiException {
         createDirectoryIfMissing();
         createFileIfMissing();
     }
 
-    private void createDirectoryIfMissing() {
+    private void createDirectoryIfMissing() throws GloqiException {
         try {
             if (!Files.exists(appDataDir)) {
                 Files.createDirectories(appDataDir);
-                System.out.println("Storage directory created: " + appDataDir);
             }
         } catch (Exception e) {
-            System.out.println("Error creating directory: " + e.getMessage());
+            throw new GloqiException("Failed to create directory for data file!\n Error:" + e.getMessage());
         }
     }
 
-    private void createFileIfMissing() {
+    private void createFileIfMissing() throws GloqiException {
         try {
             if (!Files.exists(appDataFile)) {
                 Files.createFile(appDataFile);
-                System.out.println("Storage file created: " + appDataFile);
             }
         } catch (Exception e) {
-            System.out.println("Error creating file: " + e.getMessage());
+            throw new GloqiException("Failed to create data file!\n Error:" + e.getMessage());
         }
     }
 
@@ -89,7 +87,7 @@ public class DataManager {
      */
     public ArrayList<Task> loadDataFile() throws GloqiException {
         if (isFileEmpty()) {
-            return new ArrayList<>();
+            throw new GloqiException("No data file found!\nStart up with a fresh file!");
         }
         Object obj = readSerializedObject();
         return validateAndConvert(obj);
@@ -111,7 +109,7 @@ public class DataManager {
 
     private ArrayList<Task> validateAndConvert(Object obj) throws GloqiException {
         if (!(obj instanceof ArrayList<?> rawList)) {
-            throw new GloqiException("File might be corrupted");
+            throw new GloqiException("Failed to read from file!\nStart up with a fresh file!");
         }
 
         ArrayList<Task> tasks = new ArrayList<>();
@@ -123,7 +121,7 @@ public class DataManager {
 
     private Task validateTask(Object o) throws GloqiException {
         if (!(o instanceof Task task)) {
-            throw new GloqiException("File might be corrupted");
+            throw new GloqiException("Failed to read from file!\nStart up with a fresh file!");
         }
         return task;
     }

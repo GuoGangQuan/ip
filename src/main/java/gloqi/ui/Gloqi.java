@@ -16,6 +16,7 @@ import gloqi.task.Todo;
 public class Gloqi {
 
     private static final String CHATBOT_NAME = "Gloqi";
+    private static final String DEFAULT_DATA_PATH = "data/data.txt";
     private final Ui ui;
     private BankList bankList;
 
@@ -23,8 +24,20 @@ public class Gloqi {
      * Creates a new Gloqi chatbot with default data file path:data/data.txt for storing tasks.
      */
     public Gloqi() {
-        this.bankList = new BankList(new DataManager("data/data.txt"));
         this.ui = new Ui(CHATBOT_NAME);
+    }
+
+    /**
+     * Initializes the task bank by loading tasks from persistent storage.
+     * <p>
+     * This convenience overload uses the default data file path {@value #DEFAULT_DATA_PATH}.
+     * See {@link #initialize(String)} for behavior when a custom path is supplied.
+     *
+     * @return a success message if tasks are loaded, or an error message if loading fails
+     * @see #initialize(String)
+     */
+    public String initialize() {
+        return initialize(DEFAULT_DATA_PATH);
     }
 
     /**
@@ -34,10 +47,12 @@ public class Gloqi {
      * from the thrown {@link GloqiException}. Otherwise, confirms that tasks were
      * loaded successfully.
      *
+     * @param filePath path to the data file used for loading tasks
      * @return a success message if tasks are loaded, or an error message if loading fails
      */
-    public String initialize() {
+    public String initialize(String filePath) {
         try {
+            this.bankList = new BankList(new DataManager(filePath));
             bankList = bankList.loadBankList();
         } catch (GloqiException e) {
             return e.getMessage();
@@ -134,7 +149,7 @@ public class Gloqi {
         return bankList.printList(parser.getDateArg());
     }
 
-    private String handleFind(CommandParser parser) throws GloqiException {
+    private String handleFind(CommandParser parser) {
         return bankList.findTask(parser.getStringArg()[0]);
     }
 
