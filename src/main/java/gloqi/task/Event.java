@@ -26,8 +26,8 @@ public class Event extends Task {
         this.endTime = parseDateTime(detail[2].trim(), "to");
     }
 
-    private Event(String taskName, LocalDateTime start, LocalDateTime end, boolean isDone) {
-        super(taskName);
+    private Event(String taskDescription, LocalDateTime start, LocalDateTime end, boolean isDone) {
+        super(taskDescription);
         this.startTime = start;
         this.endTime = end;
         this.isDone = isDone;
@@ -35,7 +35,7 @@ public class Event extends Task {
 
     @Override
     public Event setDone(boolean isDone) {
-        return new Event(this.taskName, this.startTime, this.endTime, isDone);
+        return new Event(this.taskDescription, this.startTime, this.endTime, isDone);
     }
 
     @Override

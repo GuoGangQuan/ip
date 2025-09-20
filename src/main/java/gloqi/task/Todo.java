@@ -8,14 +8,14 @@ public class Todo extends Task {
     /**
      * Creates a new Todo task with the specified name.
      *
-     * @param taskName name of the task
+     * @param taskDescription name of the task
      */
-    public Todo(String taskName) {
-        super(taskName);
+    public Todo(String taskDescription) {
+        super(taskDescription);
     }
 
-    private Todo(String taskName, boolean isDone) {
-        super(taskName);
+    private Todo(String taskDescription, boolean isDone) {
+        super(taskDescription);
         this.isDone = isDone;
     }
 
@@ -26,7 +26,7 @@ public class Todo extends Task {
 
     @Override
     public Todo setDone(boolean isDone) {
-        return new Todo(this.taskName, isDone);
+        return new Todo(this.taskDescription, isDone);
     }
 
 

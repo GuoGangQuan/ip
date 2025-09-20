@@ -25,15 +25,15 @@ public class Deadline extends Task {
         this.by = parseDateTime(detail[1].trim());
     }
 
-    private Deadline(String taskName, LocalDateTime by, boolean isDone) {
-        super(taskName);
+    private Deadline(String taskDescription, LocalDateTime by, boolean isDone) {
+        super(taskDescription);
         this.by = by;
         this.isDone = isDone;
     }
 
     @Override
     public Deadline setDone(boolean isDone) {
-        return new Deadline(this.taskName, this.by, isDone);
+        return new Deadline(this.taskDescription, this.by, isDone);
     }
 
     @Override

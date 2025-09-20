@@ -210,7 +210,7 @@ public class CommandParser {
         } catch (DateTimeParseException e) {
             throw new GloqiException("""
                     Date for the show is Invalid!!!Please follow my show format:
-                    show <date:yyyy-MM-dd>""");
+                    show <yyyy-MM-dd>""");
         }
     }
 

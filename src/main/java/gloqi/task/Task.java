@@ -9,22 +9,22 @@ import java.time.LocalDate;
  * Can be extended by specific task types like Todo, Deadline, or Event.
  */
 public abstract class Task implements Serializable {
-    protected String taskName;
+    protected String taskDescription;
     protected boolean isDone;
 
     /**
      * Creates a new Task with the specified name.
      * The task is initialised to not done.
      *
-     * @param taskName name of the task
+     * @param taskDescription name of the task
      */
-    public Task(String taskName) {
-        this.taskName = taskName.trim();
+    public Task(String taskDescription) {
+        this.taskDescription = taskDescription.trim();
         this.isDone = false;
     }
 
-    private Task(String taskName, boolean isDone) {
-        this.taskName = taskName.trim();
+    private Task(String taskDescription, boolean isDone) {
+        this.taskDescription = taskDescription.trim();
         this.isDone = isDone;
     }
 
@@ -53,12 +53,12 @@ public abstract class Task implements Serializable {
      * @param s the string to search for within the task name
      * @return {@code true} if the task name contains the string, {@code false} otherwise
      */
-    public boolean checkContainTaskName(String s) {
-        return this.taskName.toLowerCase().contains(s.toLowerCase());
+    public boolean checkContaintaskDescription(String s) {
+        return this.taskDescription.toLowerCase().contains(s.toLowerCase());
     }
 
     @Override
     public String toString() {
-        return "[" + (this.isDone ? "x" : " ") + "] " + this.taskName;
+        return "[" + (this.isDone ? "x" : " ") + "] " + this.taskDescription;
     }
 }

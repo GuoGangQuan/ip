@@ -27,12 +27,12 @@ public class BankList {
     /**
      * Adds a task to the bank then prints a confirmation message and save the change to data file.
      *
-     * @param taskName task to add
+     * @param taskDescription task to add
      */
-    public String addTask(Task taskName) {
-        this.bankLists.add(taskName);
+    public String addTask(Task taskDescription) {
+        this.bankLists.add(taskDescription);
         saveBankList();
-        return Ui.formatAddMsg(taskName, bankLists.size());
+        return Ui.formatAddMsg(taskDescription, bankLists.size());
     }
 
     private void validateIndex(int index) throws GloqiException {
@@ -144,14 +144,14 @@ public class BankList {
     public String findTask(String userInput) {
         ArrayList<Task> matches = getTasksOnName(userInput);
         String response = Ui.formatNumList(matches);
-        assert !response.isEmpty() : "List base on taskName message should not be empty";
+        assert !response.isEmpty() : "List base on taskDescription message should not be empty";
         return response;
     }
 
     private ArrayList<Task> getTasksOnName(String userInput) {
         ArrayList<Task> matches = new ArrayList<>();
         for (Task task : bankLists) {
-            if (task.checkContainTaskName(userInput)) {
+            if (task.checkContaintaskDescription(userInput)) {
                 matches.add(task);
             }
         }
