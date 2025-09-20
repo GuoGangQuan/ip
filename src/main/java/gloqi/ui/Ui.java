@@ -9,7 +9,7 @@ import gloqi.task.Task;
 
 /**
  * Handles user interaction for the Gloqi chatbot.
- * Provides methods to display messages and read user input.
+ * Provides methods to display messages
  */
 public class Ui {
     private final String chatBotName;
@@ -24,7 +24,7 @@ public class Ui {
     }
 
     /**
-     * the greeting message at the start of the program.
+     * The greeting message at the start of the program.
      *
      * @return greeting message
      */
@@ -33,7 +33,9 @@ public class Ui {
     }
 
     /**
-     * Displays the ending message at the end of the program.
+     * The ending message at the end of the program.
+     *
+     * @return end message
      */
     public String getEndMessage() {
         return "Bye, see you next time!";

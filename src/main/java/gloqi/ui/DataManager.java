@@ -22,7 +22,7 @@ public class DataManager {
      * Creates a DataManager for a specified data file path.
      * Ensures the directory and file exist.
      *
-     * @param dataPath path to the data file
+     * @param dataPath path to the data file eg."data/gloqi.txt"
      */
     public DataManager(String dataPath) {
         resolveAppDataPaths(dataPath);

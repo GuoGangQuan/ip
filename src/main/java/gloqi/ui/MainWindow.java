@@ -38,8 +38,8 @@ public class MainWindow extends AnchorPane {
     public void setGloqi(Gloqi d) {
         this.gloqi = d;
         dialogContainer.getChildren().addAll(
-                DialogBox.getDukeDialog(gloqi.initialize(), gloqiImage),
-                DialogBox.getDukeDialog(gloqi.getGreeting(), gloqiImage)
+                DialogBox.getGloqiDialog(gloqi.initialize(), gloqiImage),
+                DialogBox.getGloqiDialog(gloqi.getGreeting(), gloqiImage)
         );
     }
 
@@ -53,16 +53,21 @@ public class MainWindow extends AnchorPane {
         String response = gloqi.run(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, gloqiImage)
+                DialogBox.getGloqiDialog(response, gloqiImage)
         );
-        userInput.clear();
-
         // Close on BYE
         if ("bye".equalsIgnoreCase(input.trim())) {
-            PauseTransition delay = new PauseTransition(Duration.millis(500));
-            delay.setOnFinished(e -> Platform.exit());
-            delay.play();
+            closeWithDelay();
         }
+        userInput.clear();
+
+
+    }
+
+    private void closeWithDelay() {
+        PauseTransition delay = new PauseTransition(Duration.millis(500));
+        delay.setOnFinished(e -> Platform.exit());
+        delay.play();
     }
 
 }

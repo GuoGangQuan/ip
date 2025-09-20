@@ -28,6 +28,7 @@ public class BankList {
      * Adds a task to the bank then prints a confirmation message and save the change to data file.
      *
      * @param taskDescription task to add
+     * @return confirmation message
      */
     public String addTask(Task taskDescription) {
         this.bankLists.add(taskDescription);
@@ -45,6 +46,7 @@ public class BankList {
      * Marks the task at the specified index as done.
      *
      * @param index index of the task to mark
+     * @return confirmation message
      * @throws GloqiException if the index is invalid
      */
     public String markTask(int index) throws GloqiException {
@@ -58,6 +60,7 @@ public class BankList {
      * Marks the task at the specified index as not done.
      *
      * @param index index of the task to unmark
+     * @return confirmation message
      * @throws GloqiException if the index is invalid
      */
     public String unmarkTask(int index) throws GloqiException {
@@ -72,12 +75,15 @@ public class BankList {
      * can delete multiple task at on go also
      *
      * @param index indexes of the task to delete
+     * @return confirmation message
      * @throws GloqiException if the index is invalid
      */
     public String deleteTask(int[] index) throws GloqiException {
         sortIndicesAsc(index);
         validateIndices(index);
+        // store deleted tasks for message printing
         ArrayList<Task> deletedTasks = removeTasks(index);
+        // save changes to data file
         saveBankList();
         return Ui.formatDeletedMsg(deletedTasks, this.bankLists.size());
     }
@@ -105,6 +111,8 @@ public class BankList {
     /**
      * Prints all tasks in the bank.
      * If the bank is empty, prints a message indicating empty bank.
+     *
+     * @return formatted list of tasks or empty bank message
      */
     public String printList() {
         String response = Ui.formatNumList(this.bankLists);
@@ -116,6 +124,7 @@ public class BankList {
      * Prints tasks that are available on the specified date.
      *
      * @param date the date to filter tasks by
+     * @return formatted list of tasks on the specified date or a message indicating no tasks found
      */
     public String printList(LocalDate date) {
         ArrayList<Task> filtered = getTasksOnDate(date);
@@ -140,6 +149,7 @@ public class BankList {
      * indicating so is displayed.
      *
      * @param userInput the keyword or phrase to search for in task names
+     * @return formatted list of matching tasks or a message indicating no matches found
      */
     public String findTask(String userInput) {
         ArrayList<Task> matches = getTasksOnName(userInput);
@@ -151,7 +161,7 @@ public class BankList {
     private ArrayList<Task> getTasksOnName(String userInput) {
         ArrayList<Task> matches = new ArrayList<>();
         for (Task task : bankLists) {
-            if (task.checkContaintaskDescription(userInput)) {
+            if (task.checkContainTaskDescription(userInput)) {
                 matches.add(task);
             }
         }

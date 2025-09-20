@@ -6,7 +6,7 @@ package gloqi.task;
  */
 public class Todo extends Task {
     /**
-     * Creates a new Todo task with the specified name.
+     * Creates a new Todo task with the specified Description.
      *
      * @param taskDescription name of the task
      */

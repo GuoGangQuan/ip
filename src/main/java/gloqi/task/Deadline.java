@@ -15,9 +15,9 @@ public class Deadline extends Task {
     protected LocalDateTime by;
 
     /**
-     * Creates a new Deadline task with a name and deadline.
+     * Creates a new Deadline task with a Description and deadline.
      *
-     * @param detail array containing task name at index 0 and deadline string at index 1
+     * @param detail array containing task Description at index 0 and deadline string at index 1
      * @throws GloqiException if the date-time format is invalid
      */
     public Deadline(String[] detail) throws GloqiException {

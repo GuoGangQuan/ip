@@ -16,9 +16,10 @@ public class Event extends Task {
     protected LocalDateTime endTime;
 
     /**
-     * Creates a new Event task with a task name, start time, and end time.
+     * Creates a new Event task with a task Description, start time, and end time.
      *
-     * @param detail array containing task name at index 0, start time at index 1, and end time at index 2
+     * @param detail array containing task Description at index 0, start time at index 1, and end time at index 2
+     * @throws GloqiException if the date-time format is invalid
      */
     public Event(String[] detail) throws GloqiException {
         super(detail[0]);

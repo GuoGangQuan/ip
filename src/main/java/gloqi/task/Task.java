@@ -6,14 +6,14 @@ import java.time.LocalDate;
 /**
  * Represents a generic task in the Gloqi chatbot.
  * Stores a task name and its completion status.
- * Can be extended by specific task types like Todo, Deadline, or Event.
+ * Have extended to specific task types like Todo, Deadline, or Event.
  */
 public abstract class Task implements Serializable {
     protected String taskDescription;
     protected boolean isDone;
 
     /**
-     * Creates a new Task with the specified name.
+     * Creates a new Task with the specified task description.
      * The task is initialised to not done.
      *
      * @param taskDescription name of the task
@@ -23,13 +23,8 @@ public abstract class Task implements Serializable {
         this.isDone = false;
     }
 
-    private Task(String taskDescription, boolean isDone) {
-        this.taskDescription = taskDescription.trim();
-        this.isDone = isDone;
-    }
-
     /**
-     * Returns a new Task with the same name and the specified completion status.
+     * Sets the completion status of the task.
      *
      * @param isDone completion status
      * @return new Task with updated status
@@ -53,7 +48,7 @@ public abstract class Task implements Serializable {
      * @param s the string to search for within the task name
      * @return {@code true} if the task name contains the string, {@code false} otherwise
      */
-    public boolean checkContaintaskDescription(String s) {
+    public boolean checkContainTaskDescription(String s) {
         return this.taskDescription.toLowerCase().contains(s.toLowerCase());
     }
 

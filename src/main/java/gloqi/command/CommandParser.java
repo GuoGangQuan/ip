@@ -71,7 +71,7 @@ public class CommandParser {
      * Extracts and validates the search string for the "find" command.
      *
      * @param userInput the raw input string from the user
-     * @return the search string to look for in task names
+     * @return the search string to look for in task description
      * @throws GloqiException if the search string is missing or the input is invalid
      */
     private String getFindArg(String userInput) throws GloqiException {
@@ -89,13 +89,13 @@ public class CommandParser {
      */
     private LocalDate getShowArg(String userInput) throws GloqiException {
         String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
-        checkNextArgs(commands, "show <date:yyyy-MM-dd>");
+        checkNextArgs(commands, "show <date>");
         return parseDate(commands[1]);
     }
 
 
     /**
-     * Extracts and validates a numeric argument from commands like mark, unmark, delete.
+     * Extracts and validates a numeric argument from commands like mark, unmark.
      *
      * @param userInput raw input string
      * @return zero-based integer index of the task
@@ -134,8 +134,10 @@ public class CommandParser {
      * @throws GloqiException if the description or "/by" date is missing or invalid
      */
     private String[] getDeadlineArg(String userInput) throws GloqiException {
+        //split into command and the rest
         String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
         checkNextArgs(commands, DEADLINE_USAGE);
+        //split into description and /by date
         String[] deadlineArgs = extractNextArg(commands[1], DEADLINE_KEYWORDS);
         checkNextArgs(deadlineArgs, DEADLINE_USAGE);
         checkEmptyArgs(deadlineArgs[1], DEADLINE_USAGE, "/by Date");
@@ -151,13 +153,14 @@ public class CommandParser {
      * @throws GloqiException if description or date keywords (/from, /to) are missing or invalid
      */
     private String[] getEventArg(String userInput) throws GloqiException {
+        //split into command and the rest
         String[] commands = extractNextArg(userInput, COMMAND_SEPARATOR);
         checkNextArgs(commands, EVENT_USAGE);
-        //check on /from keyword
+        //split into description and /from date
         String[] eventFromArgs = extractNextArg(commands[1], EVENT_KEYWORDS[0]);
         checkNextArgs(eventFromArgs, EVENT_USAGE);
         checkEmptyArgs(eventFromArgs[0], EVENT_USAGE, "task description");
-        //check on /to keyword
+        //split into /from date and /to date
         String[] eventToArgs = extractNextArg(eventFromArgs[1], EVENT_KEYWORDS[1]);
         checkNextArgs(eventToArgs, EVENT_USAGE);
         checkEmptyArgs(eventToArgs[0], EVENT_USAGE, "/from Date");

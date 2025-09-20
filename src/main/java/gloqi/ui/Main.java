@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * A GUI for Duke using FXML.
+ * A GUI for Gloqi using FXML.
  */
 public class Main extends Application {
 
@@ -22,7 +22,7 @@ public class Main extends Application {
             Scene scene = new Scene(ap);
             stage.setTitle("Gloqi");
             stage.setScene(scene);
-            // inject the Duke instance
+            // inject the Gloqi instance
             fxmlLoader.<MainWindow>getController().setGloqi(gloqi);
             stage.show();
         } catch (IOException e) {

@@ -49,7 +49,6 @@ public class Gloqi {
     /**
      * Runs the main logic of the chatbot.
      * Reads user input, parses commands, executes them, and continues
-     * until the user issues the BYE command.
      *
      * @param userInput user input string
      * @return response String from the chatbot
@@ -66,6 +65,11 @@ public class Gloqi {
         }
     }
 
+    /**
+     * Returns the greeting message of the chatbot.
+     *
+     * @return greeting message
+     */
     public String getGreeting() {
         return ui.getGreetMessage();
     }
