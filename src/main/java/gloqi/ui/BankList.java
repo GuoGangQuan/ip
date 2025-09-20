@@ -30,7 +30,7 @@ public class BankList {
      * @param taskDescription task to add
      * @return confirmation message
      */
-    public String addTask(Task taskDescription) {
+    public String addTask(Task taskDescription) throws GloqiException {
         this.bankLists.add(taskDescription);
         saveBankList();
         return Ui.formatAddMsg(taskDescription, bankLists.size());
@@ -38,7 +38,7 @@ public class BankList {
 
     private void validateIndex(int index) throws GloqiException {
         if (index < 0 || index >= bankLists.size()) {
-            throw new GloqiException("Task index " + (index + 1) + " is out of range: ");
+            throw new GloqiException("Task index " + (index + 1) + " is out of range");
         }
     }
 
@@ -115,7 +115,7 @@ public class BankList {
      * @return formatted list of tasks or empty bank message
      */
     public String printList() {
-        String response = Ui.formatNumList(this.bankLists);
+        String response = Ui.formatNumList(this.bankLists, "Task Bank is empty");
         assert !response.isEmpty() : "List message should not be empty";
         return response;
     }
@@ -153,7 +153,7 @@ public class BankList {
      */
     public String findTask(String userInput) {
         ArrayList<Task> matches = getTasksOnName(userInput);
-        String response = Ui.formatNumList(matches);
+        String response = Ui.formatNumList(matches, "No matching tasks found for: " + userInput);
         assert !response.isEmpty() : "List base on taskDescription message should not be empty";
         return response;
     }
@@ -169,7 +169,7 @@ public class BankList {
     }
 
 
-    private void saveBankList() {
+    private void saveBankList() throws GloqiException {
         this.dataManager.writeDataFile(bankLists);
     }
 

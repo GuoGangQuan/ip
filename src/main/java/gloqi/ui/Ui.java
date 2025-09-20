@@ -49,9 +49,9 @@ public class Ui {
      * @param tasks the list of tasks to format
      * @return a numbered string of tasks, or a message if the list is empty
      */
-    public static String formatNumList(ArrayList<Task> tasks) {
+    public static String formatNumList(ArrayList<Task> tasks, String errorMessage) {
         if (tasks.isEmpty()) {
-            return "Task Bank is empty";
+            return errorMessage;
         }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < tasks.size(); i++) {
@@ -75,7 +75,7 @@ public class Ui {
             return "No tasks found on date: " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
         }
         return "Tasks found on date: " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + "\n"
-                + formatNumList(tasks);
+                + formatNumList(tasks, "Task Bank is empty");
     }
 
     /**

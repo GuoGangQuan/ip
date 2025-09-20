@@ -111,7 +111,7 @@ public class Gloqi {
         return bankList.unmarkTask(parser.getIntArg()[0]);
     }
 
-    private String handleTodo(CommandParser parser) {
+    private String handleTodo(CommandParser parser) throws GloqiException {
         Task task = new Todo(parser.getStringArg()[0]);
         return bankList.addTask(task);
     }

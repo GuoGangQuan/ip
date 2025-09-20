@@ -28,6 +28,7 @@ public class DataManager {
         resolveAppDataPaths(dataPath);
         setupDataFile();
     }
+
     // ChatGpt was used to help write the following 4 methods.
     private void resolveAppDataPaths(String dataPath) {
         Path path = Path.of(dataPath);
@@ -43,6 +44,7 @@ public class DataManager {
         createDirectoryIfMissing();
         createFileIfMissing();
     }
+
     private void createDirectoryIfMissing() {
         try {
             if (!Files.exists(appDataDir)) {
@@ -53,6 +55,7 @@ public class DataManager {
             System.out.println("Error creating directory: " + e.getMessage());
         }
     }
+
     private void createFileIfMissing() {
         try {
             if (!Files.exists(appDataFile)) {
@@ -69,11 +72,11 @@ public class DataManager {
      *
      * @param bankList list of tasks to save
      */
-    public void writeDataFile(ArrayList<Task> bankList) {
+    public void writeDataFile(ArrayList<Task> bankList) throws GloqiException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(this.appDataFile.toFile()))) {
             oos.writeObject(bankList);
         } catch (Exception e) {
-            System.out.println("Error writing to file: " + e.getMessage());
+            throw new GloqiException("Failed to write to file! Changes not saved.\n Error:" + e.getMessage());
         }
     }
 
