@@ -28,7 +28,7 @@ public class DataManager {
         resolveAppDataPaths(dataPath);
         setupDataFile();
     }
-
+    // ChatGpt was used to help write the following 4 methods.
     private void resolveAppDataPaths(String dataPath) {
         Path path = Path.of(dataPath);
         Path appDir = Path.of(".");
@@ -92,6 +92,7 @@ public class DataManager {
         return validateAndConvert(obj);
     }
 
+    //ChatGpt was used to help write the following 4 method.
     private boolean isFileEmpty() {
         return !this.appDataFile.toFile().exists() || this.appDataFile.toFile().length() == 0;
     }
