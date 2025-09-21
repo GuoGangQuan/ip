@@ -72,6 +72,7 @@ Format: ```delete <task_number>[,<task_number>...]```
 Example: 
 * Single task deletion: ```delete 1```
 * Mass task deletion: ```delete 1,2,5,6```
+
 ### 8. Filter task base on date: ```show```
 ---
 Format: ```show <yyyy-MM-dd>```
