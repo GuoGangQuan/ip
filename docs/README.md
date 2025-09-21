@@ -5,12 +5,12 @@ On startup it shows a data‑loading message followed by a greeting before accep
 ![Mambo ChatBot Interface](https://guogangquan.github.io/ip/Ui.png)
 
 > [!NOTE] Notes about command format:
-> * Command are case insensitive.
-> * Argument keywords such as "/by" "/from" "/to" are case sensitive 
-> * Items in square brackets [] are optional.</br>
-> e.g delete <task_number>[,<task_number>...] can be used as ```delete 1,2``` or ```delete 1```
-> * Items in arrow brackets <> are must to have.</br>
-> e.g unmark <task_number> must have item <task_number> 
+> * Command are case insensitive.  
+> * Argument keywords such as "/by" "/from" "/to" are case sensitive.  
+> * Items in square brackets [] are optional.  
+> e.g delete <task_number>[,<task_number>...] can be used as ```delete 1,2``` or ```delete 1```  
+> * Items in arrow brackets <> are must to have.  
+> e.g unmark <task_number> must have item <task_number>  
 
 ## 📜 Quick Command Overview
 1. list — Display all tasks in a numbered list.  
