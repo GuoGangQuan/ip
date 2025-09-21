@@ -103,9 +103,3 @@ Example: ```bye```
 ## ℹ️ Other info
 1. Tasks are by default save at data/data.txt.
 2. Save action is trigger every time you make modification to the task list.
-
-| Left Align | Center Align | Right Align |
-|:-----------|:------------:|------------:|
-| Text       | Text         | Text        |
-| More       | Data         | Example     |
-
