@@ -12,7 +12,7 @@ On startup it shows a data‑loading message followed by a greeting before accep
 > * Items in arrow brackets <> are must to have.</br>
 > e.g unmark <task_number> must have item <task_number> 
 
-## :scroll: Quick Command Overview
+## 📜 Quick Command Overview
 1. list — Display all tasks in a numbered list.</br>
 Format: ```list```
 2. todo — Create a Todo task with a description.</br>
@@ -34,7 +34,7 @@ Format: ```find <keyword or phrase>```
 10. bye — Print the farewell message and exit.</br>
 Format: ```bye```
 
-## :notebook_with_decorative_cover:Detail Commands Description
+## 📔 Detail Commands Description
 ### 1. List task: ```list```
 ---
 Format: ```list```
@@ -88,15 +88,15 @@ Format: ```bye```
 
 Example: ```bye```
 
-## :date: Date and Time Syntacts meaning:
+## 📅 Date and Time Syntacts meaning:
 | Syntacts                | Description            |
 |-------------------------|------------------------|
 | `yyyy`                  | Year in 4-digit        | 
-| 'MM'                    | Month in 2-digit       |
-| 'dd'                    | Day in 2-digit         |
+| `MM`                    | Month in 2-digit       |
+| `dd`                    | Day in 2-digit         |
 | `HH`                    | Hours in 2-digit       | 
 | `mm`                    | Minutes in 2-digit     |
 
-## :information_source: Other info
+## ℹ️ Other info
 1. Tasks are by default save at data/data.txt.
 2. Save action is trigger every time you make modification to the task list.
