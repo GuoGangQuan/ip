@@ -4,7 +4,8 @@ Gloqi is a task‑manager chatbot that reads text commands, executes them, and s
 On startup it shows a data‑loading message followed by a greeting before accepting commands.
 ![Mambo ChatBot Interface](https://guogangquan.github.io/ip/Ui.png)
 
-> [!NOTE] Notes about command format:
+> [!NOTE]
+> Notes about command format:
 > * Command are case insensitive.  
 > * Argument keywords such as "/by" "/from" "/to" are case sensitive.  
 > * Items in square brackets [] are optional.  
