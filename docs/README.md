@@ -88,15 +88,15 @@ Format: ```bye```
 
 Example: ```bye```
 
-## :date:Date and Time Syntacts meaning:
+## :date: Date and Time Syntacts meaning:
 | Syntacts                | Description            |
 |-------------------------|------------------------|
-| `yyyy`                  | year in 4-digit        | 
+| `yyyy`                  | Year in 4-digit        | 
 | 'MM'                    | Month in 2-digit       |
-| 'dd'                    | day in 2-digit         |
+| 'dd'                    | Day in 2-digit         |
 | `HH`                    | Hours in 2-digit       | 
-| `mm`                    | minutes in 2-digit     |
+| `mm`                    | Minutes in 2-digit     |
 
-## :information_source:Other info
+## :information_source: Other info
 1. Tasks are by default save at data/data.txt.
 2. Save action is trigger every time you make modification to the task list.
