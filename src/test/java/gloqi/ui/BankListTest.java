@@ -72,7 +72,7 @@ public class BankListTest {
         BankList bankList = new BankList(new DataManager("data/data.txt"));
         bankList.addTask(new Deadline(new String[]{"read book", "2024-12-12 1800"}));
         LocalDate date = LocalDate.of(2024, 12, 12);
-        String expected = "Tasks found on date: Dec 12 2024\n1. [D][ ] read book (by: Dec 12 2024 6 pm)";
+        String expected = "Tasks found on date: Dec 12 2024\n1. [D][ ] read book (by: Dec 12 2024 18:00)";
         assertEquals(expected, bankList.printList(date));
     }
 

@@ -69,7 +69,7 @@ public class GloqiTest {
         String response = gloqi.run("Deadline Submit assignment /by 2024-09-30 2359");
         String expected = """
                 Got it. I've added this task:
-                [D][ ] Submit assignment (by: Sep 30 2024 11 pm)
+                [D][ ] Submit assignment (by: Sep 30 2024 23:59)
                 Now you have 1 tasks in the bank.""";
         assertEquals(expected, response);
     }
@@ -80,7 +80,7 @@ public class GloqiTest {
         String response = gloqi.run("Event Team meeting /from 2024-10-01 1400 /to 2024-10-01 1500");
         String expected = """
                 Got it. I've added this task:
-                [E][ ] Team meeting (from: Oct 01 2024 2 pm to: Oct 01 2024 3 pm)
+                [E][ ] Team meeting (from: Oct 01 2024 14:00 to: Oct 01 2024 15:00)
                 Now you have 1 tasks in the bank.""";
         assertEquals(expected, response);
     }
@@ -104,7 +104,7 @@ public class GloqiTest {
         String response = gloqi.run("show 2024-09-30");
         String expected = """
                 Tasks found on date: Sep 30 2024
-                1. [D][ ] Submit assignment (by: Sep 30 2024 11 pm)""";
+                1. [D][ ] Submit assignment (by: Sep 30 2024 23:59)""";
         assertEquals(expected, response);
     }
 
@@ -113,8 +113,7 @@ public class GloqiTest {
         Gloqi gloqi = testFileInistalize(tmp);
         gloqi.run("Deadline Submit assignment /by 2024-09-30 2359");
         String response = gloqi.run("find assignment");
-        String expected = """
-                1. [D][ ] Submit assignment (by: Sep 30 2024 11 pm)""";
+        String expected = "1. [D][ ] Submit assignment (by: Sep 30 2024 23:59)";
         assertEquals(expected, response);
     }
 

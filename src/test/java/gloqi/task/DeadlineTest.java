@@ -10,7 +10,7 @@ import gloqi.ui.GloqiException;
 public class DeadlineTest {
     @Test
     public void deadlineConstructor_validInput_success() throws GloqiException {
-        assertEquals("[D][ ] test (by: May 06 2019 6 pm)",
+        assertEquals("[D][ ] test (by: May 06 2019 18:00)",
                 new Deadline(new String[]{"test", "2019-05-06 1800"}).toString());
 
     }
