@@ -26,6 +26,7 @@ public class MainWindow extends AnchorPane {
 
     private Gloqi gloqi;
 
+    // images are generated using ChatGPT's image generation feature
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/userMe.png"));
     private Image gloqiImage = new Image(this.getClass().getResourceAsStream("/images/userGloqi.png"));
 
