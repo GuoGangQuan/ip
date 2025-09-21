@@ -22,6 +22,8 @@ public class Main extends Application {
             Scene scene = new Scene(ap);
             stage.setTitle("Gloqi");
             stage.setScene(scene);
+            stage.setMinHeight(220);
+            stage.setMinWidth(500);
             // inject the Gloqi instance
             fxmlLoader.<MainWindow>getController().setGloqi(gloqi);
             stage.show();
