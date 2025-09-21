@@ -90,6 +90,7 @@ Format: ```bye```
 Example: ```bye```
 
 ## 📅 Date and Time Syntacts meaning:
+
 | Syntacts                | Description            |
 |-------------------------|------------------------|
 | `yyyy`                  | Year in 4-digit        |
@@ -98,6 +99,13 @@ Example: ```bye```
 | `HH`                    | Hours in 2-digit       |
 | `mm`                    | Minutes in 2-digit     |
 
+
 ## ℹ️ Other info
 1. Tasks are by default save at data/data.txt.
 2. Save action is trigger every time you make modification to the task list.
+
+| Left Align | Center Align | Right Align |
+|:-----------|:------------:|------------:|
+| Text       | Text         | Text        |
+| More       | Data         | Example     |
+
