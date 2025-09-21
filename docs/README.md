@@ -13,25 +13,25 @@ On startup it shows a data‑loading message followed by a greeting before accep
 > e.g unmark <task_number> must have item <task_number> 
 
 ## 📜 Quick Command Overview
-1. list — Display all tasks in a numbered list.</br>
+1. list — Display all tasks in a numbered list.  
 Format: ```list```
-2. todo — Create a Todo task with a description.</br>
+2. todo — Create a Todo task with a description.  
 Format: ```todo <description>```
-3. deadline — Create a Deadline task with a description and a /by date-time.</br>
+3. deadline — Create a Deadline task with a description and a /by date-time.  
 Format: ```deadline <description> /by <yyyy-MM-dd HHmm>```
-4. event — Create an Event task with a description, /from start and /to end date-times.</br>
+4. event — Create an Event task with a description, /from start and /to end date-times.  
 Format: ```event <description> /from <yyyy-MM-dd HHmm> /to <yyyy-MM-dd HHmm>```
-5. mark — Mark the specified task number as done.</br>
+5. mark — Mark the specified task number as done.  
 Format: ```mark <task_number>```
-6. unmark — Mark the specified task number as not done.</br>
+6. unmark — Mark the specified task number as not done.  
 Format: ```unmark <task_number>```
-7. delete — Delete the specified task number(s).</br>
+7. delete — Delete the specified task number(s).  
 Format: ```delete <task_number>[,<task_number>...]```
-8. show — List tasks that fall on a given date.</br>
+8. show — List tasks that fall on a given date.  
 Format: ```show <yyyy-MM-dd>```
-9. find — Search tasks whose descriptions contain a keyword or phrase.</br>
+9. find — Search tasks whose descriptions contain a keyword or phrase.  
 Format: ```find <keyword or phrase>```
-10. bye — Print the farewell message and exit.</br>
+10. bye — Print the farewell message and exit.  
 Format: ```bye```
 
 ## 📔 Detail Commands Description
@@ -92,10 +92,10 @@ Example: ```bye```
 ## 📅 Date and Time Syntacts meaning:
 | Syntacts                | Description            |
 |-------------------------|------------------------|
-| `yyyy`                  | Year in 4-digit        | 
+| `yyyy`                  | Year in 4-digit        |
 | `MM`                    | Month in 2-digit       |
 | `dd`                    | Day in 2-digit         |
-| `HH`                    | Hours in 2-digit       | 
+| `HH`                    | Hours in 2-digit       |
 | `mm`                    | Minutes in 2-digit     |
 
 ## ℹ️ Other info
